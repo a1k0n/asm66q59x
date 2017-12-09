@@ -57,7 +57,7 @@ def parse_spec(data):
                 expandidx = i
                 break
         if expandbase is not None:
-            for exp in re.findall(r'(Rn|PRn|ERn)', v):
+            for exp in re.findall(r'(Rn|PRn|ERn|bit)', v):
                 if exp == 'Rn':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
@@ -70,6 +70,10 @@ def parse_spec(data):
                     for n in range(0, 4):
                         b[expandidx] = hex(expandbase + n)
                         yield b[:], v.replace('PRn', 'PR%d' % n)
+                if exp == 'bit':
+                    for n in range(0, 8):
+                        b[expandidx] = hex(expandbase + n)
+                        yield b[:], v.replace('bit', '%d' % n)
         else:
             yield b, v
 
@@ -172,7 +176,7 @@ def gen():
         else:
             add_insn(byte0, opcodes, insn)
 
-    def dumpswitchtable(fname, byte0):
+    def dumpswitchtable(fname, byte0, operand):
         f = open(fname, 'w')
         print >>f, 'static char buf[128];'
         print >>f, 'switch(rom_[addr]) {'
@@ -182,15 +186,18 @@ def gen():
                 for line in byte0[i]:
                     print >>f, "    " + line
         print >>f, '  default:'
-        print >>f, '    sprintf(buf, "??? %02x", rom_[addr]);'
+        if operand is not None:
+            print >>f, '    sprintf(buf, "??? %02x %s", rom_[addr], ' + operand + ');'
+        else:
+            print >>f, '    sprintf(buf, "??? %02x", rom_[addr]);'
         print >>f, '    nexti_ = addr + 1;'
         print >>f, '    return buf;'
         print >>f, '}'
         f.close()
 
-    dumpswitchtable("opcode.i", byte0)
-    dumpswitchtable("bytesuffix.i", bytesuffix0)
-    dumpswitchtable("wordsuffix.i", wordsuffix0)
+    dumpswitchtable("opcode.i", byte0, None)
+    dumpswitchtable("bytesuffix.i", bytesuffix0, 'byteop')
+    dumpswitchtable("wordsuffix.i", wordsuffix0, 'wordop')
 
     f8 = open("sfr8.i", "w")
     f16 = open("sfr16.i", "w")

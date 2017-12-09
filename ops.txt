@@ -13,26 +13,37 @@
 #  n7p -> %02x[DP] % (signextend(n7))
 #      or %02x[USP] % (signextend(n7 - 0x80)) if n7 >= 0x80
 
-10+n n8 = MOVB Rn, #n8
-D7 off8 n8 = MOVB off8, #n8
-D6 sfr8 n8 = MOVB sfr8, #n8
-* 97 = MOVB A, *
-* 70+n = MOVB Rn, *
-* 88 = MOVB [X1], *
-* 89 = MOVB [DP-], *
-* 8A = MOVB [DP], *
-* 8B = MOVB [DP+], *
-* 86 fix8 = MOVB fix8, *
-* 87 off8 = MOVB off8, *
-* 96 sfr8 = MOVB sfr8, *
-* 9B l16 h16 = MOVB dir(d16), *
-* 98 l16 h16 = MOVB d16[X1], *
-* 99 l16 h16 = MOVB d16[X2], *
-* 9A n7 = MOVB n7p, *
-* F8 = MOVB [X1+A], *
-* F9 = MOVB [X1+R0], *
-* AA = MOVB *, A
-* AB n8 = MOVB *, #n8
+# BRK
+FF = BRK
+
+# L A, obj (FIXME: sets DD to 1)
+F8 l16 h16 = L A, #n16
+74+n = L A, ERn
+70+n = L A, PRn
+80 = L A, [X1]
+81 = L A, [DP-]
+82 = L A, [DP]
+83 = L A, [DP+]
+84 fix8 = L A, fix8
+85 off8 = L A, off8
+86 sfr8 = L A, sfr8
+87 l16 h16 = L A, dir(n16)
+88 l16 h16 = L A, n16[X1]
+89 n7 = L A, n7p
+
+# LB A, obj (FIXME: sets DD to 0)
+F9 n8 = LB A, #n8
+78+n = LB A, Rn
+90 = LB A, [X1]
+91 = LB A, [DP-]
+92 = LB A, [DP]
+93 = LB A, [DP+]
+94 fix8 = LB A, fix8
+95 off8 = LB A, off8
+96 sfr8 = LB A, sfr8
+97 l16 h16 = LB A, dir(n16)
+98 l16 h16 = LB A, n16[X1]
+99 n7 = LB A, n7p
 
 # MOV obj1, #n16
 24+n l16 h16 = MOV ERn, #n16
@@ -59,4 +70,29 @@ C6 sfr8 l16 h16 = MOV sfr16, #n16
 ** F9 = MOV [X1+R0], **
 ** AA = MOV **, A
 ** AB l16 h16 = MOV **, #n16
-FF = BRK
+
+# MOVB
+10+n n8 = MOVB Rn, #n8
+D7 off8 n8 = MOVB off8, #n8
+D6 sfr8 n8 = MOVB sfr8, #n8
+* 97 = MOVB A, *
+* 70+n = MOVB Rn, *
+* 88 = MOVB [X1], *
+* 89 = MOVB [DP-], *
+* 8A = MOVB [DP], *
+* 8B = MOVB [DP+], *
+* 86 fix8 = MOVB fix8, *
+* 87 off8 = MOVB off8, *
+* 96 sfr8 = MOVB sfr8, *
+* 9B l16 h16 = MOVB dir(d16), *
+* 98 l16 h16 = MOVB d16[X1], *
+* 99 l16 h16 = MOVB d16[X2], *
+* 9A n7 = MOVB n7p, *
+* F8 = MOVB [X1+A], *
+* F9 = MOVB [X1+R0], *
+* AA = MOVB *, A
+* AB n8 = MOVB *, #n8
+
+# RB (todo: sbafix)
+* 00+bit = RB *.bit
+
