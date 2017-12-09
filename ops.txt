@@ -1,0 +1,62 @@
+# nX-8/500S instruction list
+# * means byte prefix (defined separately)
+# ** means word prefix
+# format: <bytes> = <instruction>
+
+# instruction variables:
+#  Rn -> matches <hex>+n byte
+#  fix8 -> %02x % fix8
+#  off8 -> %02x % off8
+#  sfr8 -> sfr8_name[sfr8]
+#  sfr16 -> sfr16_name[sfr8]
+#  d16 -> %04x % l16 + (h16 << 8)
+#  n7p -> %02x[DP] % (signextend(n7))
+#      or %02x[USP] % (signextend(n7 - 0x80)) if n7 >= 0x80
+
+10+n n8 = MOVB Rn, #n8
+D7 off8 n8 = MOVB off8, #n8
+D6 sfr8 n8 = MOVB sfr8, #n8
+* 97 = MOVB A, *
+* 70+n = MOVB Rn, *
+* 88 = MOVB [X1], *
+* 89 = MOVB [DP-], *
+* 8A = MOVB [DP], *
+* 8B = MOVB [DP+], *
+* 86 fix8 = MOVB fix8, *
+* 87 off8 = MOVB off8, *
+* 96 sfr8 = MOVB sfr8, *
+* 9B l16 h16 = MOVB dir(d16), *
+* 98 l16 h16 = MOVB d16[X1], *
+* 99 l16 h16 = MOVB d16[X2], *
+* 9A n7 = MOVB n7p, *
+* F8 = MOVB [X1+A], *
+* F9 = MOVB [X1+R0], *
+* AA = MOVB *, A
+* AB n8 = MOVB *, #n8
+
+# MOV obj1, #n16
+24+n l16 h16 = MOV ERn, #n16
+20+n l16 h16 = MOV PRn, #n16
+C7 off8 l16 h16 = MOV off8, #n16
+C6 sfr8 l16 h16 = MOV sfr16, #n16
+
+# MOV obj1, obj2
+** 97 = MOV A, **
+** 70+n = MOV ERn, **
+** 74+n = MOV PRn, **
+** 88 = MOV [X1], **
+** 89 = MOV [DP-], **
+** 8A = MOV [DP], **
+** 8B = MOV [DP+], **
+** 86 fix8 = MOV fix8, **
+** 87 off8 = MOV off8, **
+** 96 sfr8 = MOV sfr16, **
+** 9B l16 h16 = MOV dir(n16), **
+** 98 l16 h16 = MOV n16[X1], **
+** 99 l16 h16 = MOV n16[X2], **
+** 9A n7 = MOV n7p, **
+** F8 = MOV [X1+A], **
+** F9 = MOV [X1+R0], **
+** AA = MOV **, A
+** AB l16 h16 = MOV **, #n16
+FF = BRK
