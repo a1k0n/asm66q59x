@@ -12,7 +12,7 @@ A3 = [DP+]
 A4 fix8 = fix8
 A5 off8 = off8
 A6 sfr8 = sfr16
-A7 l16 h16 = dir(n16)
+A7 l16 h16 = [n16]
 A8 l16 h16 = n16[X1]
 A9 l16 h16 = n16[X2]
 8B n7 = n7p
@@ -29,7 +29,7 @@ B3 = [DP+]
 B4 fix8 = fix8
 B5 off8 = off8
 B6 sfr8 = sfr8
-B7 l16 h16 = dir(n16)
+B7 l16 h16 = [n16]
 B8 l16 h16 = n16[X1]
 B9 l16 h16 = n16[X2]
 9B n7 = n7p
@@ -49,6 +49,20 @@ def parse_spec(data):
             continue
         k, v = line.split(' = ')
         b = k.split()
+        cond = None
+        effect = []
+        if b[0].startswith('DD'):
+            if b[0] == 'DD+':
+                effect.append("dd_ = 1;")
+            elif b[0] == 'DD-':
+                effect.append("dd_ = 0;")
+            elif b[0] == 'DD0':
+                cond = '!dd_'
+            elif b[0] == 'DD1':
+                cond = 'dd_'
+            else:
+                raise "unrecognized cond/effect", b[0]
+            b = b[1:]
         expandbase = None
         expandidx = None
         for i in range(len(b)):
@@ -61,31 +75,34 @@ def parse_spec(data):
                 if exp == 'Rn':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
-                        yield b[:], v.replace('Rn', 'R%d' % n)
+                        yield b[:], v.replace('Rn', 'R%d' % n), cond, effect
                 if exp == 'ERn':
                     for n in range(0, 4):
                         b[expandidx] = hex(expandbase + n)
-                        yield b[:], v.replace('ERn', 'ER%d' % n)
+                        yield b[:], v.replace('ERn', 'ER%d' % n), cond, effect
                 if exp == 'PRn':
-                    for n in range(0, 4):
+                    for n, reg in enumerate(['X1', 'X2', 'DP', 'USP']):
                         b[expandidx] = hex(expandbase + n)
-                        yield b[:], v.replace('PRn', 'PR%d' % n)
+                        yield b[:], v.replace('PRn', reg), cond, effect
                 if exp == 'bit':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
-                        yield b[:], v.replace('bit', '%d' % n)
+                        yield b[:], v.replace('bit', '%d' % n), cond, effect
         else:
-            yield b, v
+            yield b, v, cond, effect
 
 
 def format_ops(opcodes, insn):
     ''' assuming opcodes[1:] are all arguments to opcodes[0] (which is always
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
-    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|n8|n16|n7p|\*+)', insn):
+    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|n8|n16|n7p|rdiff8|\*+)', insn):
         print 'formatting', exp, 'in', insn
-        if exp == 'fix8' or exp == 'off8':
-            insn = insn.replace(exp, exp[:3] + "(0x%02x)", 1)
+        if exp == 'fix8':
+            insn = insn.replace(exp, "[0x02%02x]", 1)
+            args.append("rom_[addr+%d]" % opcodes.index(exp))
+        elif exp == 'off8':
+            insn = insn.replace(exp, "off(0x%02x)", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'sfr8':
             insn = insn.replace(exp, "%s", 1)
@@ -107,6 +124,10 @@ def format_ops(opcodes, insn):
             args.extend([
                 "signextend7(rom_[addr+%d] & 0x7f)" % idx,
                 "rom_[addr+%d] < 0x80 ? \"DP\" : \"USP\"" % idx])
+        elif exp == 'rdiff8':
+            insn = insn.replace(exp, '%04x', 1)
+            args.append('addr + %d + ((int8_t) rom_[addr+%d])' % (
+                len(opcodes), opcodes.index(exp)))
         elif exp == '*':
             insn = insn.replace(exp, '%s', 1)
             args.extend(['byteop'])
@@ -120,7 +141,7 @@ def format_ops(opcodes, insn):
 
 def gen():
     byte0 = [None] * 256
-    for opcodes, insn in parse_spec(byteprefix):
+    for opcodes, insn, _, _ in parse_spec(byteprefix):
         opbyte = int(opcodes[0], 16)
         op, args = format_ops(opcodes, insn)
         if len(args) == 0:
@@ -135,7 +156,7 @@ def gen():
                     len(opcodes))
             ]
 
-    for opcodes, insn in parse_spec(wordprefix):
+    for opcodes, insn, _, _ in parse_spec(wordprefix):
         opbyte = int(opcodes[0], 16)
         op, args = format_ops(opcodes, insn)
         if len(args) == 0:
@@ -150,31 +171,45 @@ def gen():
                     len(opcodes))
             ]
 
-    def add_insn(byte0, opcodes, insn):
+    def add_insn(byte0, opcodes, insn, cond, effect):
         op, args = format_ops(opcodes, insn)
         opbyte = int(opcodes[0], 16)
+        code = []
+        indent = ''
+        if cond is not None:
+            code.append('if (%s) {' % cond)
+            indent = '  '
+        for e in effect:
+            code.append(indent + e)
         if len(args) == 0:
-            byte0[opbyte] = [
-                'nexti_ = addr + %d;' % len(opcodes),
-                'return "%s";' % op
-            ]
+            code.extend([
+                indent + 'nexti_ = addr + %d;' % len(opcodes),
+                indent + 'return "%s";' % op
+            ])
         else:
-            byte0[opbyte] = [
-                'nexti_ = addr + %d;' % len(opcodes),
-                "sprintf(buf, \"%s\", %s);" % (op, ', '.join(args)),
-                "return buf;"
-            ]
+            code.extend([
+                indent + 'nexti_ = addr + %d;' % len(opcodes),
+                indent + "sprintf(buf, \"%s\", %s);" % (op, ', '.join(args)),
+                indent + "return buf;"
+            ])
+        if cond is not None:
+            code.append('}')
+
+        if byte0[opbyte] is not None:
+            byte0[opbyte].extend(code)
+        else:
+            byte0[opbyte] = code
 
     bytesuffix0 = [None] * 256
     wordsuffix0 = [None] * 256
-    for opcodes, insn in parse_spec(opcodelist):
+    for opcodes, insn, cond, effect in parse_spec(opcodelist):
         # we'll handle the word and byte stuff separately
         if opcodes[0] == '*':
-            add_insn(bytesuffix0, opcodes[1:], insn)
+            add_insn(bytesuffix0, opcodes[1:], insn, cond, effect)
         elif opcodes[0] == '**':
-            add_insn(wordsuffix0, opcodes[1:], insn)
+            add_insn(wordsuffix0, opcodes[1:], insn, cond, effect)
         else:
-            add_insn(byte0, opcodes, insn)
+            add_insn(byte0, opcodes, insn, cond, effect)
 
     def dumpswitchtable(fname, byte0, operand):
         f = open(fname, 'w')
@@ -185,6 +220,7 @@ def gen():
                 print >>f, "  case 0x%02x:" % i
                 for line in byte0[i]:
                     print >>f, "    " + line
+                print >>f, "    break;"
         print >>f, '  default:'
         if operand is not None:
             print >>f, '    sprintf(buf, "??? %02x %s", rom_[addr], ' + operand + ');'

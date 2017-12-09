@@ -9,41 +9,177 @@
 #  off8 -> %02x % off8
 #  sfr8 -> sfr8_name[sfr8]
 #  sfr16 -> sfr16_name[sfr8]
-#  d16 -> %04x % l16 + (h16 << 8)
+#  n16 -> %04x % l16 + (h16 << 8)
 #  n7p -> %02x[DP] % (signextend(n7))
 #      or %02x[USP] % (signextend(n7 - 0x80)) if n7 >= 0x80
+#  rdiff8 -> %04x % addr + len(opcodes) + ((int8_t) rdiff8)
+
+# NOP
+00 = NOP
 
 # BRK
 FF = BRK
 
-# L A, obj (FIXME: sets DD to 1)
-F8 l16 h16 = L A, #n16
-74+n = L A, ERn
-70+n = L A, PRn
-80 = L A, [X1]
-81 = L A, [DP-]
-82 = L A, [DP]
-83 = L A, [DP+]
-84 fix8 = L A, fix8
-85 off8 = L A, off8
-86 sfr8 = L A, sfr8
-87 l16 h16 = L A, dir(n16)
-88 l16 h16 = L A, n16[X1]
-89 n7 = L A, n7p
+# ADD A, obj
+DD1 28+n = ADD A, ERn
+DD1 2C+n = ADD A, PRn
+DD1 AE l16 h16 = ADD A, #n16
+DD1 AC fix8 = ADD A, fix8
+DD1 AD off8 = ADD A, off8
+** A5 = ADD A, **
 
-# LB A, obj (FIXME: sets DD to 0)
-F9 n8 = LB A, #n8
-78+n = LB A, Rn
-90 = LB A, [X1]
-91 = LB A, [DP-]
-92 = LB A, [DP]
-93 = LB A, [DP+]
-94 fix8 = LB A, fix8
-95 off8 = LB A, off8
-96 sfr8 = LB A, sfr8
-97 l16 h16 = LB A, dir(n16)
-98 l16 h16 = LB A, n16[X1]
-99 n7 = LB A, n7p
+# ADD obj1, obj2
+** A0 fix8 = ADD **, fix8
+** A1 off8 = ADD **, off8
+** A2 sfr8 = ADD **, sfr16
+** A3 l16 h16 = ADD **, #n16
+** A4 = ADD **, A
+
+# ADDB A, obj
+DD0 28+n = ADDB A, Rn
+DD0 AE n8 = ADDB A, #n8
+DD0 AC fix8 = ADDB A, fix8
+DD0 AD off8 = ADDB A, off8
+* A5 = ADDB A, *
+
+# ADDB obj1, obj2
+* A0 fix8 = ADDB *, fix8
+* A1 off8 = ADDB *, off8
+* A2 sfr8 = ADDB *, sfr16
+* A3 n8 = ADDB *, #n8
+* A4 = ADDB *, A
+
+# AND A, obj
+DD1 BD off8 = AND A, off8
+DD1 BE l16 h16 = AND A, #n16
+** B5 = AND A, **
+
+# AND obj1, obj2
+** B0 fix8 = AND **, fix8
+** B1 off8 = AND **, off8
+** B2 sfr8 = AND **, sfr16
+** B3 l16 h16 = AND **, #n16
+** B4 = AND **, A
+
+# ANDB A, obj
+DD0 BD off8 = ANDB A, off8
+DD0 BE n8 = ANDB A, #n8
+* B5 = ANDB A, *
+
+# ANDB obj1, obj2
+* B0 fix8 = ANDB *, fix8
+* B1 off8 = ANDB *, off8
+* B2 sfr8 = ANDB *, sfr8
+* B3 n8 = ANDB *, #n8
+* B4 = ANDB *, A
+
+# BAND/BOR
+* 40+bit = BAND C, *.bit
+* 48+bit = BANDN C, *.bit
+* 50+bit = BOR C, *.bit
+* 58+bit = BORN C, *.bit
+
+# CLR/CLRB
+FA = CLR A
+** C7 = CLR **
+FB = CLRB A
+* C7 = CLRB *
+
+# CMP A, obj
+DD1 18+n = CMP A, ERn
+DD1 1C+n = CMP A, PRn
+DD1 9E l16 h16 = CMP A, #n16
+DD1 9C fix8 = CMP A, fix8
+DD1 9D off8 = CMP A, off8
+** 95 = CMP A, **
+
+# CMP obj1, obj2
+C4 fix8 l16 h16 = CMP fix8, #n16
+C5 off8 l16 h16 = CMP off8, #n16
+** 90 fix8 = CMP **, fix8
+** 91 off8 = CMP **, off8
+** 92 sfr8 = CMP **, sfr16
+** 93 l16 h16 = CMP **, #n16
+** 94 = CMP **, A
+
+# CMPB A, obj
+DD0 18+n = CMPB A, Rn
+DD0 9E n8 = CMPB A, #n8
+DD0 9C fix8 = CMPB A, fix8
+DD0 9D off8 = CMPB A, off8
+* 95 = CMPB A, *
+
+# CMPB obj1, obj2
+D4 fix8 n8 = CMP fix8, #n8
+D5 off8 n8 = CMP off8, #n8
+* 90 fix8 = CMP *, fix8
+* 91 off8 = CMP *, off8
+* 92 sfr8 = CMP *, sfr8
+* 93 n8 = CMP *, #n8
+* 94 = CMP *, A
+
+# DEC / DECB
+DD1 DC = DEC A
+50+n = DEC PRn
+** D6 = DEC **
+DD0 DC = DECB A
+D0 = DEC R0
+D1 = DEC R1
+D2 = DEC R2
+D3 = DEC R3
+* D6 = DECB *
+
+# JBR/JBRS/JBS/JBSR (todo: sbafix/sbaoff)
+* 20+bit rdiff8 = JBR *.bit, rdiff8
+* 30+bit rdiff8 = JBRS *.bit, rdiff8
+* 28+bit rdiff8 = JBS *.bit, rdiff8
+* 38+bit rdiff8 = JBSR *.bit, rdiff8
+
+# Jcc
+F0 rdiff8 = JGT rdiff8
+F5 rdiff8 = JGE rdiff8
+F2 rdiff8 = JLT rdiff8
+F7 rdiff8 = JLE rdiff8
+F1 rdiff8 = JEQ rdiff8
+F6 rdiff8 = JNE rdiff8
+* FE rdiff8 = JGTS rdiff8
+* FF rdiff8 = JGES rdiff8
+* FC rdiff8 = JLTS rdiff8
+* FD rdiff8 = JLES rdiff8
+F4 rdiff8 = JPS rdiff8
+F3 rdiff8 = JNS rdiff8
+# 9A 28+1 ??? not sure if these two are correct
+9A 29 rdiff8 = JOV rdiff8
+9A 21 rdiff8 = JNV rdiff8
+
+# L A, obj (sets DD to 1)
+DD+ F8 l16 h16 = L A, #n16
+DD+ 74+n = L A, ERn
+DD+ 70+n = L A, PRn
+DD+ 80 = L A, [X1]
+DD+ 81 = L A, [DP-]
+DD+ 82 = L A, [DP]
+DD+ 83 = L A, [DP+]
+DD+ 84 fix8 = L A, fix8
+DD+ 85 off8 = L A, off8
+DD+ 86 sfr8 = L A, sfr8
+DD+ 87 l16 h16 = L A, [n16]
+DD+ 88 l16 h16 = L A, n16[X1]
+DD+ 89 n7 = L A, n7p
+
+# LB A, obj (sets DD to 0)
+DD- F9 n8 = LB A, #n8
+DD- 78+n = LB A, Rn
+DD- 90 = LB A, [X1]
+DD- 91 = LB A, [DP-]
+DD- 92 = LB A, [DP]
+DD- 93 = LB A, [DP+]
+DD- 94 fix8 = LB A, fix8
+DD- 95 off8 = LB A, off8
+DD- 96 sfr8 = LB A, sfr8
+DD- 97 l16 h16 = LB A, [n16]
+DD- 98 l16 h16 = LB A, n16[X1]
+DD- 99 n7 = LB A, n7p
 
 # MOV obj1, #n16
 24+n l16 h16 = MOV ERn, #n16
@@ -62,7 +198,7 @@ C6 sfr8 l16 h16 = MOV sfr16, #n16
 ** 86 fix8 = MOV fix8, **
 ** 87 off8 = MOV off8, **
 ** 96 sfr8 = MOV sfr16, **
-** 9B l16 h16 = MOV dir(n16), **
+** 9B l16 h16 = MOV [n16], **
 ** 98 l16 h16 = MOV n16[X1], **
 ** 99 l16 h16 = MOV n16[X2], **
 ** 9A n7 = MOV n7p, **
@@ -84,9 +220,9 @@ D6 sfr8 n8 = MOVB sfr8, #n8
 * 86 fix8 = MOVB fix8, *
 * 87 off8 = MOVB off8, *
 * 96 sfr8 = MOVB sfr8, *
-* 9B l16 h16 = MOVB dir(d16), *
-* 98 l16 h16 = MOVB d16[X1], *
-* 99 l16 h16 = MOVB d16[X2], *
+* 9B l16 h16 = MOVB [n16], *
+* 98 l16 h16 = MOVB n16[X1], *
+* 99 l16 h16 = MOVB n16[X2], *
 * 9A n7 = MOVB n7p, *
 * F8 = MOVB [X1+A], *
 * F9 = MOVB [X1+R0], *
@@ -95,4 +231,74 @@ D6 sfr8 n8 = MOVB sfr8, #n8
 
 # RB (todo: sbafix)
 * 00+bit = RB *.bit
+
+DD- D8 = RDD
+DD+ D9 = SDD
+
+# ST
+DD1 38+n = ST A, ERn
+DD1 3C+n = ST A, PRn
+DD1 30 = ST A, [X1]
+DD1 31 = ST A, [DP-]
+DD1 32 = ST A, [DP]
+DD1 33 = ST A, [DP+]
+DD1 34 fix8 = ST A, fix8
+DD1 35 off8 = ST A, off8
+DD1 36 sfr8 = ST A, sfr16
+DD1 37 l16 h16 = ST A, [n16]
+DD1 C8 l16 h16 = ST A, n16[X1]
+DD1 BC 99 l16 h16 = ST A, n16[X2]
+DD1 C9 n7 = ST A, n7p
+
+# STB
+DD0 38+n = STB A, Rn
+DD0 30 = STB A, [X1]
+DD0 31 = STB A, [DP-]
+DD0 32 = STB A, [DP]
+DD0 33 = STB A, [DP+]
+DD0 34 fix8 = STB A, fix8
+DD0 35 off8 = STB A, off8
+DD0 36 sfr8 = STB A, sfr8
+DD0 37 l16 h16 = STB A, [n16]
+DD0 C8 l16 h16 = STB A, n16[X1]
+DD0 BC 99 l16 h16 = STB A, n16[X2]
+DD0 C9 n7 = STB A, n7p
+
+# SUB A, obj (requires DD=1)
+DD1 08+n = SUB A, ERn
+DD1 0C+n = SUB A, PRn
+DD1 8E l16 h16 = SUB A, #n16
+DD1 8C fix8 = SUB A, fix8
+DD1 8D off8 = SUB A, off8
+** 85 = SUB A, **
+
+# SUB obj1, obj2 (word length), DD doesn't matter
+** 80 fix8 = SUB **, fix8
+** 81 off8 = SUB **, off8
+** 82 sfr8 = SUB **, sfr16
+** 83 l16 h16 = SUB **, #n16
+** 84 = SUB **, A
+
+# SUBB A, obj (requires DD=0)
+DD0 08+n = SUBB A, Rn
+DD0 8E n8 = SUBB A, #n8
+DD0 8C fix8 = SUBBA, fix8
+DD0 8D off8 = SUBBA, off8
+* 85 = SUBB A, *
+
+# SUBB obj1, obj2 (byte length)
+* 80 fix8 = SUBB *, fix8
+* 81 off8 = SUBB *, off8
+* 82 sfr8 = SUBB *, sfr8
+* 83 n8 = SUBB *, #n8
+* 84 = SUBB *, A
+
+# SB (todo: sbafix)
+* 08+bit = SB *.bit
+
+# TJNZ
+DD1 BC A6 rdiff8 = TJNZ A, rdiff8
+** A6 rdiff8 = TJNZ **, rdiff8
+DD0 BC A6 rdiff8 = TJNZB A, rdiff8
+* A6 rdiff8 = TJNZB *, rdiff8
 
