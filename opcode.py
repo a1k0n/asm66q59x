@@ -96,7 +96,7 @@ def format_ops(opcodes, insn):
     ''' assuming opcodes[1:] are all arguments to opcodes[0] (which is always
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
-    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|n8|n16|n7p|rdiff8|\*+)', insn):
+    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|n7p|rdiff[78]|\*+)', insn):
         print 'formatting', exp, 'in', insn
         if exp == 'fix8':
             insn = insn.replace(exp, "[0x02%02x]", 1)
@@ -110,6 +110,9 @@ def format_ops(opcodes, insn):
         elif exp == 'sfr16':
             insn = insn.replace(exp, "%s", 1)
             args.append("sfr16_name(rom_[addr+%d])" % opcodes.index('sfr8'))
+        elif exp == 'a8':
+            insn = insn.replace(exp, "%02x", 1)
+            args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'n8':
             insn = insn.replace(exp, "0x%02x", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
@@ -124,8 +127,17 @@ def format_ops(opcodes, insn):
             args.extend([
                 "signextend7(rom_[addr+%d] & 0x7f)" % idx,
                 "rom_[addr+%d] < 0x80 ? \"DP\" : \"USP\"" % idx])
+        elif exp == 'rdiff7':
+            idx = opcodes.index(exp)
+            insn = insn.replace('R45', 'R%d', 1)
+            insn = insn.replace(exp, '0x%04x', 1)
+            args.extend([
+                'rom_[addr+%d] & 0x80 ? 5 : 4' % idx,
+                'addr + %d + ((int8_t) 0x80|rom_[addr+%d])' % (
+                    len(opcodes), idx)
+            ])
         elif exp == 'rdiff8':
-            insn = insn.replace(exp, '%04x', 1)
+            insn = insn.replace(exp, '0x%04x', 1)
             args.append('addr + %d + ((int8_t) rom_[addr+%d])' % (
                 len(opcodes), opcodes.index(exp)))
         elif exp == '*':

@@ -76,7 +76,7 @@ int main() {
   DasmnX8 dasm(rom);
 
   uint16_t addr = dasm.NextAddress();
-  for (int i = 0; i < 100; i++) {
+  while (addr < 0x700) {
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;

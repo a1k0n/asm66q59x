@@ -20,6 +20,16 @@
 # BRK
 FF = BRK
 
+# ACAL
+44 a8 = ACAL 0x10a8
+45 a8 = ACAL 0x11a8
+46 a8 = ACAL 0x12a8
+47 a8 = ACAL 0x13a8
+48 a8 = ACAL 0x14a8
+49 a8 = ACAL 0x15a8
+4a a8 = ACAL 0x16a8
+4b a8 = ACAL 0x17a8
+
 # ADD A, obj
 DD1 28+n = ADD A, ERn
 DD1 2C+n = ADD A, PRn
@@ -129,6 +139,28 @@ D2 = DEC R2
 D3 = DEC R3
 * D6 = DECB *
 
+# DJNZ
+05 rdiff7 = DJNZ R45, rdiff7
+60 EA rdiff8 = DJNZ X1L, rdiff8
+61 EA rdiff8 = DJNZ X2L, rdiff8
+62 EA rdiff8 = DJNZ DPL, rdiff8
+63 EA rdiff8 = DJNZ USPL, rdiff8
+* EA rdiff8 = DJNZ *, rdiff8
+
+# INC / INCB
+DD1 CC = INC A
+40+n = INC PRn
+** C6 = INC **
+DD0 CC = INCB A
+C0 = INCB R0
+C1 = INCB R1
+C2 = INCB R2
+C3 = INCB R3
+* C6 = INCB *
+
+# J
+03 l16 h16 = J n16
+
 # JBR/JBRS/JBS/JBSR (todo: sbafix/sbaoff)
 * 20+bit rdiff8 = JBR *.bit, rdiff8
 * 30+bit rdiff8 = JBRS *.bit, rdiff8
@@ -180,6 +212,14 @@ DD- 96 sfr8 = LB A, sfr8
 DD- 97 l16 h16 = LB A, [n16]
 DD- 98 l16 h16 = LB A, n16[X1]
 DD- 99 n7 = LB A, n7p
+
+# LC A, [obj]
+** DA = LC A, [**]
+** E7 l16 h16 = LC A, n16[**]
+** B7 l16 h16 = LC A, n16
+** DB = LCB A, [**]
+** F7 l16 h16 = LCB A, n16[**]
+* B7 l16 h16 = LCB A, n16
 
 # MOV obj1, #n16
 24+n l16 h16 = MOV ERn, #n16
@@ -234,6 +274,29 @@ D6 sfr8 n8 = MOVB sfr8, #n8
 
 DD- D8 = RDD
 DD+ D9 = SDD
+
+# SJ
+04 rdiff8 = SJ rdiff8
+
+# SLL
+DD1 8F = SLL A
+DD1 BC 8C = SLL A, 1
+DD1 BC 8D = SLL A, 2
+DD1 BC 8E = SLL A, 3
+DD1 BC 8F = SLL A, 4
+** 8C = SLL **, 1
+** 8D = SLL **, 2
+** 8E = SLL **, 3
+** 8F = SLL **, 4
+DD0 8F = SLLB A
+DD0 BC 8C = SLLB A, 1
+DD0 BC 8D = SLLB A, 2
+DD0 BC 8E = SLLB A, 3
+DD0 BC 8F = SLLB A, 4
+* 8C = SLLB *, 1
+* 8D = SLLB *, 2
+* 8E = SLLB *, 3
+* 8F = SLLB *, 4
 
 # ST
 DD1 38+n = ST A, ERn
