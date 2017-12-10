@@ -185,10 +185,7 @@ DA = DI
 
 # DJNZ
 05 rdiff7 = DJNZ R45, rdiff7
-60 EA rdiff8 = DJNZ X1L, radr
-61 EA rdiff8 = DJNZ X2L, radr
-62 EA rdiff8 = DJNZ DPL, radr
-63 EA rdiff8 = DJNZ USPL, radr
+** EA rdiff8 = DJNZ **L, radr
 BC EA rdiff8 = DJNZ A, radr
 * EA rdiff8 = DJNZ *, radr
 
@@ -262,7 +259,7 @@ F3 rdiff8 = JNS radr
 # 9A 21 rdiff8 = JNV radr
 
 # JRNZ (same as DJNZ DPL, radr)
-62 EA rdiff8 = JRNZ DP, radr
+#62 EA rdiff8 = JRNZ DP, radr
 
 # L A, obj (sets DD to 1)
 DD+ F8 l16 h16 = L A, #n16
