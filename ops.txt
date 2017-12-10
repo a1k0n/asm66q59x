@@ -12,13 +12,10 @@
 #  n16 -> %04x % l16 + (h16 << 8)
 #  n7p -> %02x[DP] % (signextend(n7))
 #      or %02x[USP] % (signextend(n7 - 0x80)) if n7 >= 0x80
-#  rdiff8 -> %04x % addr + len(opcodes) + ((int8_t) rdiff8)
+#  radr -> %04x % addr + len(opcodes) + ((int8_t) rdiff8)
 
 # NOP
 00 = NOP
-
-# BRK
-FF = BRK
 
 # ACAL
 44 a8 = ACAL 0x10a8
@@ -29,6 +26,23 @@ FF = BRK
 49 a8 = ACAL 0x15a8
 4a a8 = ACAL 0x16a8
 4b a8 = ACAL 0x17a8
+
+# ADC / ADCB
+DD1 BC F3 l16 h16 = ADC A, #n16
+** F5 = ADC A, **
+** F0 fix8 = ADC **, fix8
+** F1 off8 = ADC **, off8
+** F2 sfr8 = ADC **, sfr16
+** F3 l16 h16 = ADC **, #n16
+** F4 = ADC **, A
+
+DD0 BC F3 n8 = ADCB A, #n8
+* F5 = ADCB A, *
+* F0 fix8 = ADCB *, fix8
+* F1 off8 = ADCB *, off8
+* F2 sfr8 = ADCB *, sfr8
+* F3 n8 = ADCB *, #n8
+* F4 = ADCB *, A
 
 # ADD A, obj
 DD1 28+n = ADD A, ERn
@@ -83,11 +97,19 @@ DD0 BE n8 = ANDB A, #n8
 * B3 n8 = ANDB *, #n8
 * B4 = ANDB *, A
 
-# BAND/BOR
+# BAND/BOR/BXOR
 * 40+bit = BAND C, *.bit
 * 48+bit = BANDN C, *.bit
 * 50+bit = BOR C, *.bit
 * 58+bit = BORN C, *.bit
+* 60+bit = BXOR C, *.bit
+
+# BRK
+FF = BRK
+
+# CAL
+FE CadrL CadrH = CAL Cadr
+** EB = CAL [**]
 
 # CLR/CLRB
 FA = CLR A
@@ -128,6 +150,17 @@ D5 off8 n8 = CMP off8, #n8
 * 93 n8 = CMP *, #n8
 * 94 = CMP *, A
 
+# CMPC / CMPCB
+** D8 = CMPC A, [**]
+** E6 T16L T16H = CMPC A, T16[**]
+** B6 TadrL TadrH = CMPC A, Tadr
+** D9 = CMPCB A, [**]
+** F6 T16L T16H = CMPCB A, T16[**]
+** B6 TadrL TadrH = CMPCB A, Tadr
+
+# CPL (complement carry)
+FD = CPL C
+
 # DEC / DECB
 DD1 DC = DEC A
 50+n = DEC PRn
@@ -139,13 +172,42 @@ D2 = DEC R2
 D3 = DEC R3
 * D6 = DECB *
 
+# DI (disable interrupts)
+DA = DI
+
+# DIV / DIVB / DIVQ
+** A8 = DIV **
+* A8 = DIVB *
+** FB = DIVQ **
+
 # DJNZ
 05 rdiff7 = DJNZ R45, rdiff7
-60 EA rdiff8 = DJNZ X1L, rdiff8
-61 EA rdiff8 = DJNZ X2L, rdiff8
-62 EA rdiff8 = DJNZ DPL, rdiff8
-63 EA rdiff8 = DJNZ USPL, rdiff8
-* EA rdiff8 = DJNZ *, rdiff8
+60 EA rdiff8 = DJNZ X1L, radr
+61 EA rdiff8 = DJNZ X2L, radr
+62 EA rdiff8 = DJNZ DPL, radr
+63 EA rdiff8 = DJNZ USPL, radr
+* EA rdiff8 = DJNZ *, radr
+
+# EI (enable interrupts)
+DB = EI
+
+# EXTND (sign extend AL -> A)
+FC = EXTND
+
+# FCAL (far call)
+# not used in this rom; not implementing now
+
+# FILL (set to FFFF)
+DD1 BC D7 = FILL A
+** D7 = FILL **
+DD0 BC D7 = FILLB A
+* D7 = FILLB *
+
+# FJ (far jump)
+# not used in this rom; not implementing now
+
+# FRT (far return)
+# not used in this rom; not implementing now
 
 # INC / INCB
 DD1 CC = INC A
@@ -159,30 +221,31 @@ C3 = INCB R3
 * C6 = INCB *
 
 # J
-03 l16 h16 = J n16
+03 CadrL CadrH = J Cadr
+** C9 = J [**]
 
 # JBR/JBRS/JBS/JBSR (todo: sbafix/sbaoff)
-* 20+bit rdiff8 = JBR *.bit, rdiff8
-* 30+bit rdiff8 = JBRS *.bit, rdiff8
-* 28+bit rdiff8 = JBS *.bit, rdiff8
-* 38+bit rdiff8 = JBSR *.bit, rdiff8
+* 20+bit rdiff8 = JBR *.bit, radr
+* 30+bit rdiff8 = JBRS *.bit, radr
+* 28+bit rdiff8 = JBS *.bit, radr
+* 38+bit rdiff8 = JBSR *.bit, radr
 
 # Jcc
-F0 rdiff8 = JGT rdiff8
-F5 rdiff8 = JGE rdiff8
-F2 rdiff8 = JLT rdiff8
-F7 rdiff8 = JLE rdiff8
-F1 rdiff8 = JEQ rdiff8
-F6 rdiff8 = JNE rdiff8
-* FE rdiff8 = JGTS rdiff8
-* FF rdiff8 = JGES rdiff8
-* FC rdiff8 = JLTS rdiff8
-* FD rdiff8 = JLES rdiff8
-F4 rdiff8 = JPS rdiff8
-F3 rdiff8 = JNS rdiff8
+F0 rdiff8 = JGT radr
+F5 rdiff8 = JGE radr
+F2 rdiff8 = JLT radr
+F7 rdiff8 = JLE radr
+F1 rdiff8 = JEQ radr
+F6 rdiff8 = JNE radr
+* FE rdiff8 = JGTS radr
+* FF rdiff8 = JGES radr
+* FC rdiff8 = JLTS radr
+* FD rdiff8 = JLES radr
+F4 rdiff8 = JPS radr
+F3 rdiff8 = JNS radr
 # 9A 28+1 ??? not sure if these two are correct
-9A 29 rdiff8 = JOV rdiff8
-9A 21 rdiff8 = JNV rdiff8
+9A 29 rdiff8 = JOV radr
+9A 21 rdiff8 = JNV radr
 
 # L A, obj (sets DD to 1)
 DD+ F8 l16 h16 = L A, #n16
@@ -195,7 +258,7 @@ DD+ 83 = L A, [DP+]
 DD+ 84 fix8 = L A, fix8
 DD+ 85 off8 = L A, off8
 DD+ 86 sfr8 = L A, sfr8
-DD+ 87 l16 h16 = L A, [n16]
+DD+ 87 l16 h16 = L A, n16
 DD+ 88 l16 h16 = L A, n16[X1]
 DD+ 89 n7 = L A, n7p
 
@@ -209,7 +272,7 @@ DD- 93 = LB A, [DP+]
 DD- 94 fix8 = LB A, fix8
 DD- 95 off8 = LB A, off8
 DD- 96 sfr8 = LB A, sfr8
-DD- 97 l16 h16 = LB A, [n16]
+DD- 97 l16 h16 = LB A, n16
 DD- 98 l16 h16 = LB A, n16[X1]
 DD- 99 n7 = LB A, n7p
 
@@ -238,7 +301,7 @@ C6 sfr8 l16 h16 = MOV sfr16, #n16
 ** 86 fix8 = MOV fix8, **
 ** 87 off8 = MOV off8, **
 ** 96 sfr8 = MOV sfr16, **
-** 9B l16 h16 = MOV [n16], **
+** 9B l16 h16 = MOV n16, **
 ** 98 l16 h16 = MOV n16[X1], **
 ** 99 l16 h16 = MOV n16[X2], **
 ** 9A n7 = MOV n7p, **
@@ -260,7 +323,7 @@ D6 sfr8 n8 = MOVB sfr8, #n8
 * 86 fix8 = MOVB fix8, *
 * 87 off8 = MOVB off8, *
 * 96 sfr8 = MOVB sfr8, *
-* 9B l16 h16 = MOVB [n16], *
+* 9B l16 h16 = MOVB n16, *
 * 98 l16 h16 = MOVB n16[X1], *
 * 99 l16 h16 = MOVB n16[X2], *
 * 9A n7 = MOVB n7p, *
@@ -276,7 +339,7 @@ DD- D8 = RDD
 DD+ D9 = SDD
 
 # SJ
-04 rdiff8 = SJ rdiff8
+04 rdiff8 = SJ radr
 
 # SLL
 DD1 8F = SLL A
@@ -308,7 +371,7 @@ DD1 33 = ST A, [DP+]
 DD1 34 fix8 = ST A, fix8
 DD1 35 off8 = ST A, off8
 DD1 36 sfr8 = ST A, sfr16
-DD1 37 l16 h16 = ST A, [n16]
+DD1 37 l16 h16 = ST A, n16
 DD1 C8 l16 h16 = ST A, n16[X1]
 DD1 BC 99 l16 h16 = ST A, n16[X2]
 DD1 C9 n7 = ST A, n7p
@@ -322,7 +385,7 @@ DD0 33 = STB A, [DP+]
 DD0 34 fix8 = STB A, fix8
 DD0 35 off8 = STB A, off8
 DD0 36 sfr8 = STB A, sfr8
-DD0 37 l16 h16 = STB A, [n16]
+DD0 37 l16 h16 = STB A, n16
 DD0 C8 l16 h16 = STB A, n16[X1]
 DD0 BC 99 l16 h16 = STB A, n16[X2]
 DD0 C9 n7 = STB A, n7p
@@ -359,9 +422,15 @@ DD0 8D off8 = SUBBA, off8
 # SB (todo: sbafix)
 * 08+bit = SB *.bit
 
-# TJNZ
-DD1 BC A6 rdiff8 = TJNZ A, rdiff8
-** A6 rdiff8 = TJNZ **, rdiff8
-DD0 BC A6 rdiff8 = TJNZB A, rdiff8
-* A6 rdiff8 = TJNZB *, rdiff8
+# TJNZ / TJZ
+DD1 BC A6 rdiff8 = TJNZ A, radr
+** A6 rdiff8 = TJNZ **, radr
+DD0 BC A6 rdiff8 = TJNZB A, radr
+* A6 rdiff8 = TJNZB *, radr
 
+DD1 BC A7 rdiff8 = TJZ A, radr
+** A7 rdiff8 = TJZ **, radr
+DD0 BC A7 rdiff8 = TJZB A, radr
+* A7 rdiff8 = TJZB *, radr
+
+E0+Vno = VCAL Vadr

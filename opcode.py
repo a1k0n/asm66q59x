@@ -12,7 +12,7 @@ A3 = [DP+]
 A4 fix8 = fix8
 A5 off8 = off8
 A6 sfr8 = sfr16
-A7 l16 h16 = [n16]
+A7 l16 h16 = n16
 A8 l16 h16 = n16[X1]
 A9 l16 h16 = n16[X2]
 8B n7 = n7p
@@ -29,7 +29,7 @@ B3 = [DP+]
 B4 fix8 = fix8
 B5 off8 = off8
 B6 sfr8 = sfr8
-B7 l16 h16 = [n16]
+B7 l16 h16 = n16
 B8 l16 h16 = n16[X1]
 B9 l16 h16 = n16[X2]
 9B n7 = n7p
@@ -71,7 +71,7 @@ def parse_spec(data):
                 expandidx = i
                 break
         if expandbase is not None:
-            for exp in re.findall(r'(Rn|PRn|ERn|bit)', v):
+            for exp in re.findall(r'(Rn|PRn|ERn|bit|Vadr)', v):
                 if exp == 'Rn':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
@@ -88,6 +88,10 @@ def parse_spec(data):
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
                         yield b[:], v.replace('bit', '%d' % n), cond, effect
+                if exp == 'Vadr':
+                    for n in range(0, 16):
+                        b[expandidx] = hex(expandbase + n)
+                        yield b[:], v.replace('Vadr', '0x%x' % n), cond, effect
         else:
             yield b, v, cond, effect
 
@@ -96,10 +100,10 @@ def format_ops(opcodes, insn):
     ''' assuming opcodes[1:] are all arguments to opcodes[0] (which is always
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
-    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|n7p|rdiff[78]|\*+)', insn):
+    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr|T16|Tadr|n7p|radr|rdiff7|\*+)', insn):
         print 'formatting', exp, 'in', insn
         if exp == 'fix8':
-            insn = insn.replace(exp, "[0x02%02x]", 1)
+            insn = insn.replace(exp, "0x02%02x", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'off8':
             insn = insn.replace(exp, "off(0x%02x)", 1)
@@ -127,7 +131,8 @@ def format_ops(opcodes, insn):
             args.extend([
                 "signextend7(rom_[addr+%d] & 0x7f)" % idx,
                 "rom_[addr+%d] < 0x80 ? \"DP\" : \"USP\"" % idx])
-        elif exp == 'rdiff7':
+        elif exp == 'rdiff7':  # 7-bit loop addr, -128..-1
+            # TODO: add loop block label
             idx = opcodes.index(exp)
             insn = insn.replace('R45', 'R%d', 1)
             insn = insn.replace(exp, '0x%04x', 1)
@@ -136,10 +141,29 @@ def format_ops(opcodes, insn):
                 'addr + %d + ((int8_t) 0x80|rom_[addr+%d])' % (
                     len(opcodes), idx)
             ])
-        elif exp == 'rdiff8':
+        elif exp == 'radr':  # relative address
+            # TODO: add code block label
             insn = insn.replace(exp, '0x%04x', 1)
             args.append('addr + %d + ((int8_t) rom_[addr+%d])' % (
-                len(opcodes), opcodes.index(exp)))
+                len(opcodes), opcodes.index('rdiff8')))
+        elif exp == 'Cadr':  # code address
+            # TODO: add code label
+            insn = insn.replace(exp, '0x%04x', 1)
+            args.append('rom_[addr+%d] + (rom_[addr+%d] << 8)' % (
+                opcodes.index('CadrL'),
+                opcodes.index('CadrH')))
+        elif exp == 'Tadr':  # absolute ROM table address
+            # TODO: add a ROM table label
+            insn = insn.replace(exp, '0x%04x', 1)
+            args.append('rom_[addr+%d] + (rom_[addr+%d] << 8)' % (
+                opcodes.index('TadrL'),
+                opcodes.index('TadrH')))
+        elif exp == 'T16':  # relative ROM table address
+            # this is a relative table offset; can't use a label
+            insn = insn.replace(exp, '0x%04x', 1)
+            args.append('rom_[addr+%d] + (rom_[addr+%d] << 8)' % (
+                opcodes.index('T16L'),
+                opcodes.index('T16H')))
         elif exp == '*':
             insn = insn.replace(exp, '%s', 1)
             args.extend(['byteop'])

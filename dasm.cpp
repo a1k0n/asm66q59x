@@ -76,12 +76,12 @@ int main() {
   DasmnX8 dasm(rom);
 
   uint16_t addr = dasm.NextAddress();
-  while (addr < 0x700) {
+  while (addr != 0) {
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
     printf("%04x(%d): ", addr, dasm.GetDD());
-    for (; addr < nextaddr; addr++) {
+    for (; addr != nextaddr; addr++) {
       printf("%02x ", rom[addr]);
       nspace -= 3;
     }
