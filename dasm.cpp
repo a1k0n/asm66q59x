@@ -23,7 +23,7 @@ class DasmnX8 {
 #include "sfr16.i"
     }
     static char buf[16];
-    snprintf(buf, sizeof(buf), "sfr%02x", sfr);
+    snprintf(buf, sizeof(buf), "sfr(0x%02x)", sfr);
     return buf;
   }
 
@@ -32,7 +32,7 @@ class DasmnX8 {
 #include "sfr8.i"
     }
     static char buf[16];
-    snprintf(buf, sizeof(buf), "sfr%02x", sfr);
+    snprintf(buf, sizeof(buf), "sfr(0x%02x)", sfr);
     return buf;
   }
 

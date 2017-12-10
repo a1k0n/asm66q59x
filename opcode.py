@@ -71,7 +71,7 @@ def parse_spec(data):
                 expandidx = i
                 break
         if expandbase is not None:
-            for exp in re.findall(r'(Rn|PRn|ERn|bit|Vadr)', v):
+            for exp in re.findall(r'(Rn|PRn|ERn|bit|Vadr|width)', v):
                 if exp == 'Rn':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
@@ -88,6 +88,10 @@ def parse_spec(data):
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
                         yield b[:], v.replace('bit', '%d' % n), cond, effect
+                if exp == 'width':
+                    for n in range(1, 5):
+                        b[expandidx] = hex(expandbase + n - 1)
+                        yield b[:], v.replace('width', '%d' % n), cond, effect
                 if exp == 'Vadr':
                     for n in range(0, 16):
                         b[expandidx] = hex(expandbase + n)

@@ -14,9 +14,6 @@
 #      or %02x[USP] % (signextend(n7 - 0x80)) if n7 >= 0x80
 #  radr -> %04x % addr + len(opcodes) + ((int8_t) rdiff8)
 
-# NOP
-00 = NOP
-
 # ACAL
 44 a8 = ACAL 0x10a8
 45 a8 = ACAL 0x11a8
@@ -247,6 +244,9 @@ F3 rdiff8 = JNS radr
 9A 29 rdiff8 = JOV radr
 9A 21 rdiff8 = JNV radr
 
+# JRNZ (same as DJNZ DPL, radr)
+62 EA rdiff8 = JRNZ DP, radr
+
 # L A, obj (sets DD to 1)
 DD+ F8 l16 h16 = L A, #n16
 DD+ 74+n = L A, ERn
@@ -278,11 +278,19 @@ DD- 99 n7 = LB A, n7p
 
 # LC A, [obj]
 ** DA = LC A, [**]
-** E7 l16 h16 = LC A, n16[**]
-** B7 l16 h16 = LC A, n16
+** E7 T16L T16H = LC A, T16[**]
+** B7 TadrL TadrH = LC A, Tadr
 ** DB = LCB A, [**]
-** F7 l16 h16 = LCB A, n16[**]
-* B7 l16 h16 = LCB A, n16
+** F7 T16L T16H = LCB A, T16[**]
+* B7 TadrL TadrH = LCB A, Tadr
+
+# MB (move bbit)
+* 10+bit = MB C, *.bit
+* 18+bit = MB *.bit, C
+
+# MBR (bit addressing via AL?)
+* BA = MBR C, *.(AL)
+* BB = MBR *.(AL), C
 
 # MOV obj1, #n16
 24+n l16 h16 = MOV ERn, #n16
@@ -332,10 +340,95 @@ D6 sfr8 n8 = MOVB sfr8, #n8
 * AA = MOVB *, A
 * AB n8 = MOVB *, #n8
 
+# MUL
+** A9 = MUL **
+* A9 = MULB *
+
+DD1 CF = NEG A
+# the docs claim this sets DD to 1 as well but that has to be wrong
+DD0 CF = NEGB A
+
+# NOP
+00 = NOP
+
+# OR / ORB
+DD1 CD off8 = OR A, off8
+DD1 CE l16 h16 = OR A, #n16
+** C5 = OR A, **
+** C0 fix8 = OR **, fix8
+** C1 off8 = OR **, off8
+** C2 sfr8 = OR **, sfr16
+** C3 l16 h16 = OR **, #n16
+** C4 = OR **, A
+DD0 CD off8 = ORB A, off8
+DD0 CE n8 = ORB A, #n8
+* C5 = ORB A, *
+* C0 fix8 = OR *, fix8
+* C1 off8 = OR *, off8
+* C2 sfr8 = OR *, sfr8
+* C3 n8 = OR *, #n8
+* C4 = OR *, A
+
+# PUSHS / POPS (FIXME)
+06 n8 = PUSH/POP S/U #n8
+07 = PUSHS A
+
 # RB (todo: sbafix)
 * 00+bit = RB *.bit
 
+# RBR (reset bit relative)
+* B9 = RBR *.(AL)
+
+# RC reset carry
+CA = RC
+
+# set/reset DD
 DD- D8 = RDD
+
+# ROL/ROR (rotate)
+DD1 AF = ROL A
+DD1 BC AC+width = ROL A, width
+** AC+width = ROL **, width
+DD0 AF = ROLB A
+DD0 BC AC+width = ROLB A, width
+* AC+width = ROLB *, width
+DD1 BF = ROR A
+DD1 BC BC+width = ROR A, width
+** BC+width = ROR **, width
+DD0 BF = RORB A
+DD0 BC BC+width = RORB A, width
+* BC+width = RORB *, width
+
+# RT / RTI (return)
+01 = RT
+02 = RTI
+
+# SB (todo: sbafix)
+* 08+bit = SB *.bit
+
+# SBC (subtract w/ borrow carry)
+DD1 BC E3 l16 h16 = SBC A, #n16
+** E5 = SBC A, **
+** E0 fix8 = SBC **, fix8
+** E1 off8 = SBC **, off8
+** E2 sfr8 = SBC **, sfr16
+** E3 l16 h16 = SBC **, #n16
+** E4 = SBC **, A
+DD0 BC E3 n8 = SBCB A, #n8
+* E5 = SBCB A, *
+* E0 fix8 = SBCB *, fix8
+* E1 off8 = SBCB *, off8
+* E2 sfr8 = SBCB *, sfr8
+* E3 n8 = SBCB *, #n8
+* E4 = SBCB *, A
+
+# SBR (set bit relative)
+* B8 = SBR *.(AL)
+
+# set carry
+CB = SC
+
+# set DD
 DD+ D9 = SDD
 
 # SJ
@@ -343,23 +436,29 @@ DD+ D9 = SDD
 
 # SLL
 DD1 8F = SLL A
-DD1 BC 8C = SLL A, 1
-DD1 BC 8D = SLL A, 2
-DD1 BC 8E = SLL A, 3
-DD1 BC 8F = SLL A, 4
-** 8C = SLL **, 1
-** 8D = SLL **, 2
-** 8E = SLL **, 3
-** 8F = SLL **, 4
+DD1 BC 8C+width = SLL A, width
+** 8C+width = SLL **, width
 DD0 8F = SLLB A
-DD0 BC 8C = SLLB A, 1
-DD0 BC 8D = SLLB A, 2
-DD0 BC 8E = SLLB A, 3
-DD0 BC 8F = SLLB A, 4
-* 8C = SLLB *, 1
-* 8D = SLLB *, 2
-* 8E = SLLB *, 3
-* 8F = SLLB *, 4
+DD0 BC 8C+width = SLLB A, width
+* 8C+width = SLLB *, width
+
+# SQR
+DD1 BC A9 = SQR A
+DD0 BC A9 = SQRB A
+
+# SRA (arithmetic shift right w/ carry)
+DD1 BC EC+width = SRA A, width
+** EC+width = SRA **, width
+DD0 BC EC+width = SRAB A, width
+* EC+width = SRAB *, width
+
+# SRL (shift right logical)
+DD1 9F = SRL A
+DD1 BC 9C+width = SRL A, width
+** 9C+width = SRL **, width
+DD0 9F = SRLB A
+DD0 BC 9C+width = SRLB A, width
+* 9C+width = SRLB *, width
 
 # ST
 DD1 38+n = ST A, ERn
@@ -419,8 +518,11 @@ DD0 8D off8 = SUBBA, off8
 * 83 n8 = SUBB *, #n8
 * 84 = SUBB *, A
 
-# SB (todo: sbafix)
-* 08+bit = SB *.bit
+# SWAP (AH<->AL)
+DF = SWAP
+
+# TBR (test bit relative)
+* CA = TBR *.(AL)
 
 # TJNZ / TJZ
 DD1 BC A6 rdiff8 = TJNZ A, radr
@@ -433,4 +535,27 @@ DD1 BC A7 rdiff8 = TJZ A, radr
 DD0 BC A7 rdiff8 = TJZB A, radr
 * A7 rdiff8 = TJZB *, radr
 
+# VCAL
 E0+Vno = VCAL Vadr
+
+# XCHG / XCHGB
+** C8 = XCHG A, **
+* C8 = XCHGB A, *
+
+# XOR / XORB
+DD1 DD off8 = XOR A, off8
+DD1 DE l16 h16 = XOR A, #n16
+** D5 = XOR A, **
+** D0 fix8 = XOR **, fix8
+** D1 off8 = XOR **, off8
+** D2 sfr8 = XOR **, sfr16
+** D3 l16 h16 = XOR **, #n16
+** D4 = XOR **, A
+DD0 DD off8 = XORB A, off8
+DD0 DE n8 = XORB A, #n8
+* D5 = XORB A, *
+* D0 fix8 = XORB *, fix8
+* D1 off8 = XORB *, off8
+* D2 sfr8 = XORB *, sfr8
+* D3 n8 = XORB *, #n8
+* D4 = XORB *, A
