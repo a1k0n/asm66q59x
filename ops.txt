@@ -95,23 +95,28 @@ DD0 BE n8 = ANDB A, #n8
 * B4 = ANDB *, A
 
 # BAND/BOR/BXOR
+BC 40+bit = BAND C, A.bit
 * 40+bit = BAND C, *.bit
+BC 48+bit = BANDN C, A.bit
 * 48+bit = BANDN C, *.bit
+BC 50+bit = BOR C, A.bit
 * 50+bit = BOR C, *.bit
+BC 58+bit = BORN C, A.bit
 * 58+bit = BORN C, *.bit
+BC 60+bit = BXOR C, A.bit
 * 60+bit = BXOR C, *.bit
 
 # BRK
-FF = BRK
+DD- FF = BRK
 
 # CAL
 FE CadrL CadrH = CAL Cadr
 ** EB = CAL [**]
 
 # CLR/CLRB
-FA = CLR A
+DD+ FA = CLR A
 ** C7 = CLR **
-FB = CLRB A
+DD- FB = CLRB A
 * C7 = CLRB *
 
 # CMP A, obj
@@ -189,7 +194,7 @@ DA = DI
 DB = EI
 
 # EXTND (sign extend AL -> A)
-FC = EXTND
+DD+ FC = EXTND
 
 # FCAL (far call)
 # not used in this rom; not implementing now
@@ -240,9 +245,10 @@ F6 rdiff8 = JNE radr
 * FD rdiff8 = JLES radr
 F4 rdiff8 = JPS radr
 F3 rdiff8 = JNS radr
-# 9A 28+1 ??? not sure if these two are correct
-9A 29 rdiff8 = JOV radr
-9A 21 rdiff8 = JNV radr
+
+# these are just aliases for JBS (overflow bit)
+# 9A 29 rdiff8 = JOV radr
+# 9A 21 rdiff8 = JNV radr
 
 # JRNZ (same as DJNZ DPL, radr)
 62 EA rdiff8 = JRNZ DP, radr
@@ -375,6 +381,10 @@ DD0 CE n8 = ORB A, #n8
 
 # RB (todo: sbafix)
 * 00+bit = RB *.bit
+
+# sbafix / sbaoff insns... need to disambiguate them
+58+bit n8 = SB/RB/JBS/JBR sbafix(n8).bit
+48+bit n8 = SB/RB/JBS/JBR sbaoff(n8).bit
 
 # RBR (reset bit relative)
 * B9 = RBR *.(AL)
