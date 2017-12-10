@@ -111,6 +111,7 @@ DD- FF = BRK
 
 # CAL
 FE CadrL CadrH = CAL Cadr
+BC EB = CAL [A]
 ** EB = CAL [**]
 
 # CLR/CLRB
@@ -144,13 +145,13 @@ DD0 9D off8 = CMPB A, off8
 * 95 = CMPB A, *
 
 # CMPB obj1, obj2
-D4 fix8 n8 = CMP fix8, #n8
-D5 off8 n8 = CMP off8, #n8
-* 90 fix8 = CMP *, fix8
-* 91 off8 = CMP *, off8
-* 92 sfr8 = CMP *, sfr8
-* 93 n8 = CMP *, #n8
-* 94 = CMP *, A
+D4 fix8 n8 = CMPB fix8, #n8
+D5 off8 n8 = CMPB off8, #n8
+* 90 fix8 = CMPB *, fix8
+* 91 off8 = CMPB *, off8
+* 92 sfr8 = CMPB *, sfr8
+* 93 n8 = CMPB *, #n8
+* 94 = CMPB *, A
 
 # CMPC / CMPCB
 ** D8 = CMPC A, [**]
@@ -188,6 +189,7 @@ DA = DI
 61 EA rdiff8 = DJNZ X2L, radr
 62 EA rdiff8 = DJNZ DPL, radr
 63 EA rdiff8 = DJNZ USPL, radr
+BC EA rdiff8 = DJNZ A, radr
 * EA rdiff8 = DJNZ *, radr
 
 # EI (enable interrupts)
@@ -224,12 +226,21 @@ C3 = INCB R3
 
 # J
 03 CadrL CadrH = J Cadr
+BC C9 = J [A]
 ** C9 = J [**]
 
-# JBR/JBRS/JBS/JBSR (todo: sbafix/sbaoff)
+# JBR/JBRS/JBS/JBSR
+58+bit sbafix6+C0 rdiff8 = JBR sbafix.bit, radr
+48+bit sbaoff6+C0 rdiff8 = JBR sbaoff.bit, radr
+BC 20+bit rdiff8 = JBR A.bit, radr
 * 20+bit rdiff8 = JBR *.bit, radr
+BC 30+bit rdiff8 = JBRS A.bit, radr
 * 30+bit rdiff8 = JBRS *.bit, radr
+58+bit sbafix6+80 rdiff8 = JBS sbafix.bit, radr
+48+bit sbaoff6+80 rdiff8 = JBS sbaoff.bit, radr
+BC 28+bit rdiff8 = JBS A.bit, radr
 * 28+bit rdiff8 = JBS *.bit, radr
+BC 38+bit rdiff8 = JBSR A.bit, radr
 * 38+bit rdiff8 = JBSR *.bit, radr
 
 # Jcc
@@ -283,15 +294,21 @@ DD- 98 l16 h16 = LB A, n16[X1]
 DD- 99 n7 = LB A, n7p
 
 # LC A, [obj]
+BC DA = LC A, [A]
 ** DA = LC A, [**]
+BC E7 T16L T16H = LC A, T16[A]
 ** E7 T16L T16H = LC A, T16[**]
 ** B7 TadrL TadrH = LC A, Tadr
+BC DB = LCB A, [A]
 ** DB = LCB A, [**]
+BC F7 T16L T16H = LCB A, T16[A]
 ** F7 T16L T16H = LCB A, T16[**]
 * B7 TadrL TadrH = LCB A, Tadr
 
 # MB (move bbit)
+BC 10+bit = MB C, A.bit
 * 10+bit = MB C, *.bit
+BC 18+bit = MB A.bit, C
 * 18+bit = MB *.bit, C
 
 # MBR (bit addressing via AL?)
@@ -379,12 +396,11 @@ DD0 CE n8 = ORB A, #n8
 06 n8 = PUSH/POP S/U #n8
 07 = PUSHS A
 
-# RB (todo: sbafix)
+# RB
+58+bit sbafix6+40 = RB sbafix.bit
+48+bit sbaoff6+40 = RB sbaoff.bit
+BC 00+bit = RB A.bit
 * 00+bit = RB *.bit
-
-# sbafix / sbaoff insns... need to disambiguate them
-58+bit n8 = SB/RB/JBS/JBR sbafix(n8).bit
-48+bit n8 = SB/RB/JBS/JBR sbaoff(n8).bit
 
 # RBR (reset bit relative)
 * B9 = RBR *.(AL)
@@ -413,7 +429,9 @@ DD0 BC BC+width = RORB A, width
 01 = RT
 02 = RTI
 
-# SB (todo: sbafix)
+58+bit sbafix6+00 = SB sbafix.bit
+48+bit sbaoff6+00 = SB sbaoff.bit
+BC 08+bit = SB A.bit
 * 08+bit = SB *.bit
 
 # SBC (subtract w/ borrow carry)

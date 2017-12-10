@@ -45,7 +45,7 @@ class DasmnX8 {
   explicit DasmnX8(const uint8_t *rom) {
     rom_ = rom;
     dd_ = 0;
-    nexti_ = 0x93;  // todo: load reset vector
+    nexti_ = 0x76;  // todo: load reset vector
   }
 
   uint16_t NextAddress() { return nexti_; }
@@ -81,6 +81,10 @@ int main() {
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
     printf("%04x(%d): ", addr, dasm.GetDD());
+    if (nextaddr == addr) {
+      printf("0-length instruction %02x %02x? abort\n", rom[addr], rom[addr+1]);
+      break;
+    }
     for (; addr != nextaddr; addr++) {
       printf("%02x ", rom[addr]);
       nspace -= 3;

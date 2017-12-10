@@ -20,11 +20,13 @@ AA = [X1+A]
 AB = [X1+R0]
 '''
 
-byteprefix = '''
+'''
 54 = ?54
 55 = ?55
 56 = ?56
 57 = ?57
+'''
+byteprefix = '''
 68+n = Rn
 B0 = [X1]
 B1 = [DP-]
@@ -53,7 +55,7 @@ def parse_spec(data):
             continue
         k, v = line.split(' = ')
         b = k.split()
-        cond = None
+        cond = []
         effect = []
         if b[0].startswith('DD'):
             if b[0] == 'DD+':
@@ -61,12 +63,17 @@ def parse_spec(data):
             elif b[0] == 'DD-':
                 effect.append("dd_ = 0;")
             elif b[0] == 'DD0':
-                cond = '!dd_'
+                cond.append('!dd_')
             elif b[0] == 'DD1':
-                cond = 'dd_'
+                cond.append('dd_')
             else:
                 raise "unrecognized cond/effect", b[0]
             b = b[1:]
+        # handle sbafix/sbaoff
+        if len(b) > 1 and b[1].startswith('sba'):
+            arg, off = b[1].split('+')
+            cond.append('(rom_[addr+1] & 0xc0) == 0x%s' % off)
+            b[1] = arg
         expandbase = None
         expandidx = None
         for i in range(len(b)):
@@ -108,7 +115,7 @@ def format_ops(opcodes, insn):
     ''' assuming opcodes[1:] are all arguments to opcodes[0] (which is always
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
-    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr|T16|Tadr|n7p|radr|rdiff7|\*+)', insn):
+    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr|T16|Tadr|n7p|radr|rdiff7|sbafix|sbaoff|\*+)', insn):
         print 'formatting', exp, 'in', insn
         if exp == 'fix8':
             insn = insn.replace(exp, "0x02%02x", 1)
@@ -172,6 +179,14 @@ def format_ops(opcodes, insn):
             args.append('rom_[addr+%d] + (rom_[addr+%d] << 8)' % (
                 opcodes.index('T16L'),
                 opcodes.index('T16H')))
+        elif exp == 'sbafix':
+            insn = insn.replace(exp, 'sbafix %04x')
+            args.append('0x2c0 + (rom_[addr+%d] & 0x3f)' % (
+                opcodes.index('sbafix6')))
+        elif exp == 'sbaoff':
+            insn = insn.replace(exp, 'sbaoff %02x')
+            args.append('0xc0 + (rom_[addr+%d] & 0x3f)' % (
+                opcodes.index('sbaoff6')))
         elif exp == '*':
             insn = insn.replace(exp, '%s', 1)
             args.extend(['byteop'])
@@ -215,13 +230,33 @@ def gen():
                     len(opcodes))
             ]
 
+    # this is probably all we need
+    def is_hex(s):
+        if len(s) == 4 and s[:2] == '0x':
+            return True
+        return len(s) == 2 and not any(x.islower() for x in s)
+
     def add_insn(byte0, opcodes, insn, cond, effect):
         op, args = format_ops(opcodes, insn)
         opbyte = int(opcodes[0], 16)
+
+        # add condition on opbyte1 if necessary
+        cond = cond[:]
+        for i in range(1, len(opcodes)):
+            if is_hex(opcodes[i]):
+                print "opcodes", opcodes, "opcode[%d] is_hex for insn %s" % (
+                    i, insn)
+                cond.append('rom_[addr+%d] == 0x%02x' % (
+                    i, int(opcodes[i], 16)))
+                print cond
+
         code = []
         indent = ''
-        if cond is not None:
-            code.append('if (%s) {' % cond)
+        if len(cond) == 1:
+            code.append('if (%s) {' % cond[0])
+            indent = '  '
+        elif len(cond) > 1:
+            code.append('if (%s) {' % ' && '.join(cond))
             indent = '  '
         for e in effect:
             code.append(indent + e)
@@ -236,7 +271,7 @@ def gen():
                 indent + "sprintf(buf, \"%s\", %s);" % (op, ', '.join(args)),
                 indent + "return buf;"
             ])
-        if cond is not None:
+        if len(cond) > 0:
             code.append('}')
 
         if byte0[opbyte] is not None:
