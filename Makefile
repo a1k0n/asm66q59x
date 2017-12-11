@@ -1,7 +1,7 @@
 dasm: dasm.cpp opcode.i
 	$(CXX) -g -O2 -o $@ dasm.cpp
 
-opcode.i: opcode.py ops.txt
+opcode.i: opcode.py ops.txt sfrs.txt
 	python opcode.py
 
 clean::
