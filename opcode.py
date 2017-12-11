@@ -146,30 +146,27 @@ def format_ops(opcodes, insn):
                 "signextend7(rom_[addr+%d] & 0x7f)" % idx,
                 "rom_[addr+%d] < 0x80 ? \"DP\" : \"USP\"" % idx])
         elif exp == 'rdiff7':  # 7-bit loop addr, -128..-1
-            # TODO: add loop block label
             idx = opcodes.index(exp)
             insn = insn.replace('R45', 'R%d', 1)
-            insn = insn.replace(exp, '0x%04x', 1)
+            insn = insn.replace(exp, '%s', 1)
             args.extend([
                 'rom_[addr+%d] & 0x80 ? 5 : 4' % idx,
-                'addr + %d + ((int8_t) 0x80|rom_[addr+%d])' % (
+                'get_loop_label(addr + %d + ((int8_t) 0x80|rom_[addr+%d]))' % (
                     len(opcodes), idx)
             ])
         elif exp == 'radr':  # relative address
-            # TODO: add code block label
-            insn = insn.replace(exp, '0x%04x', 1)
-            args.append('addr + %d + ((int8_t) rom_[addr+%d])' % (
+            insn = insn.replace(exp, '%s', 1)
+            args.append('get_code_label(addr + %d + ((int8_t) rom_[addr+%d]))' % (
                 len(opcodes), opcodes.index('rdiff8')))
         elif exp == 'Cadr11':  # 11-bit ACAL code address
-            insn = insn.replace(exp, '0x%04x', 1)
+            insn = insn.replace(exp, '%s', 1)
             b0 = int(opcodes[0], 16)
             highaddr = 0x1000 + ((b0 & 3) << 8) + ((b0 & 0x10) << 6)
-            args.append('rom_[addr+%d] + 0x%04x' % (
+            args.append('get_code_label(rom_[addr+%d] + 0x%04x)' % (
                 opcodes.index('Cadr11L'), highaddr))
         elif exp == 'Cadr':  # code address
-            # TODO: add code label
-            insn = insn.replace(exp, '0x%04x', 1)
-            args.append('rom_[addr+%d] + (rom_[addr+%d] << 8)' % (
+            insn = insn.replace(exp, '%s', 1)
+            args.append('get_code_label(rom_[addr+%d] + (rom_[addr+%d] << 8))' % (
                 opcodes.index('CadrL'),
                 opcodes.index('CadrH')))
         elif exp == 'Tadr':  # absolute ROM table address
@@ -268,8 +265,9 @@ def gen():
 
         # update next instruction unless it's an unconditional jump
         code.append(indent + 'nexti_ = addr + %d;' % len(opcodes))
-        if not insn.startswith('SJ ') and not insn.startswith('J '):
-            code.append(indent + 'pc_ = addr + %d;' % len(opcodes))
+        end_block_insns = ['J', 'SJ', 'BRK', 'RT', 'RTI']
+        if insn.split(' ')[0] in end_block_insns:
+            code.append(indent + 'end_block_ = true;')
 
         if len(args) == 0:
             code.extend([

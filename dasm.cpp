@@ -1,13 +1,50 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <deque>
+#include <map>
+#include <string>
 
+
+// TODO(asloane): LRB tracking
+struct DasmQueueEntry {
+  uint16_t addr;
+  int8_t dd;
+
+  DasmQueueEntry() {}
+  DasmQueueEntry(uint16_t addr, int8_t dd) {
+    this->addr = addr;
+    this->dd = dd;
+  }
+};
 
 class DasmnX8 {
  private:
   const uint8_t *rom_;
+  bool *code_mask_;
+
   uint16_t nexti_;
-  uint16_t pc_;
+  bool end_block_;
   uint8_t dd_;
+
+  std::multimap<uint16_t, std::string> labels_;
+  std::deque<DasmQueueEntry> dasm_queue_;
+
+  const char *get_code_label(uint16_t addr, const char *prefix="label") {
+    std::map<uint16_t, std::string>::iterator l = labels_.find(addr);
+    if (l != labels_.end()) {
+      return l->second.c_str();
+    }
+    dasm_queue_.push_back(DasmQueueEntry(addr, dd_));
+    char buf[32];
+    snprintf(buf, sizeof(buf), "%s_%04x", prefix, addr);
+    std::string label(buf);
+    labels_.insert(std::make_pair(addr, label));
+    return label.c_str();
+  }
+
+  const char *get_loop_label(uint16_t addr) {
+    return get_code_label(addr, "loop");
+  }
 
   const char *parsebytesuffix(uint16_t addr, const char *byteop) {
 #include "bytesuffix.i"
@@ -46,8 +83,8 @@ class DasmnX8 {
   explicit DasmnX8(const uint8_t *rom) {
     rom_ = rom;
     dd_ = 0;
-    nexti_ = 0x76;  // todo: load reset vector
-    pc_ = 0x76;
+    nexti_ = 0;
+    end_block_ = false;
   }
 
   uint16_t NextAddress() { return nexti_; }
@@ -59,6 +96,96 @@ class DasmnX8 {
 #include "opcode.i"
       return "???";
   }
+
+  void AddVector(uint16_t vaddr, const char *name) {
+    // what is DD initially set to anyway?
+    uint16_t addr = rom_[vaddr] + (rom_[vaddr+1] << 8);
+    dasm_queue_.push_back(DasmQueueEntry(addr, 0));
+    labels_.insert(make_pair(addr, std::string(name) + "_vector"));
+    printf("%20s dw %s_vector  ; 0x%04x\n", "", name, addr);
+  }
+
+  // Disassembler pass 1:
+  void AddResetVectors() {
+    AddVector(0x0000, "reset");
+    AddVector(0x0002, "brk");
+    AddVector(0x0004, "wdt");
+    AddVector(0x0006, "optrp");
+    AddVector(0x0008, "nmi");
+    AddVector(0x000a, "int0");
+    AddVector(0x000c, "tm0");
+    AddVector(0x000e, "tm1");
+    AddVector(0x0010, "cap0");
+    AddVector(0x0012, "cap1");
+    AddVector(0x0014, "cap2");
+    AddVector(0x0016, "cap3");
+    AddVector(0x0018, "rto4");
+    AddVector(0x001a, "rto5");
+    AddVector(0x001c, "rto6");
+    AddVector(0x001e, "rto7");
+    AddVector(0x0020, "rto8");
+    AddVector(0x0022, "rto9");
+    AddVector(0x0024, "rto10");
+    AddVector(0x0026, "rto11");
+    AddVector(0x0028, "sci1");
+    AddVector(0x002a, "sxtm");
+    AddVector(0x002c, "gtmc");
+    AddVector(0x002e, "adc1");
+    AddVector(0x0030, "adc0");
+    AddVector(0x0032, "pwc0_1");
+    AddVector(0x0034, "pwc2_3");
+    AddVector(0x0036, "sci0");
+    AddVector(0x0038, "int1");
+    AddVector(0x003a, "rto12");
+    AddVector(0x003c, "rto13");
+    AddVector(0x003e, "pwc4_5");
+    AddVector(0x0040, "pwc6_7");
+    AddVector(0x0042, "cap14");
+    AddVector(0x0044, "cap15");
+    AddVector(0x0046, "ftm16");
+    AddVector(0x0048, "ftm17");
+    for (int i = 0; i < 16; i++) {
+      char buf[8];
+      snprintf(buf, sizeof(buf), "vcal%d", i);
+      AddVector(0x004a + 2*i, buf);
+    }
+    AddVector(0x006a, "pwc8_9");
+    AddVector(0x006c, "pwc10_11");
+    AddVector(0x006e, "sci2");
+    AddVector(0x0070, "sci3");
+    AddVector(0x0072, "sci4");
+    AddVector(0x0074, "sci5");
+  }
+
+  void Pass1() {
+    AddResetVectors();
+    code_mask_ = new bool[65536];
+    while (!dasm_queue_.empty()) {
+      const DasmQueueEntry &e = dasm_queue_.front();
+      uint16_t addr = e.addr;
+      dd_ = e.dd;
+      end_block_ = false;
+      while (!end_block_) {
+        const char *insn = GetInstruction(addr);
+        uint16_t nextaddr = NextAddress();
+        for (; addr != nextaddr; addr++) {
+          code_mask_[addr] = true;
+        }
+      }
+
+      dasm_queue_.pop_front();
+    }
+  }
+
+  // fix this garbage
+  void OutputLabels(uint16_t addr) {
+    std::multimap<uint16_t, std::string>::iterator i;
+    for (i = labels_.find(addr); i != labels_.end() && i->first == addr; i++) {
+      printf("%s:\n", i->second.c_str());
+    }
+  }
+
+  bool IsCode(uint16_t addr) { return code_mask_[addr]; }
 };
 
 int main() {
@@ -77,15 +204,32 @@ int main() {
 
   DasmnX8 dasm(rom);
 
-  uint16_t addr = dasm.NextAddress();
+  dasm.Pass1();
+
+  uint16_t addr = 0x76;
   while (addr != 0) {
+    dasm.OutputLabels(addr);
+    if (!dasm.IsCode(addr)) {
+      int run = 0;
+      while ((addr + run) <= 65536
+          && rom[addr+run] == 0xff
+          && !dasm.IsCode(addr+run)) {
+        run++;
+      }
+      if (run > 3) {
+        // at least 3 FFs in a row; skip to next occupied address
+        addr += run;
+        printf("\norg 0x%04x\n", addr);
+        continue;
+      }
+      printf("0x%04x: %20s db %02x\n", addr, "", rom[addr]);
+      addr++;
+      continue;
+    }
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
-    printf("%04x(%d): ", addr, dasm.GetDD());
-
-    // fixme: use PC to detect this
-    bool end_of_block = nextaddr == addr;
+    printf("0x%04x DD=%d: ", addr, dasm.GetDD());
 
     for (; addr != nextaddr; addr++) {
       printf("%02x ", rom[addr]);
@@ -96,8 +240,5 @@ int main() {
     }
 
     printf("%s\n", insn);
-    if (end_of_block) {
-      break;
-    }
   }
 }
