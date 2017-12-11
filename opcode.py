@@ -76,7 +76,7 @@ def parse_spec(data):
                 expandidx = i
                 break
         if expandbase is not None:
-            for exp in re.findall(r'(Rn|PRn|ERn|bit|Vadr|width)', v):
+            for exp in re.findall(r'(Rn|PRn|ERn|bit|Vadr|width|Cadr11)', v):
                 if exp == 'Rn':
                     for n in range(0, 8):
                         b[expandidx] = hex(expandbase + n)
@@ -101,6 +101,11 @@ def parse_spec(data):
                     for n in range(0, 16):
                         b[expandidx] = hex(expandbase + n)
                         yield b[:], v.replace('Vadr', '0x%x' % n), cond, effect
+                if exp == 'Cadr11':
+                    for n in range(0, 8):
+                        b[expandidx] = hex(expandbase + (n & 3)
+                                           + ((n & 4) << 2))
+                        yield b[:], v, cond, effect
         else:
             yield b, v, cond, effect
 
@@ -109,7 +114,7 @@ def format_ops(opcodes, insn):
     ''' assuming opcodes[1:] are all arguments to opcodes[0] (which is always
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
-    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr|T16|Tadr|n7p|radr|rdiff7|sbafix|sbaoff|\*+)', insn):
+    for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr11|Cadr|T16|Tadr|n7p|radr|rdiff7|sbafix|sbaoff|\*+)', insn):
         print 'formatting', exp, 'in', insn
         if exp == 'fix8':
             insn = insn.replace(exp, "0x02%02x", 1)
@@ -155,6 +160,12 @@ def format_ops(opcodes, insn):
             insn = insn.replace(exp, '0x%04x', 1)
             args.append('addr + %d + ((int8_t) rom_[addr+%d])' % (
                 len(opcodes), opcodes.index('rdiff8')))
+        elif exp == 'Cadr11':  # 11-bit ACAL code address
+            insn = insn.replace(exp, '0x%04x', 1)
+            b0 = int(opcodes[0], 16)
+            highaddr = 0x1000 + ((b0 & 3) << 8) + ((b0 & 0x10) << 6)
+            args.append('rom_[addr+%d] + 0x%04x' % (
+                opcodes.index('Cadr11L'), highaddr))
         elif exp == 'Cadr':  # code address
             # TODO: add code label
             insn = insn.replace(exp, '0x%04x', 1)
@@ -254,14 +265,18 @@ def gen():
             indent = '  '
         for e in effect:
             code.append(indent + e)
+
+        # update next instruction unless it's an unconditional jump
+        code.append(indent + 'nexti_ = addr + %d;' % len(opcodes))
+        if not insn.startswith('SJ ') and not insn.startswith('J '):
+            code.append(indent + 'pc_ = addr + %d;' % len(opcodes))
+
         if len(args) == 0:
             code.extend([
-                indent + 'nexti_ = addr + %d;' % len(opcodes),
                 indent + 'return "%s";' % op
             ])
         else:
             code.extend([
-                indent + 'nexti_ = addr + %d;' % len(opcodes),
                 indent + "sprintf(buf, \"%s\", %s);" % (op, ', '.join(args)),
                 indent + "return buf;"
             ])

@@ -15,14 +15,7 @@
 #  radr -> %04x % addr + len(opcodes) + ((int8_t) rdiff8)
 
 # ACAL
-44 a8 = ACAL 0x10a8
-45 a8 = ACAL 0x11a8
-46 a8 = ACAL 0x12a8
-47 a8 = ACAL 0x13a8
-54 a8 = ACAL 0x14a8
-55 a8 = ACAL 0x15a8
-56 a8 = ACAL 0x16a8
-57 a8 = ACAL 0x17a8
+44+Cadr11H Cadr11L = ACAL Cadr11
 
 # ADC / ADCB
 DD1 BC F3 l16 h16 = ADC A, #n16
@@ -271,7 +264,7 @@ DD+ 82 = L A, [DP]
 DD+ 83 = L A, [DP+]
 DD+ 84 fix8 = L A, fix8
 DD+ 85 off8 = L A, off8
-DD+ 86 sfr8 = L A, sfr8
+DD+ 86 sfr8 = L A, sfr16
 DD+ 87 l16 h16 = L A, n16
 DD+ 88 l16 h16 = L A, n16[X1]
 DD+ 89 n7 = L A, n7p

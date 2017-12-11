@@ -6,6 +6,7 @@ class DasmnX8 {
  private:
   const uint8_t *rom_;
   uint16_t nexti_;
+  uint16_t pc_;
   uint8_t dd_;
 
   const char *parsebytesuffix(uint16_t addr, const char *byteop) {
@@ -46,6 +47,7 @@ class DasmnX8 {
     rom_ = rom;
     dd_ = 0;
     nexti_ = 0x76;  // todo: load reset vector
+    pc_ = 0x76;
   }
 
   uint16_t NextAddress() { return nexti_; }
@@ -81,10 +83,10 @@ int main() {
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
     printf("%04x(%d): ", addr, dasm.GetDD());
-    if (nextaddr == addr) {
-      printf("0-length instruction %02x %02x? abort\n", rom[addr], rom[addr+1]);
-      break;
-    }
+
+    // fixme: use PC to detect this
+    bool end_of_block = nextaddr == addr;
+
     for (; addr != nextaddr; addr++) {
       printf("%02x ", rom[addr]);
       nspace -= 3;
@@ -94,5 +96,8 @@ int main() {
     }
 
     printf("%s\n", insn);
+    if (end_of_block) {
+      break;
+    }
   }
 }
