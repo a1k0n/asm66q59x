@@ -21,6 +21,7 @@ class DasmnX8 {
  private:
   const uint8_t *rom_;
   bool *code_mask_;
+  bool *dd_value_;
 
   uint16_t nexti_;
   bool end_block_;
@@ -159,10 +160,24 @@ class DasmnX8 {
 
   void Pass1() {
     AddResetVectors();
+    // hack for switch/case @ 145e
+    for (int i = 0x9254; i < 0x9294; i += 2) {
+      uint16_t addr = rom_[i] + (rom_[i+1] << 8);
+      int n = (i - 0x9254) / 2;
+      dasm_queue_.push_back(DasmQueueEntry(addr, 1));
+      labels_.insert(make_pair(addr, std::string("case_") + std::to_string(n)));
+    }
+    dd_ = 0;
     code_mask_ = new bool[65536];
+    dd_value_ = new bool[65536];
     while (!dasm_queue_.empty()) {
-      const DasmQueueEntry &e = dasm_queue_.front();
+      DasmQueueEntry e = dasm_queue_.front();
+      dasm_queue_.pop_front();
+
       uint16_t addr = e.addr;
+      if (code_mask_[addr]) {  // already reached here
+        continue;
+      }
       dd_ = e.dd;
       end_block_ = false;
       while (!end_block_) {
@@ -170,10 +185,9 @@ class DasmnX8 {
         uint16_t nextaddr = NextAddress();
         for (; addr != nextaddr; addr++) {
           code_mask_[addr] = true;
+          dd_value_[addr] = dd_;
         }
       }
-
-      dasm_queue_.pop_front();
     }
   }
 
@@ -186,6 +200,7 @@ class DasmnX8 {
   }
 
   bool IsCode(uint16_t addr) { return code_mask_[addr]; }
+  void SetDDFromAddress(uint16_t addr) { dd_ = dd_value_[addr]; }
 };
 
 int main() {
@@ -216,19 +231,38 @@ int main() {
           && !dasm.IsCode(addr+run)) {
         run++;
       }
-      if (run > 3) {
+      if (run > 7) {
         // at least 3 FFs in a row; skip to next occupied address
         addr += run;
         printf("\norg 0x%04x\n", addr);
         continue;
       }
-      printf("0x%04x: %20s db %02x\n", addr, "", rom[addr]);
-      addr++;
+      if ((addr & 0x0f) != 0) {
+        printf("0x%04x: %24s db%*s", addr, "", (addr & 0x0f)*3, "");
+      }
+      // wow this is terrible code.
+      while (!dasm.IsCode(addr) && addr != 0) {
+        if ((addr & 0x0f) == 0) {
+          printf("0x%04x: %24s db", addr, "");
+        }
+        printf(" %02x", rom[addr]);
+        addr++;
+        if ((addr & 0x0f) == 0) {
+          printf("\n");
+        }
+        if (rom[addr] == 0xff && (addr & 0x0f) == 0) {
+          break;
+        }
+      }
+      if ((addr & 0x0f) != 0) {
+        printf("\n");
+      }
       continue;
     }
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
+    dasm.SetDDFromAddress(addr);
     printf("0x%04x DD=%d: ", addr, dasm.GetDD());
 
     for (; addr != nextaddr; addr++) {
