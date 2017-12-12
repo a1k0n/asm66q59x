@@ -115,7 +115,6 @@ def format_ops(opcodes, insn):
     true), generate code to replace variables in insn w/ input bytes '''
     args = []
     for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr11|Cadr|T16|Tadr|n7p|radr|rdiff7|sbafix|sbaoff|\*+)', insn):
-        print 'formatting', exp, 'in', insn
         if exp == 'fix8':
             insn = insn.replace(exp, "0x02%02x", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
@@ -234,7 +233,7 @@ def gen():
 
     # this is probably all we need
     def is_hex(s):
-        if len(s) == 4 and s[:2] == '0x':
+        if len(s) >= 3 and len(s) <= 4 and s[:2] == '0x':
             return True
         return len(s) == 2 and not any(x.islower() for x in s)
 
@@ -246,11 +245,8 @@ def gen():
         cond = cond[:]
         for i in range(1, len(opcodes)):
             if is_hex(opcodes[i]):
-                print "opcodes", opcodes, "opcode[%d] is_hex for insn %s" % (
-                    i, insn)
                 cond.append('rom_[addr+%d] == 0x%02x' % (
                     i, int(opcodes[i], 16)))
-                print cond
 
         code = []
         indent = ''
