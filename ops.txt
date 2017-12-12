@@ -525,8 +525,8 @@ DD1 8D off8 = SUB A, off8
 # SUBB A, obj (requires DD=0)
 DD0 08+n = SUBB A, Rn
 DD0 8E n8 = SUBB A, #n8
-DD0 8C fix8 = SUBBA, fix8
-DD0 8D off8 = SUBBA, off8
+DD0 8C fix8 = SUBB A, fix8
+DD0 8D off8 = SUBB A, off8
 * 85 = SUBB A, *
 
 # SUBB obj1, obj2 (byte length)
