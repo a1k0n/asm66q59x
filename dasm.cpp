@@ -9,11 +9,13 @@
 struct DasmQueueEntry {
   uint16_t addr;
   int8_t dd;
+  uint8_t lrbh;
 
   DasmQueueEntry() {}
-  DasmQueueEntry(uint16_t addr, int8_t dd) {
+  DasmQueueEntry(uint16_t addr, int8_t dd, uint8_t lrbh) {
     this->addr = addr;
     this->dd = dd;
+    this->lrbh = lrbh;
   }
 };
 
@@ -22,10 +24,12 @@ class DasmnX8 {
   const uint8_t *rom_;
   bool *code_mask_;
   bool *dd_value_;
+  uint8_t *lrbh_value_;
 
   uint16_t nexti_;
   bool end_block_;
   uint8_t dd_;
+  uint8_t lrbh_;
 
   std::multimap<uint16_t, std::string> labels_;
   std::deque<DasmQueueEntry> dasm_queue_;
@@ -35,7 +39,7 @@ class DasmnX8 {
     if (l != labels_.end()) {
       return l->second.c_str();
     }
-    dasm_queue_.push_back(DasmQueueEntry(addr, dd_));
+    dasm_queue_.push_back(DasmQueueEntry(addr, dd_, lrbh_));
     char buf[32];
     snprintf(buf, sizeof(buf), "%s_%04x", prefix, addr);
     std::string label(buf);
@@ -90,10 +94,18 @@ class DasmnX8 {
 
   uint16_t NextAddress() { return nexti_; }
   uint8_t GetDD() { return dd_; }
+  uint8_t GetLRBH() { return lrbh_; }
 
   // Returns string representation of opcode at addr;
   // also updates NextAddress().
   const char *GetInstruction(uint16_t addr) {
+    // special cases for lrbh
+    if (rom_[addr] == 0xD6 && rom_[addr+1] == 0x03) {
+      lrbh_ = rom_[addr+2];
+    }
+    if (rom_[addr] == 0xC6 && rom_[addr+1] == 0x02) {
+      lrbh_ = rom_[addr+3];
+    }
 #include "opcode.i"
       return "???";
   }
@@ -101,7 +113,7 @@ class DasmnX8 {
   void AddVector(uint16_t vaddr, const char *name) {
     // what is DD initially set to anyway?
     uint16_t addr = rom_[vaddr] + (rom_[vaddr+1] << 8);
-    dasm_queue_.push_back(DasmQueueEntry(addr, 0));
+    dasm_queue_.push_back(DasmQueueEntry(addr, 0, 0));
     labels_.insert(make_pair(addr, std::string(name) + "_vector"));
     printf("%20s dw %s_vector  ; 0x%04x\n", "", name, addr);
   }
@@ -164,12 +176,14 @@ class DasmnX8 {
     for (int i = 0x9254; i < 0x9294; i += 2) {
       uint16_t addr = rom_[i] + (rom_[i+1] << 8);
       int n = (i - 0x9254) / 2;
-      dasm_queue_.push_back(DasmQueueEntry(addr, 1));
+      dasm_queue_.push_back(DasmQueueEntry(addr, 1, 0));
       labels_.insert(make_pair(addr, std::string("case_") + std::to_string(n)));
     }
     dd_ = 0;
+    lrbh_ = 0;
     code_mask_ = new bool[65536];
     dd_value_ = new bool[65536];
+    lrbh_value_ = new uint8_t[65536];
     while (!dasm_queue_.empty()) {
       DasmQueueEntry e = dasm_queue_.front();
       dasm_queue_.pop_front();
@@ -179,6 +193,7 @@ class DasmnX8 {
         continue;
       }
       dd_ = e.dd;
+      lrbh_ = e.lrbh;
       end_block_ = false;
       while (!end_block_) {
         const char *insn = GetInstruction(addr);
@@ -186,6 +201,7 @@ class DasmnX8 {
         for (; addr != nextaddr; addr++) {
           code_mask_[addr] = true;
           dd_value_[addr] = dd_;
+          lrbh_value_[addr] = lrbh_;
         }
       }
     }

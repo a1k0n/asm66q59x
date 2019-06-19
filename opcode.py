@@ -119,7 +119,8 @@ def format_ops(opcodes, insn):
             insn = insn.replace(exp, "0x02%02x", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'off8':
-            insn = insn.replace(exp, "off(0x%02x)", 1)
+            insn = insn.replace(exp, "off(0x%02x%02x)", 1)
+            args.append("lrbh_")
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'sfr8':
             insn = insn.replace(exp, "%s", 1)
