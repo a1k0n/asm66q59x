@@ -264,10 +264,10 @@ int main(int argc, char **argv) {
       }
       continue;
     }
+    dasm.SetDDFromAddress(addr);
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
-    dasm.SetDDFromAddress(addr);
     printf("0x%04x DD=%d: ", addr, dasm.GetDD());
 
     for (; addr != nextaddr; addr++) {
