@@ -152,7 +152,7 @@ D5 off8 n8 = CMPB off8, #n8
 ** B6 TadrL TadrH = CMPC A, Tadr
 ** D9 = CMPCB A, [**]
 ** F6 T16L T16H = CMPCB A, T16[**]
-** B6 TadrL TadrH = CMPCB A, Tadr
+* B6 TadrL TadrH = CMPCB A, Tadr
 
 # CPL (complement carry)
 FD = CPL C

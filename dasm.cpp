@@ -203,8 +203,13 @@ class DasmnX8 {
   void SetDDFromAddress(uint16_t addr) { dd_ = dd_value_[addr]; }
 };
 
-int main() {
-  const char *fname = "ecu.bin";
+int main(int argc, char **argv) {
+  if (argc < 2) {
+    fprintf(stderr, "%s [ecu.bin]\n", argv[0]);
+    return 1;
+  }
+
+  const char *fname = argv[1];
 
   uint8_t rom[65536];
   FILE *fp = fopen(fname, "rb");

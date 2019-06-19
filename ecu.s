@@ -3442,9 +3442,7 @@ label_2361:
 0x2361 DD=0: f6 14               JNE label_2377
 0x2363 DD=0: 7f                  LB A, R7
 0x2364 DD=0: 35 7a               STB A, off(0x7a)
-0x2366 DD=0: 8a b6               ??? b6 PSWL
-0x2368 DD=0: 18                  CMPB A, R0
-0x2369 DD=0: 90                  LB A, [X1]
+0x2366 DD=0: 8a b6 18 90         CMPCB A, 0x9018
 0x236a DD=0: f7 0b               JLE label_2377
 0x236c DD=0: 04 06               SJ label_2374
 label_236e:
