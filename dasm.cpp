@@ -216,7 +216,10 @@ class DasmnX8 {
   }
 
   bool IsCode(uint16_t addr) { return code_mask_[addr]; }
-  void SetDDFromAddress(uint16_t addr) { dd_ = dd_value_[addr]; }
+  void SetRegsFromAddress(uint16_t addr) {
+    dd_ = dd_value_[addr];
+    lrbh_ = lrbh_value_[addr];
+  }
 };
 
 int main(int argc, char **argv) {
@@ -280,7 +283,7 @@ int main(int argc, char **argv) {
       }
       continue;
     }
-    dasm.SetDDFromAddress(addr);
+    dasm.SetRegsFromAddress(addr);
     const char *insn = dasm.GetInstruction(addr);
     uint16_t nextaddr = dasm.NextAddress();
     int nspace = 20;
