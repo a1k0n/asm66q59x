@@ -61,7 +61,7 @@ def parse_spec(data):
             elif b[0] == 'DD1':
                 cond.append('dd_')
             else:
-                raise "unrecognized cond/effect", b[0]
+                raise Exception("unrecognized cond/effect", b[0])
             b = b[1:]
         # handle sbafix/sbaoff
         if len(b) > 1 and b[1].startswith('sba'):
@@ -196,7 +196,7 @@ def format_ops(opcodes, insn):
             insn = insn.replace(exp, '%s', 1)
             args.extend(['wordop'])
         else:
-            raise "wtf?", exp
+            raise Exception("wtf?", exp)
     return insn, args
 
 
@@ -296,22 +296,22 @@ def gen():
 
     def dumpswitchtable(fname, byte0, operand):
         f = open(fname, 'w')
-        print >>f, 'static char buf[128];'
-        print >>f, 'switch(rom_[addr]) {'
+        print('static char buf[128];', file=f)
+        print('switch(rom_[addr]) {', file=f)
         for i in range(256):
             if byte0[i] is not None:
-                print >>f, "  case 0x%02x:" % i
+                print("  case 0x%02x:" % i, file=f)
                 for line in byte0[i]:
-                    print >>f, "    " + line
-                print >>f, "    break;"
-        print >>f, '  default:'
+                    print("    " + line, file=f)
+                print("    break;", file=f)
+        print('  default:', file=f)
         if operand is not None:
-            print >>f, '    sprintf(buf, "??? %02x %s", rom_[addr], ' + operand + ');'
+            print('    sprintf(buf, "??? %02x %s", rom_[addr], ' + operand + ');', file=f)
         else:
-            print >>f, '    sprintf(buf, "??? %02x", rom_[addr]);'
-        print >>f, '    nexti_ = addr + 1;'
-        print >>f, '    return buf;'
-        print >>f, '}'
+            print('    sprintf(buf, "??? %02x", rom_[addr]);', file=f)
+        print('    nexti_ = addr + 1;', file=f)
+        print('    return buf;', file=f)
+        print('}', file=f)
         f.close()
 
     dumpswitchtable("opcode.i", byte0, None)
@@ -324,11 +324,11 @@ def gen():
         sfr = line.strip().split()
         if len(sfr) < 2:
             continue
-        print >>f8, "case 0x%s:" % sfr[0]
-        print >>f8, '  return "%s";' % sfr[1]
+        print("case 0x%s:" % sfr[0], file=f8)
+        print('  return "%s";' % sfr[1], file=f8)
         if len(sfr) > 2:
-            print >>f16, "case 0x%s:" % sfr[0]
-            print >>f16, '  return "%s";' % sfr[2]
+            print("case 0x%s:" % sfr[0], file=f16)
+            print('  return "%s";' % sfr[2], file=f16)
     f8.close()
     f16.close()
 
