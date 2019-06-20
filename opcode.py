@@ -119,7 +119,7 @@ def format_ops(opcodes, insn):
             insn = insn.replace(exp, "0x02%02x", 1)
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'off8':
-            insn = insn.replace(exp, "off(0x%02x%02x)", 1)
+            insn = insn.replace(exp, "off 0x%02x%02x", 1)
             args.append("lrbh_")
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'sfr8':
@@ -182,11 +182,12 @@ def format_ops(opcodes, insn):
                 opcodes.index('T16L'),
                 opcodes.index('T16H')))
         elif exp == 'sbafix':
-            insn = insn.replace(exp, 'sbafix %04x')
+            insn = insn.replace(exp, 'sbafix 0x%04x')
             args.append('0x2c0 + (rom_[addr+%d] & 0x3f)' % (
                 opcodes.index('sbafix6')))
         elif exp == 'sbaoff':
-            insn = insn.replace(exp, 'sbaoff %02x')
+            insn = insn.replace(exp, 'sbaoff 0x%02x%02x')
+            args.append('lrbh_')
             args.append('0xc0 + (rom_[addr+%d] & 0x3f)' % (
                 opcodes.index('sbaoff6')))
         elif exp == '*':
