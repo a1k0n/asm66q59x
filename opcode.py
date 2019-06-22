@@ -117,10 +117,10 @@ def format_ops(opcodes, insn):
     for exp in re.findall(r'(fix8|off8|sfr8|sfr16|a8|n8|n16|Cadr11|Cadr|T16|Tadr|n7p|radr|rdiff7|sbafix|sbaoff|\*+)', insn):
         if exp == 'fix8':
             insn = insn.replace(exp, "fix %s", 1)
-            args.append("get_data_label(0x0200 + rom_[addr+%d])" % opcodes.index(exp))
+            args.append("get_data_label(0x0200 + rom_[addr+%d]).c_str()" % opcodes.index(exp))
         elif exp == 'off8':
             insn = insn.replace(exp, "off %s", 1)
-            args.append("get_data_label(lrbh_*256 + rom_[addr+%d])" % opcodes.index(exp))
+            args.append("get_data_label(lrbh_*256 + rom_[addr+%d]).c_str()" % opcodes.index(exp))
         elif exp == 'sfr8':
             insn = insn.replace(exp, "%s", 1)
             args.append("sfr8_name(rom_[addr+%d])" % opcodes.index('sfr8'))
@@ -135,7 +135,7 @@ def format_ops(opcodes, insn):
             args.append("rom_[addr+%d]" % opcodes.index(exp))
         elif exp == 'n16':
             insn = insn.replace(exp, "%s", 1)
-            args.append("get_data_label(rom_[addr+%d]*256 + rom_[addr+%d])" % (
+            args.append("get_data_label(rom_[addr+%d]*256 + rom_[addr+%d]).c_str()" % (
                 opcodes.index('h16'), opcodes.index('l16')))
         elif exp == 'n7p':
             idx = opcodes.index('n7')
@@ -149,48 +149,48 @@ def format_ops(opcodes, insn):
             insn = insn.replace(exp, '%s', 1)
             args.extend([
                 'rom_[addr+%d] & 0x80 ? 5 : 4' % idx,
-                'get_loop_label(addr + %d + ((int8_t) 0x80|rom_[addr+%d]))' % (
+                'get_loop_label(addr + %d + ((int8_t) 0x80|rom_[addr+%d])).c_str()' % (
                     len(opcodes), idx)
             ])
         elif exp == 'radr':  # relative address
             insn = insn.replace(exp, '%s', 1)
             args.append(
-                'get_code_label(addr + %d + ((int8_t) rom_[addr+%d]))' % (
+                'get_code_label(addr + %d + ((int8_t) rom_[addr+%d])).c_str()' % (
                     len(opcodes), opcodes.index('rdiff8')))
         elif exp == 'Cadr11':  # 11-bit ACAL code address
             insn = insn.replace(exp, '%s', 1)
             b0 = int(opcodes[0], 16)
             highaddr = 0x1000 + ((b0 & 3) << 8) + ((b0 & 0x10) << 6)
-            args.append('get_code_label(rom_[addr+%d] + 0x%04x)' % (
+            args.append('get_code_label(rom_[addr+%d] + 0x%04x).c_str()' % (
                 opcodes.index('Cadr11L'), highaddr))
         elif exp == 'Cadr':  # code address
             insn = insn.replace(exp, '%s', 1)
             args.append(
-                'get_code_label(rom_[addr+%d] + (rom_[addr+%d] << 8))' % (
+                'get_code_label(rom_[addr+%d] + (rom_[addr+%d] << 8)).c_str()' % (
                     opcodes.index('CadrL'),
                     opcodes.index('CadrH')))
         elif exp == 'Tadr':  # absolute ROM table address
             # TODO: add a ROM table label
             insn = insn.replace(exp, '%s', 1)
             args.append(
-                'get_data_label(rom_[addr+%d] + (rom_[addr+%d] << 8))' % (
+                'get_data_label(rom_[addr+%d] + (rom_[addr+%d] << 8)).c_str()' % (
                     opcodes.index('TadrL'),
                     opcodes.index('TadrH')))
         elif exp == 'T16':  # relative ROM table address
             # this is a relative table offset; can't use a label
             insn = insn.replace(exp, '%s', 1)
             args.append(
-                'get_data_label(rom_[addr+%d] + (rom_[addr+%d] << 8))' % (
+                'get_data_label(rom_[addr+%d] + (rom_[addr+%d] << 8)).c_str()' % (
                     opcodes.index('T16L'),
                     opcodes.index('T16H')))
         elif exp == 'sbafix':
             insn = insn.replace(exp, 'sbafix %s')
-            args.append('get_data_label(0x2c0 + (rom_[addr+%d] & 0x3f))' % (
+            args.append('get_data_label(0x2c0 + (rom_[addr+%d] & 0x3f)).c_str()' % (
                 opcodes.index('sbafix6')))
         elif exp == 'sbaoff':
             insn = insn.replace(exp, 'sbaoff %s')
             args.append(
-                'get_data_label(lrbh_*256 + 0xc0 + (rom_[addr+%d] & 0x3f))' % (
+                'get_data_label(lrbh_*256 + 0xc0 + (rom_[addr+%d] & 0x3f)).c_str()' % (
                     opcodes.index('sbaoff6')))
         elif exp == '*':
             insn = insn.replace(exp, '%s', 1)

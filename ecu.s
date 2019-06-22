@@ -514,7 +514,7 @@ loop_04b7:
 0x04bb DD=1: 05 7a               DJNZ R4, loop_04b7
 0x04bd DD=1: d7 b0 28            MOVB off 0x06b0, #0x28
 0x04c0 DD=1: a7 4e 04 ab 06 02   MOV 0x044e, #0x0206
-0x04c6 DD=1: c7 a0 e8 03         MOV off 0x03e8, #0x03e8
+0x04c6 DD=1: c7 a0 e8 03         MOV off 0x06a0, #0x03e8
 0x04ca DD=1: b4 a5 ab ff         MOVB fix 0x02a5, #0xff
 0x04ce DD=1: 59 2f               SB sbafix 0x02ef.1
 0x04d0 DD=1: 5d e4 19            JBR sbafix 0x02e4.5, label_04ec
@@ -4847,7 +4847,7 @@ label_2e81:
 0x2e83 DD=1: 6c aa               MOVB R4, A
 label_2e85:
 0x2e85 DD=1: 6c 87 46            MOVB off 0x0346, R4
-0x2e88 DD=1: c4 4c 04 00         CMP fix 0x0004, #0x0004
+0x2e88 DD=1: c4 4c 04 00         CMP fix 0x024c, #0x0004
 0x2e8c DD=1: f2 46               JLT label_2ed4
 0x2e8e DD=1: 20 69 89            MOV X1, #tbl_8969
 0x2e91 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2e97
@@ -5680,7 +5680,7 @@ label_354b:
 0x354e DD=1: 44 70               ACAL label_1070
 0x3550 DD=1: ae 80 35            ADD A, #0x3580
 0x3553 DD=1: 19                  CMP A, ER1
-0x3554 DD=1: c4 4c 20 00         CMP fix 0x0020, #0x0020
+0x3554 DD=1: c4 4c 20 00         CMP fix 0x024c, #0x0020
 0x3558 DD=1: f5 23               JGE label_357d
 0x355a DD=1: 84 34               L A, fix 0x0234
 0x355c DD=1: 48 a6 09            JBS sbaoff 0x05e6.0, label_3568
@@ -5750,12 +5750,12 @@ label_35c7:
 label_35ca:
 0x35ca DD=0: bc 99 1a 05         STB A, 0x051a[X2]
 0x35ce DD=0: 5a e4 11            JBR sbafix 0x02e4.2, label_35e2
-0x35d1 DD=0: c4 4c ff 03         CMP fix 0x03ff, #0x03ff
+0x35d1 DD=0: c4 4c ff 03         CMP fix 0x024c, #0x03ff
 0x35d5 DD=0: 8a 1b               MB PSWL.3, C
 0x35d7 DD=0: f5 03               JGE label_35dc
 0x35d9 DD=0: d7 6e 14            MOVB off 0x056e, #0x14
 label_35dc:
-0x35dc DD=0: c4 4c 04 00         CMP fix 0x0004, #0x0004
+0x35dc DD=0: c4 4c 04 00         CMP fix 0x024c, #0x0004
 0x35e0 DD=0: f5 09               JGE label_35eb
 label_35e2:
 0x35e2 DD=0: b5 e7 c7            CLRB off 0x05e7
@@ -5826,7 +5826,7 @@ label_3674:
 label_3683:
 0x3683 DD=1: fd                  CPL C
 0x3684 DD=1: b5 e0 1c            MB off 0x05e0.4, C
-0x3687 DD=1: c4 4c 04 00         CMP fix 0x0004, #0x0004
+0x3687 DD=1: c4 4c 04 00         CMP fix 0x024c, #0x0004
 0x368b DD=1: f5 05               JGE label_3692
 label_368d:
 0x368d DD=1: 64 c7               CLR ER0
@@ -6418,7 +6418,7 @@ label_3b58:
 label_3b5b:
 0x3b5b DD=1: f8 18 fc            L A, #tbl_fc18
 0x3b5e DD=1: 24 e8 03            MOV ER0, #0x03e8
-0x3b61 DD=1: c5 14 00 80         CMP off 0x8000, #0x8000
+0x3b61 DD=1: c5 14 00 80         CMP off 0x0614, #0x8000
 0x3b65 DD=1: f5 09               JGE label_3b70
 0x3b67 DD=1: 64 71               MOV ER1, ER0
 0x3b69 DD=1: 64 91 14            CMP ER0, off 0x0614
@@ -6431,7 +6431,7 @@ label_3b70:
 label_3b75:
 0x3b75 DD=1: 65 87 14            MOV off 0x0614, ER1
 label_3b78:
-0x3b78 DD=1: c5 12 00 80         CMP off 0x8000, #0x8000
+0x3b78 DD=1: c5 12 00 80         CMP off 0x0612, #0x8000
 0x3b7c DD=1: f5 09               JGE label_3b87
 0x3b7e DD=1: 64 71               MOV ER1, ER0
 0x3b80 DD=1: 64 91 12            CMP ER0, off 0x0612
@@ -6716,7 +6716,7 @@ label_3de0:
 0x3de0 DD=1: fd                  CPL C
 0x3de1 DD=1: b7 d1 03 1b         MB 0x03d1.3, C
 0x3de5 DD=1: f2 06               JLT label_3ded
-0x3de7 DD=1: c4 3c 04 00         CMP fix 0x0004, #0x0004
+0x3de7 DD=1: c4 3c 04 00         CMP fix 0x023c, #0x0004
 0x3deb DD=1: f2 04               JLT label_3df1
 label_3ded:
 0x3ded DD=1: 62 a3 15 00         ADD DP, #0x0015
@@ -6883,7 +6883,7 @@ label_3f30:
 0x3f36 DD=0: d4 70 7c            CMPB fix 0x0270, #0x7c
 0x3f39 DD=0: f0 1a               JGT label_3f55
 0x3f3b DD=0: b4 3e 71            MOVB R1, fix 0x023e
-0x3f3e DD=0: c4 34 e9 13         CMP fix 0x13e9, #0x13e9
+0x3f3e DD=0: c4 34 e9 13         CMP fix 0x0234, #0x13e9
 0x3f42 DD=0: f0 11               JGT label_3f55
 0x3f44 DD=0: 19                  CMPB A, R1
 0x3f45 DD=0: f2 0e               JLT label_3f55
@@ -6974,9 +6974,9 @@ label_3fc7:
 0x3fdd DD=0: f5 03               JGE label_3fe2
 0x3fdf DD=0: 58 ef 1b            JBR sbafix 0x02ef.0, label_3ffd
 label_3fe2:
-0x3fe2 DD=0: c4 34 e4 38         CMP fix 0x38e4, #0x38e4
+0x3fe2 DD=0: c4 34 e4 38         CMP fix 0x0234, #0x38e4
 0x3fe6 DD=0: f2 17               JLT label_3fff
-0x3fe8 DD=0: c4 3c 33 01         CMP fix 0x0133, #0x0133
+0x3fe8 DD=0: c4 3c 33 01         CMP fix 0x023c, #0x0133
 0x3fec DD=0: f2 11               JLT label_3fff
 0x3fee DD=1: 87 14 04            L A, 0x0414
 0x3ff1 DD=0: 95 1d               LB A, off 0x061d
@@ -7117,9 +7117,9 @@ label_410b:
 0x410b DD=1: b6 10 1b            MB P0.3, C
 0x410e DD=1: cb                  SC
 0x410f DD=1: 4d c2 0a            JBR sbaoff 0x06c2.5, label_411c
-0x4112 DD=1: c4 3c 00 00         CMP fix 0x0000, #0x0000
+0x4112 DD=1: c4 3c 00 00         CMP fix 0x023c, #0x0000
 0x4116 DD=1: f2 04               JLT label_411c
-0x4118 DD=1: c4 34 00 00         CMP fix 0x0000, #0x0000
+0x4118 DD=1: c4 34 00 00         CMP fix 0x0234, #0x0000
 label_411c:
 0x411c DD=1: fd                  CPL C
 0x411d DD=1: b6 11 18            MB P1.0, C
@@ -7826,11 +7826,11 @@ label_46be:
 0x46c5 DD=0: b5 b0 28 2e         JBS off 0x08b0.0, label_46f7
 0x46c9 DD=0: d5 67 48            CMPB off 0x0867, #0x48
 0x46cc DD=0: f6 44               JNE label_4712
-0x46ce DD=0: c5 68 65 6c         CMP off 0x6c65, #0x6c65
+0x46ce DD=0: c5 68 65 6c         CMP off 0x0868, #0x6c65
 0x46d2 DD=0: f6 3e               JNE label_4712
-0x46d4 DD=0: c5 6a 6c 6f         CMP off 0x6f6c, #0x6f6c
+0x46d4 DD=0: c5 6a 6c 6f         CMP off 0x086a, #0x6f6c
 0x46d8 DD=0: f6 38               JNE label_4712
-0x46da DD=0: c5 6c 48 6f         CMP off 0x6f48, #0x6f48
+0x46da DD=0: c5 6c 48 6f         CMP off 0x086c, #0x6f48
 0x46de DD=0: f6 32               JNE label_4712
 0x46e0 DD=0: a3 ab 49 7f         MOV [DP+], #0x7f49
 0x46e4 DD=0: a3 ab 61 6d         MOV [DP+], #0x6d61
@@ -7844,11 +7844,11 @@ label_46f7:
 0x46f9 DD=0: f1 17               JEQ label_4712
 0x46fb DD=0: d5 67 77            CMPB off 0x0867, #0x77
 0x46fe DD=0: f6 12               JNE label_4712
-0x4700 DD=0: c5 68 41 72         CMP off 0x7241, #0x7241
+0x4700 DD=0: c5 68 41 72         CMP off 0x0868, #0x7241
 0x4704 DD=0: f6 0c               JNE label_4712
-0x4706 DD=0: c5 6a 65 59         CMP off 0x5965, #0x5965
+0x4706 DD=0: c5 6a 65 59         CMP off 0x086a, #0x5965
 0x470a DD=0: f6 06               JNE label_4712
-0x470c DD=0: c5 6c 6f 75         CMP off 0x756f, #0x756f
+0x470c DD=0: c5 6c 6f 75         CMP off 0x086c, #0x756f
 0x4710 DD=0: f1 0f               JEQ label_4721
 label_4712:
 0x4712 DD=0: b5 b7 c7            CLRB off 0x08b7
@@ -8183,7 +8183,7 @@ label_49e8:
 label_49f4:
 0x49f4 DD=1: b7 10 90 87 9a      MOVB off 0x069a, tbl_9010
 0x49f9 DD=1: a5 98 c7            CLR off 0x0698
-0x49fc DD=1: c7 9c 80 0c         MOV off 0x0c80, #0x0c80
+0x49fc DD=1: c7 9c 80 0c         MOV off 0x069c, #0x0c80
 0x4a00 DD=1: 5c 37               SB sbafix 0x02f7.4
 0x4a02 DD=1: 4c 47               RB sbaoff 0x06c7.4
 0x4a04 DD=1: 04 3f               SJ label_4a45
@@ -8439,10 +8439,10 @@ label_4c2a:
 0x4c2f DD=0: 03 c5 4e            J label_4ec5
 label_4c32:
 0x4c32 DD=0: 48 80 2f            JBS sbaoff 0x06c0.0, label_4c64
-0x4c35 DD=0: c4 34 c7 31         CMP fix 0x31c7, #0x31c7
+0x4c35 DD=0: c4 34 c7 31         CMP fix 0x0234, #0x31c7
 0x4c39 DD=0: f5 09               JGE label_4c44
 0x4c3b DD=0: 5e e4 0d            JBR sbafix 0x02e4.6, label_4c4b
-0x4c3e DD=0: c4 3c 9a 03         CMP fix 0x039a, #0x039a
+0x4c3e DD=0: c4 3c 9a 03         CMP fix 0x023c, #0x039a
 0x4c42 DD=0: f2 07               JLT label_4c4b
 label_4c44:
 0x4c44 DD=0: 49 40               RB sbaoff 0x06c0.1
@@ -8463,10 +8463,10 @@ label_4c5b:
 label_4c62:
 0x4c62 DD=0: 04 29               SJ label_4c8d
 label_4c64:
-0x4c64 DD=0: c4 34 c7 31         CMP fix 0x31c7, #0x31c7
+0x4c64 DD=0: c4 34 c7 31         CMP fix 0x0234, #0x31c7
 0x4c68 DD=0: f2 1e               JLT label_4c88
 0x4c6a DD=0: 5e e4 06            JBR sbafix 0x02e4.6, label_4c73
-0x4c6d DD=0: c4 3c cd 03         CMP fix 0x03cd, #0x03cd
+0x4c6d DD=0: c4 3c cd 03         CMP fix 0x023c, #0x03cd
 0x4c71 DD=0: f2 15               JLT label_4c88
 label_4c73:
 0x4c73 DD=0: 10 0b               MOVB R0, #0x0b
@@ -8754,7 +8754,7 @@ label_4e88:
 0x4e96 DD=1: 44 a3               ACAL label_10a3
 0x4e98 DD=1: 9d 48               CMP A, off 0x0648
 0x4e9a DD=1: f0 23               JGT label_4ebf
-0x4e9c DD=1: c4 44 29 00         CMP fix 0x0029, #0x0029
+0x4e9c DD=1: c4 44 29 00         CMP fix 0x0244, #0x0029
 0x4ea0 DD=1: f2 03               JLT label_4ea5
 0x4ea2 DD=1: b5 a5 c7            CLRB off 0x06a5
 label_4ea5:

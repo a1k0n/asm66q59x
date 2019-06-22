@@ -35,7 +35,7 @@ class DasmnX8 {
   std::map<uint16_t, std::string> data_labels_;
   std::deque<DasmQueueEntry> dasm_queue_;
 
-  const char *get_code_label(uint16_t addr, const char *prefix="label") {
+  const std::string get_code_label(uint16_t addr, const char *prefix="label") {
     std::map<uint16_t, std::string>::iterator l = labels_.find(addr);
     if (l != labels_.end()) {
       return l->second.c_str();
@@ -45,14 +45,14 @@ class DasmnX8 {
     snprintf(buf, sizeof(buf), "%s_%04x", prefix, addr);
     std::string label(buf);
     labels_.insert(std::make_pair(addr, label));
-    return label.c_str();
+    return label;
   }
 
-  const char *get_loop_label(uint16_t addr) {
+  const std::string get_loop_label(uint16_t addr) {
     return get_code_label(addr, "loop");
   }
 
-  const char *get_data_label(uint16_t addr) {
+  const std::string get_data_label(uint16_t addr) {
     static char databuf[32];
 
     std::map<uint16_t, std::string>::iterator l = data_labels_.find(addr);
@@ -67,7 +67,7 @@ class DasmnX8 {
       data_labels_.insert(std::make_pair(addr, label));
     }
     snprintf(databuf, sizeof(databuf)-1, "0x%04x", addr);
-    return databuf;
+    return std::string(databuf);
   }
 
   const char *parsebytesuffix(uint16_t addr, const char *byteop) {
