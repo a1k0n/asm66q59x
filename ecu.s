@@ -58,14 +58,14 @@
                      dw sci4_vector  ; 0x0089
                      dw sci5_vector  ; 0x0089
 reset_vector:
-0x0076 DD=0: b4 2a ab d2         MOVB 0x022a, #0xd2
-0x007a DD=0: b4 29 ab 02         MOVB 0x0229, #0x02
+0x0076 DD=0: b4 2a ab d2         MOVB fix 0x022a, #0xd2
+0x007a DD=0: b4 29 ab 02         MOVB fix 0x0229, #0x02
 0x007e DD=0: ff                  BRK
 wdt_vector:
-0x007f DD=0: b4 2a ab cc         MOVB 0x022a, #0xcc
+0x007f DD=0: b4 2a ab cc         MOVB fix 0x022a, #0xcc
 0x0083 DD=0: ff                  BRK
 optrp_vector:
-0x0084 DD=0: b4 2a ab cd         MOVB 0x022a, #0xcd
+0x0084 DD=0: b4 2a ab cd         MOVB fix 0x022a, #0xcd
 0x0088 DD=0: ff                  BRK
 nmi_vector:
 tm0_vector:
@@ -96,7 +96,7 @@ sci2_vector:
 sci3_vector:
 sci4_vector:
 sci5_vector:
-0x0089 DD=0: b4 2a ab ce         MOVB 0x022a, #0xce
+0x0089 DD=0: b4 2a ab ce         MOVB fix 0x022a, #0xce
 0x008d DD=0: ff                  BRK
 vcal1_vector:
 vcal2_vector:
@@ -113,7 +113,7 @@ vcal12_vector:
 vcal13_vector:
 vcal14_vector:
 vcal15_vector:
-0x008e DD=0: b4 2a ab d3         MOVB 0x022a, #0xd3
+0x008e DD=0: b4 2a ab d3         MOVB fix 0x022a, #0xd3
 0x0092 DD=0: ff                  BRK
 brk_vector:
 0x0093 DD=0: c6 00 fe 09         MOV SSP, #0x09fe
@@ -127,10 +127,10 @@ brk_vector:
 0x00b3 DD=0: b7 01 01 01         RB 0x0101.1
 0x00b7 DD=0: d6 08 00            MOVB TSR, #0x00
 0x00ba DD=0: d6 0b f2            MOVB ROMWIN, #0xf2
-0x00bd DD=0: 94 2a               LB A, 0x022a
-0x00bf DD=0: 34 28               STB A, 0x0228
+0x00bd DD=0: 94 2a               LB A, fix 0x022a
+0x00bf DD=0: 34 28               STB A, fix 0x0228
 0x00c1 DD=0: f6 0e               JNE label_00d1
-0x00c3 DD=0: b4 2a ab cf         MOVB 0x022a, #0xcf
+0x00c3 DD=0: b4 2a ab cf         MOVB fix 0x022a, #0xcf
 0x00c7 DD=0: b6 14 0f            SB P4.7
 0x00ca DD=0: f9 14               LB A, #0x14
 label_00cc:
@@ -140,7 +140,7 @@ label_00cc:
 label_00d1:
 0x00d1 DD=0: 9e d2               CMPB A, #0xd2
 0x00d3 DD=0: f1 62               JEQ label_0137
-0x00d5 DD=0: b4 29 d6            DECB 0x0229
+0x00d5 DD=0: b4 29 d6            DECB fix 0x0229
 0x00d8 DD=0: f6 60               JNE label_013a
 0x00da DD=0: b6 14 0f            SB P4.7
 0x00dd DD=0: d6 15 d8            MOVB P5, #0xd8
@@ -185,7 +185,7 @@ label_0127:
 label_0135:
 0x0135 DD=0: 04 fe               SJ label_0135
 label_0137:
-0x0137 DD=0: b4 28 c7            CLRB 0x0228
+0x0137 DD=0: b4 28 c7            CLRB fix 0x0228
 label_013a:
 0x013a DD=0: b7 1f 01 ab fa      MOVB 0x011f, #0xfa
 0x013f DD=0: b7 05 01 ab ff      MOVB 0x0105, #0xff
@@ -216,7 +216,7 @@ label_015a:
 0x017d DD=0: 8a 95               CMPB A, PSWL
 0x017f DD=0: f1 05               JEQ label_0186
 label_0181:
-0x0181 DD=0: b4 2a ab c0         MOVB 0x022a, #0xc0
+0x0181 DD=0: b4 2a ab c0         MOVB fix 0x022a, #0xc0
 0x0185 DD=0: ff                  BRK
 label_0186:
 0x0186 DD=1: d9                  SDD
@@ -247,7 +247,7 @@ label_01a8:
 0x01b7 DD=1: a0 93 aa aa         CMP [X1], #0xaaaa
 0x01bb DD=1: f1 05               JEQ label_01c2
 label_01bd:
-0x01bd DD=1: b4 2a ab c1         MOVB 0x022a, #0xc1
+0x01bd DD=1: b4 2a ab c1         MOVB fix 0x022a, #0xc1
 0x01c1 DD=0: ff                  BRK
 label_01c2:
 0x01c2 DD=1: 30                  ST A, [X1]
@@ -255,17 +255,17 @@ label_01c2:
 0x01c4 DD=1: 40                  INC X1
 0x01c5 DD=1: 60 93 00 12         CMP X1, #0x1200
 0x01c9 DD=1: f2 dd               JLT label_01a8
-0x01cb DD=1: b4 2a 86 00         MOVB 0x0200, 0x022a
-0x01cf DD=1: b4 29 86 01         MOVB 0x0201, 0x0229
-0x01d3 DD=1: b4 28 86 02         MOVB 0x0202, 0x0228
+0x01cb DD=1: b4 2a 86 00         MOVB fix 0x0200, fix 0x022a
+0x01cf DD=1: b4 29 86 01         MOVB fix 0x0201, fix 0x0229
+0x01d3 DD=1: b4 28 86 02         MOVB fix 0x0202, fix 0x0228
 0x01d7 DD=1: 22 08 02            MOV DP, #0x0208
 label_01da:
 0x01da DD=1: a3 c7               CLR [DP+]
 0x01dc DD=1: 62 93 00 12         CMP DP, #0x1200
 0x01e0 DD=1: f2 f8               JLT label_01da
-0x01e2 DD=1: b4 02 86 28         MOVB 0x0228, 0x0202
-0x01e6 DD=1: b4 01 86 29         MOVB 0x0229, 0x0201
-0x01ea DD=1: b4 00 86 2a         MOVB 0x022a, 0x0200
+0x01e2 DD=1: b4 02 86 28         MOVB fix 0x0228, fix 0x0202
+0x01e6 DD=1: b4 01 86 29         MOVB fix 0x0229, fix 0x0201
+0x01ea DD=1: b4 00 86 2a         MOVB fix 0x022a, fix 0x0200
 0x01ee DD=1: f8 55 55            L A, #0x5555
 0x01f1 DD=1: 22 92 00            MOV DP, #0x0092
 0x01f4 DD=1: 14 09               MOVB R4, #0x09
@@ -355,7 +355,7 @@ loop_0307:
 0x0307 DD=1: 05 7e               DJNZ R4, loop_0307
 0x0309 DD=1: b6 40 2a 05         JBS IRQ0L.2, label_0312
 label_030d:
-0x030d DD=1: b4 2a ab c5         MOVB 0x022a, #0xc5
+0x030d DD=1: b4 2a ab c5         MOVB fix 0x022a, #0xc5
 0x0311 DD=0: ff                  BRK
 label_0312:
 0x0312 DD=1: b7 60 01 ab 0b      MOVB 0x0160, #0x0b
@@ -381,7 +381,7 @@ label_034f:
 0x0351 DD=1: 08                  SUB A, ER0
 0x0352 DD=1: 9e 2c 01            CMP A, #0x012c
 0x0355 DD=1: f2 f0               JLT label_0347
-0x0357 DD=1: b4 2a ab c4         MOVB 0x022a, #0xc4
+0x0357 DD=1: b4 2a ab c4         MOVB fix 0x022a, #0xc4
 0x035b DD=0: ff                  BRK
 label_035c:
 0x035c DD=1: b6 ee 00            RB ADINTCON0.0
@@ -440,7 +440,7 @@ loop_03f7:
 0x0406 DD=0: 78                  LB A, R0
 0x0407 DD=0: f1 0a               JEQ label_0413
 0x0409 DD=0: b7 14 a0 2f 05      JBS 0xa014.7, label_0413
-0x040e DD=0: b4 2a ab c2         MOVB 0x022a, #0xc2
+0x040e DD=0: b4 2a ab c2         MOVB fix 0x022a, #0xc2
 0x0412 DD=0: ff                  BRK
 label_0413:
 0x0413 DD=0: 68 87 10            MOVB off 0x0610, R0
@@ -448,7 +448,7 @@ label_0413:
 0x0419 DD=0: 47 61               ACAL label_1361
 0x041b DD=0: 47 13               ACAL label_1313
 0x041d DD=1: f8 00 00            L A, #0x0000
-0x0420 DD=1: 34 3c               ST A, 0x023c
+0x0420 DD=1: 34 3c               ST A, fix 0x023c
 0x0422 DD=1: b6 07 a6 05         TJNZB ACCH, label_042b
 0x0426 DD=0: d8                  RDD
 0x0427 DD=0: ae 67               ADDB A, #0x67
@@ -456,52 +456,52 @@ label_0413:
 label_042b:
 0x042b DD=0: f9 ff               LB A, #0xff
 label_042d:
-0x042d DD=0: 34 3e               STB A, 0x023e
-0x042f DD=0: b4 42 ab 67         MOVB 0x0242, #0x67
-0x0433 DD=0: b4 43 ab 85         MOVB 0x0243, #0x85
+0x042d DD=0: 34 3e               STB A, fix 0x023e
+0x042f DD=0: b4 42 ab 67         MOVB fix 0x0242, #0x67
+0x0433 DD=0: b4 43 ab 85         MOVB fix 0x0243, #0x85
 0x0437 DD=1: f8 8e 01            L A, #0x018e
-0x043a DD=1: 34 56               ST A, 0x0256
-0x043c DD=1: 34 58               ST A, 0x0258
-0x043e DD=1: 34 5a               ST A, 0x025a
-0x0440 DD=1: 34 5c               ST A, 0x025c
-0x0442 DD=1: 34 5e               ST A, 0x025e
+0x043a DD=1: 34 56               ST A, fix 0x0256
+0x043c DD=1: 34 58               ST A, fix 0x0258
+0x043e DD=1: 34 5a               ST A, fix 0x025a
+0x0440 DD=1: 34 5c               ST A, fix 0x025c
+0x0442 DD=1: 34 5e               ST A, fix 0x025e
 0x0444 DD=1: 86 e1               L A, ADCR1
 0x0446 DD=1: 37 12 04            ST A, 0x0412
 0x0449 DD=1: b6 07 87 1c         MOVB off 0x061c, ACCH
 0x044d DD=1: f8 d4 01            L A, #0x01d4
-0x0450 DD=1: 34 64               ST A, 0x0264
+0x0450 DD=1: 34 64               ST A, fix 0x0264
 0x0452 DD=1: 8e 00 02            SUB A, #0x0200
 0x0455 DD=1: f5 01               JGE label_0458
 0x0457 DD=1: fa                  CLR A
 label_0458:
 0x0458 DD=1: 9f                  SRL A
-0x0459 DD=1: b4 63 aa            MOVB 0x0263, A
+0x0459 DD=1: b4 63 aa            MOVB fix 0x0263, A
 0x045c DD=1: 86 e2               L A, ADCR2
 0x045e DD=1: 37 14 04            ST A, 0x0414
 0x0461 DD=1: b6 07 87 1d         MOVB off 0x061d, ACCH
 0x0465 DD=1: 86 e6               L A, ADCR6
-0x0467 DD=1: b6 07 86 72         MOVB 0x0272, ACCH
-0x046b DD=1: b4 6e ab 94         MOVB 0x026e, #0x94
-0x046f DD=1: b4 6f ab 6e         MOVB 0x026f, #0x6e
-0x0473 DD=1: b4 70 ab 58         MOVB 0x0270, #0x58
+0x0467 DD=1: b6 07 86 72         MOVB fix 0x0272, ACCH
+0x046b DD=1: b4 6e ab 94         MOVB fix 0x026e, #0x94
+0x046f DD=1: b4 6f ab 6e         MOVB fix 0x026f, #0x6e
+0x0473 DD=1: b4 70 ab 58         MOVB fix 0x0270, #0x58
 0x0477 DD=1: 86 f2               L A, ADCR14
 0x0479 DD=0: 96 07               LB A, ACCH
 0x047b DD=0: 35 18               STB A, off 0x0618
 0x047d DD=0: 54 0a               ACAL label_140a
-0x047f DD=0: b4 71 ab f9         MOVB 0x0271, #0xf9
+0x047f DD=0: b4 71 ab f9         MOVB fix 0x0271, #0xf9
 0x0483 DD=1: 86 f6               L A, ADCR18
 0x0485 DD=1: b6 07 9b 95 03      MOVB 0x0395, ACCH
 0x048a DD=1: 86 f7               L A, ADCR19
 0x048c DD=1: b6 07 9b 96 03      MOVB 0x0396, ACCH
 0x0491 DD=1: 86 f8               L A, ADCR20
-0x0493 DD=1: b6 07 86 74         MOVB 0x0274, ACCH
+0x0493 DD=1: b6 07 86 74         MOVB fix 0x0274, ACCH
 0x0497 DD=1: 86 f9               L A, ADCR21
-0x0499 DD=1: b6 07 86 75         MOVB 0x0275, ACCH
+0x0499 DD=1: b6 07 86 75         MOVB fix 0x0275, ACCH
 0x049d DD=1: 86 fa               L A, ADCR22
-0x049f DD=1: b6 07 86 76         MOVB 0x0276, ACCH
+0x049f DD=1: b6 07 86 76         MOVB fix 0x0276, ACCH
 0x04a3 DD=1: 86 fb               L A, ADCR23
-0x04a5 DD=1: b6 07 86 77         MOVB 0x0277, ACCH
-0x04a9 DD=1: 84 3c               L A, 0x023c
+0x04a5 DD=1: b6 07 86 77         MOVB fix 0x0277, ACCH
+0x04a9 DD=1: 84 3c               L A, fix 0x023c
 0x04ab DD=1: 35 48               ST A, off 0x0648
 0x04ad DD=1: 35 4a               ST A, off 0x064a
 0x04af DD=1: 14 10               MOVB R4, #0x10
@@ -514,8 +514,8 @@ loop_04b7:
 0x04bb DD=1: 05 7a               DJNZ R4, loop_04b7
 0x04bd DD=1: d7 b0 28            MOVB off 0x06b0, #0x28
 0x04c0 DD=1: a7 4e 04 ab 06 02   MOV 0x044e, #0x0206
-0x04c6 DD=1: c7 a0 e8 03         MOV off 0x06a0, #0x03e8
-0x04ca DD=1: b4 a5 ab ff         MOVB 0x02a5, #0xff
+0x04c6 DD=1: c7 a0 e8 03         MOV off 0x03e8, #0x03e8
+0x04ca DD=1: b4 a5 ab ff         MOVB fix 0x02a5, #0xff
 0x04ce DD=1: 59 2f               SB sbafix 0x02ef.1
 0x04d0 DD=1: 5d e4 19            JBR sbafix 0x02e4.5, label_04ec
 0x04d3 DD=1: b7 ed 05 02         RB 0x05ed.2
@@ -563,7 +563,7 @@ label_0532:
 0x0539 DD=0: ba 97               MOVB A, [X1+A]
 0x053b DD=0: 8e 01               SUBB A, #0x01
 0x053d DD=0: f2 03               JLT label_0542
-0x053f DD=0: b4 d8 b8            SBR 0x02d8.(AL)
+0x053f DD=0: b4 d8 b8            SBR fix 0x02d8.(AL)
 label_0542:
 0x0542 DD=0: 68 a3 01            ADDB R0, #0x01
 0x0545 DD=0: 68 93 2c            CMPB R0, #0x2c
@@ -633,7 +633,7 @@ label_05ca:
 0x05da DD=0: f9 67               LB A, #0x67
 label_05dc:
 0x05dc DD=0: d8                  RDD
-0x05dd DD=0: 34 42               STB A, 0x0242
+0x05dd DD=0: 34 42               STB A, fix 0x0242
 0x05df DD=0: 97 05 90            LB A, 0x9005
 0x05e2 DD=0: 56 c6               ACAL label_16c6
 0x05e4 DD=0: 35 94               STB A, off 0x0694
@@ -673,7 +673,7 @@ label_0628:
 0x0631 DD=0: d7 16 80            MOVB off 0x0616, #0x80
 label_0634:
 0x0634 DD=0: 47 f1               ACAL label_13f1
-0x0636 DD=0: 94 28               LB A, 0x0228
+0x0636 DD=0: 94 28               LB A, fix 0x0228
 0x0638 DD=0: f1 54               JEQ label_068e
 0x063a DD=0: 3f                  STB A, R7
 0x063b DD=0: 56 92               ACAL label_1692
@@ -724,13 +724,13 @@ label_068e:
 0x0698 DD=0: f9 d1               LB A, #0xd1
 label_069a:
 0x069a DD=0: d8                  RDD
-0x069b DD=0: 34 2b               STB A, 0x022b
+0x069b DD=0: 34 2b               STB A, fix 0x022b
 0x069d DD=0: 38                  STB A, R0
-0x069e DD=0: 94 28               LB A, 0x0228
+0x069e DD=0: 94 28               LB A, fix 0x0228
 0x06a0 DD=0: f1 07               JEQ label_06a9
 0x06a2 DD=0: 18                  CMPB A, R0
 0x06a3 DD=0: f1 04               JEQ label_06a9
-0x06a5 DD=0: b4 2b ab d1         MOVB 0x022b, #0xd1
+0x06a5 DD=0: b4 2b ab d1         MOVB fix 0x022b, #0xd1
 label_06a9:
 0x06a9 DD=0: b7 fb 8f 72         MOVB R2, 0x8ffb
 0x06ad DD=0: 57 42               ACAL label_1742
@@ -738,7 +738,7 @@ label_06a9:
 0x06b1 DD=1: f8 00 80            L A, #0x8000
 label_06b4:
 0x06b4 DD=1: 35 00               ST A, off 0x0600
-0x06b6 DD=1: b4 2a c7            CLRB 0x022a
+0x06b6 DD=1: b4 2a c7            CLRB fix 0x022a
 0x06b9 DD=1: 58 96 03            JBS sbafix 0x02d6.0, label_06bf
 0x06bc DD=1: 58 9c 04            JBS sbafix 0x02dc.0, label_06c3
 label_06bf:
@@ -749,7 +749,7 @@ label_06c3:
 0x06c5 DD=0: 5c f5 02            JBR sbafix 0x02f5.4, label_06ca
 0x06c8 DD=0: f9 04               LB A, #0x04
 label_06ca:
-0x06ca DD=0: 34 f9               STB A, 0x02f9
+0x06ca DD=0: 34 f9               STB A, fix 0x02f9
 0x06cc DD=0: 5d e7 0a            JBR sbafix 0x02e7.5, label_06d9
 0x06cf DD=0: 59 dc 07            JBR sbafix 0x02dc.1, label_06d9
 0x06d2 DD=0: 4b 02               SB sbaoff 0x06c2.3
@@ -824,7 +824,7 @@ label_0762:
 
 org 0x1000
 label_1000:
-0x1000 DD=0: 94 70               LB A, 0x0270
+0x1000 DD=0: 94 70               LB A, fix 0x0270
 0x1002 DD=0: 04 00               SJ label_1004
 label_1004:
 0x1004 DD=0: 42                  INC DP
@@ -859,7 +859,7 @@ label_1026:
 0x102a DD=0: 2b                  ADDB A, R3
 0x102b DD=0: 01                  RT
 label_102c:
-0x102c DD=0: 94 70               LB A, 0x0270
+0x102c DD=0: 94 70               LB A, fix 0x0270
 0x102e DD=0: 04 00               SJ label_1030
 label_1030:
 0x1030 DD=0: 42                  INC DP
@@ -1331,22 +1331,22 @@ label_1313:
 label_131c:
 0x131c DD=0: 93                  LB A, [DP+]
 0x131d DD=0: be 3f               ANDB A, #0x3f
-0x131f DD=0: 34 e2               STB A, 0x02e2
+0x131f DD=0: 34 e2               STB A, fix 0x02e2
 0x1321 DD=0: 93                  LB A, [DP+]
 0x1322 DD=0: be 0f               ANDB A, #0x0f
-0x1324 DD=0: 34 e3               STB A, 0x02e3
+0x1324 DD=0: 34 e3               STB A, fix 0x02e3
 0x1326 DD=0: 93                  LB A, [DP+]
 0x1327 DD=0: be 7f               ANDB A, #0x7f
-0x1329 DD=0: 34 e4               STB A, 0x02e4
+0x1329 DD=0: 34 e4               STB A, fix 0x02e4
 0x132b DD=0: 97 13 a0            LB A, 0xa013
 0x132e DD=0: be bf               ANDB A, #0xbf
-0x1330 DD=0: 34 e5               STB A, 0x02e5
+0x1330 DD=0: 34 e5               STB A, fix 0x02e5
 0x1332 DD=0: 97 14 a0            LB A, 0xa014
 0x1335 DD=0: be bc               ANDB A, #0xbc
-0x1337 DD=0: 34 e6               STB A, 0x02e6
+0x1337 DD=0: 34 e6               STB A, fix 0x02e6
 0x1339 DD=0: 97 15 a0            LB A, 0xa015
 0x133c DD=0: be bf               ANDB A, #0xbf
-0x133e DD=0: 34 e7               STB A, 0x02e7
+0x133e DD=0: 34 e7               STB A, fix 0x02e7
 0x1340 DD=0: 14 08               MOVB R4, #0x08
 0x1342 DD=0: 22 04 06            MOV DP, #0x0604
 0x1345 DD=0: 20 00 a0            MOV X1, #0xa000
@@ -1373,25 +1373,25 @@ label_1361:
 0x136f DD=0: be ff               ANDB A, #0xff
 0x1371 DD=0: 5a b3 08            JBS sbafix 0x02f3.2, label_137c
 0x1374 DD=0: 5a 33               SB sbafix 0x02f3.2
-0x1376 DD=0: 34 dd               STB A, 0x02dd
-0x1378 DD=0: 34 de               STB A, 0x02de
+0x1376 DD=0: 34 dd               STB A, fix 0x02dd
+0x1378 DD=0: 34 de               STB A, fix 0x02de
 0x137a DD=0: 04 1d               SJ label_1399
 label_137c:
 0x137c DD=0: 38                  STB A, R0
 0x137d DD=0: 39                  STB A, R1
-0x137e DD=0: b4 dd d5            XORB A, 0x02dd
-0x1381 DD=0: 68 d0 de            XORB R0, 0x02de
+0x137e DD=0: b4 dd d5            XORB A, fix 0x02dd
+0x1381 DD=0: 68 d0 de            XORB R0, fix 0x02de
 0x1384 DD=0: 68 c5               ORB A, R0
 0x1386 DD=0: 38                  STB A, R0
 0x1387 DD=0: de ff               XORB A, #0xff
 0x1389 DD=0: 69 b5               ANDB A, R1
 0x138b DD=0: 68 c8               XCHGB A, R0
-0x138d DD=0: b4 dc b5            ANDB A, 0x02dc
+0x138d DD=0: b4 dc b5            ANDB A, fix 0x02dc
 0x1390 DD=0: 68 c5               ORB A, R0
-0x1392 DD=0: b4 dd 86 de         MOVB 0x02de, 0x02dd
-0x1396 DD=0: 69 86 dd            MOVB 0x02dd, R1
+0x1392 DD=0: b4 dd 86 de         MOVB fix 0x02de, fix 0x02dd
+0x1396 DD=0: 69 86 dd            MOVB fix 0x02dd, R1
 label_1399:
-0x1399 DD=0: 34 dc               STB A, 0x02dc
+0x1399 DD=0: 34 dc               STB A, fix 0x02dc
 0x139b DD=0: fb                  CLRB A
 0x139c DD=0: b6 15 17            MB C, P5.7
 0x139f DD=0: bc 18               MB A.0, C
@@ -1399,25 +1399,25 @@ label_1399:
 0x13a3 DD=0: be 01               ANDB A, #0x01
 0x13a5 DD=0: 5f b3 08            JBS sbafix 0x02f3.7, label_13b0
 0x13a8 DD=0: 5f 33               SB sbafix 0x02f3.7
-0x13aa DD=0: 34 e0               STB A, 0x02e0
-0x13ac DD=0: 34 e1               STB A, 0x02e1
+0x13aa DD=0: 34 e0               STB A, fix 0x02e0
+0x13ac DD=0: 34 e1               STB A, fix 0x02e1
 0x13ae DD=0: 04 1d               SJ label_13cd
 label_13b0:
 0x13b0 DD=0: 38                  STB A, R0
 0x13b1 DD=0: 39                  STB A, R1
-0x13b2 DD=0: b4 e0 d5            XORB A, 0x02e0
-0x13b5 DD=0: 68 d0 e1            XORB R0, 0x02e1
+0x13b2 DD=0: b4 e0 d5            XORB A, fix 0x02e0
+0x13b5 DD=0: 68 d0 e1            XORB R0, fix 0x02e1
 0x13b8 DD=0: 68 c5               ORB A, R0
 0x13ba DD=0: 38                  STB A, R0
 0x13bb DD=0: de ff               XORB A, #0xff
 0x13bd DD=0: 69 b5               ANDB A, R1
 0x13bf DD=0: 68 c8               XCHGB A, R0
-0x13c1 DD=0: b4 df b5            ANDB A, 0x02df
+0x13c1 DD=0: b4 df b5            ANDB A, fix 0x02df
 0x13c4 DD=0: 68 c5               ORB A, R0
-0x13c6 DD=0: b4 e0 86 e1         MOVB 0x02e1, 0x02e0
-0x13ca DD=0: 69 86 e0            MOVB 0x02e0, R1
+0x13c6 DD=0: b4 e0 86 e1         MOVB fix 0x02e1, fix 0x02e0
+0x13ca DD=0: 69 86 e0            MOVB fix 0x02e0, R1
 label_13cd:
-0x13cd DD=0: 34 df               STB A, 0x02df
+0x13cd DD=0: 34 df               STB A, fix 0x02df
 0x13cf DD=0: 01                  RT
 label_13d0:
 0x13d0 DD=1: 86 d6               L A, TM1
@@ -1472,22 +1472,22 @@ label_1429:
 label_142a:
 0x142a DD=0: 7e                  LB A, R6
 0x142b DD=0: dc                  DECB A
-0x142c DD=0: b4 d4 b8            SBR 0x02d4.(AL)
+0x142c DD=0: b4 d4 b8            SBR fix 0x02d4.(AL)
 0x142f DD=0: 59 36               SB sbafix 0x02f6.1
 0x1431 DD=0: b7 b2 08 24 02      JBR 0x08b2.4, label_1438
 0x1436 DD=0: 5d 35               SB sbafix 0x02f5.5
 label_1438:
-0x1438 DD=0: 94 d4               LB A, 0x02d4
-0x143a DD=0: ac d5               ADDB A, 0x02d5
-0x143c DD=0: ac d6               ADDB A, 0x02d6
-0x143e DD=0: ac d7               ADDB A, 0x02d7
-0x1440 DD=0: 34 9f               STB A, 0x029f
+0x1438 DD=0: 94 d4               LB A, fix 0x02d4
+0x143a DD=0: ac d5               ADDB A, fix 0x02d5
+0x143c DD=0: ac d6               ADDB A, fix 0x02d6
+0x143e DD=0: ac d7               ADDB A, fix 0x02d7
+0x1440 DD=0: 34 9f               STB A, fix 0x029f
 0x1442 DD=0: fb                  CLRB A
-0x1443 DD=0: b4 d4 d5            XORB A, 0x02d4
-0x1446 DD=0: b4 d5 d5            XORB A, 0x02d5
-0x1449 DD=0: b4 d6 d5            XORB A, 0x02d6
-0x144c DD=0: b4 d7 d5            XORB A, 0x02d7
-0x144f DD=0: 34 a0               STB A, 0x02a0
+0x1443 DD=0: b4 d4 d5            XORB A, fix 0x02d4
+0x1446 DD=0: b4 d5 d5            XORB A, fix 0x02d5
+0x1449 DD=0: b4 d6 d5            XORB A, fix 0x02d6
+0x144c DD=0: b4 d7 d5            XORB A, fix 0x02d7
+0x144f DD=0: 34 a0               STB A, fix 0x02a0
 0x1451 DD=0: b6 07 c7            CLRB ACCH
 0x1454 DD=0: 7e                  LB A, R6
 0x1455 DD=0: dc                  DECB A
@@ -1601,7 +1601,7 @@ case_25:
 label_1546:
 0x1546 DD=0: b7 a0 0c b8         SBR 0x0ca0.(AL)
 0x154a DD=0: cc                  INCB A
-0x154b DD=0: 34 8d               STB A, 0x028d
+0x154b DD=0: 34 8d               STB A, fix 0x028d
 case_6:
 case_7:
 case_14:
@@ -1726,7 +1726,7 @@ label_1621:
 0x162a DD=1: a2 95               CMP A, [DP]
 0x162c DD=1: f1 05               JEQ label_1633
 label_162e:
-0x162e DD=1: b4 2a ab c7         MOVB 0x022a, #0xc7
+0x162e DD=1: b4 2a ab c7         MOVB fix 0x022a, #0xc7
 0x1632 DD=0: ff                  BRK
 label_1633:
 0x1633 DD=1: 64 8b               MOV [DP+], ER0
@@ -1748,7 +1748,7 @@ label_1675:
 0x1683 DD=1: b6 fe 00            RB ADINTCON1.0
 0x1686 DD=1: f6 05               JNE label_168d
 label_1688:
-0x1688 DD=1: b4 2a ab c4         MOVB 0x022a, #0xc4
+0x1688 DD=1: b4 2a ab c4         MOVB fix 0x022a, #0xc4
 0x168c DD=0: ff                  BRK
 label_168d:
 0x168d DD=1: a6 d6 87 0c         MOV off 0x000c, TM1
@@ -1975,7 +1975,7 @@ int0_vector:
 0x17ee DD=0: 5f ef 02            JBR sbafix 0x02ef.7, label_17f3
 0x17f1 DD=0: 59 12               SB sbafix 0x02d2.1
 label_17f3:
-0x17f3 DD=0: b7 ca 8f 86 8e      MOVB 0x028e, 0x8fca
+0x17f3 DD=0: b7 ca 8f 86 8e      MOVB fix 0x028e, 0x8fca
 0x17f8 DD=0: 5f 2f               SB sbafix 0x02ef.7
 0x17fa DD=0: 02                  RTI
 cap0_vector:
@@ -2138,9 +2138,9 @@ label_1907:
 0x1913 DD=1: 36 be               ST A, TMR12BF
 0x1915 DD=1: d6 ce fd            MOVB RTOCON12, #0xfd
 label_1918:
-0x1918 DD=1: b7 cb 8f 86 8f      MOVB 0x028f, 0x8fcb
-0x191d DD=0: 94 2c               LB A, 0x022c
-0x191f DD=0: b4 ef 17            MB C, 0x02ef.7
+0x1918 DD=1: b7 cb 8f 86 8f      MOVB fix 0x028f, 0x8fcb
+0x191d DD=0: 94 2c               LB A, fix 0x022c
+0x191f DD=0: b4 ef 17            MB C, fix 0x02ef.7
 0x1922 DD=0: 5f 6f               RB sbafix 0x02ef.7
 0x1924 DD=0: b5 00 ac            ROLB off 0x0400, 1
 0x1927 DD=0: b5 00 b3 07         ANDB off 0x0400, #0x07
@@ -2186,8 +2186,8 @@ label_196b:
 0x1973 DD=0: 5c 95 02            JBS sbafix 0x02d5.4, label_1978
 0x1976 DD=0: 58 12               SB sbafix 0x02d2.0
 label_1978:
-0x1978 DD=0: 34 2c               STB A, 0x022c
-0x197a DD=0: 94 2c               LB A, 0x022c
+0x1978 DD=0: 34 2c               STB A, fix 0x022c
+0x197a DD=0: 94 2c               LB A, fix 0x022c
 0x197c DD=1: fc                  EXTND
 0x197d DD=1: bc 8d               SLL A, 2
 0x197f DD=1: 3c                  ST A, X1
@@ -2206,10 +2206,10 @@ label_1978:
 0x19a6 DD=1: 64 94               CMP ER0, A
 0x19a8 DD=1: f5 02               JGE label_19ac
 label_19aa:
-0x19aa DD=1: 84 3a               L A, 0x023a
+0x19aa DD=1: 84 3a               L A, fix 0x023a
 label_19ac:
-0x19ac DD=1: b4 d0 1c            MB 0x02d0.4, C
-0x19af DD=1: 34 3a               ST A, 0x023a
+0x19ac DD=1: b4 d0 1c            MB fix 0x02d0.4, C
+0x19af DD=1: 34 3a               ST A, fix 0x023a
 0x19b1 DD=1: b5 18 70            MOVB R0, off 0x0418
 0x19b4 DD=1: d5 18 30            CMPB off 0x0418, #0x30
 0x19b7 DD=1: f2 07               JLT label_19c0
@@ -2222,23 +2222,23 @@ label_19c0:
 0x19c5 DD=1: ab c8               XCHG A, [X1+R0]
 0x19c7 DD=1: 5c 90 24            JBS sbafix 0x02d0.4, label_19ee
 0x19ca DD=1: 5c d4 07            JBR sbafix 0x02d4.4, label_19d4
-0x19cd DD=1: a4 3c ab 00 00      MOV 0x023c, #0x0000
+0x19cd DD=1: a4 3c ab 00 00      MOV fix 0x023c, #0x0000
 0x19d2 DD=1: 04 1a               SJ label_19ee
 label_19d4:
 0x19d4 DD=1: 39                  ST A, ER1
-0x19d5 DD=1: 84 3a               L A, 0x023a
+0x19d5 DD=1: 84 3a               L A, fix 0x023a
 0x19d7 DD=1: 38                  ST A, ER0
 0x19d8 DD=1: 69 a7 02            TJZB R1, label_19dd
 0x19db DD=1: 68 d7               FILLB R0
 label_19dd:
-0x19dd DD=1: 68 86 3e            MOVB 0x023e, R0
+0x19dd DD=1: 68 86 3e            MOVB fix 0x023e, R0
 0x19e0 DD=1: 64 c7               CLR ER0
-0x19e2 DD=1: b4 42 70            MOVB R0, 0x0242
+0x19e2 DD=1: b4 42 70            MOVB R0, fix 0x0242
 0x19e5 DD=1: 08                  SUB A, ER0
 0x19e6 DD=1: f5 01               JGE label_19e9
 0x19e8 DD=1: fa                  CLR A
 label_19e9:
-0x19e9 DD=1: 34 3c               ST A, 0x023c
+0x19e9 DD=1: 34 3c               ST A, fix 0x023c
 0x19eb DD=1: 4f 80 0e            JBS sbaoff 0x04c0.7, label_19fc
 label_19ee:
 0x19ee DD=1: fa                  CLR A
@@ -2246,12 +2246,12 @@ label_19ee:
 0x19f1 DD=1: 5d 69               RB sbafix 0x02e9.5
 0x19f3 DD=1: 4e 40               RB sbaoff 0x04c0.6
 0x19f5 DD=1: 5b 69               RB sbafix 0x02e9.3
-0x19f7 DD=1: 34 44               ST A, 0x0244
+0x19f7 DD=1: 34 44               ST A, fix 0x0244
 0x19f9 DD=1: 03 b8 1a            J label_1ab8
 label_19fc:
 0x19fc DD=1: 27 55 15            MOV ER3, #0x1555
 0x19ff DD=1: 26 06 02            MOV ER2, #0x0206
-0x1a02 DD=1: 84 34               L A, 0x0234
+0x1a02 DD=1: 84 34               L A, fix 0x0234
 0x1a04 DD=1: 1b                  CMP A, ER3
 0x1a05 DD=1: f2 17               JLT label_1a1e
 0x1a07 DD=1: 67 8c               SLL ER3, 1
@@ -2276,13 +2276,13 @@ label_1a25:
 0x1a26 DD=0: aa 97               MOV A, [X1+A]
 0x1a28 DD=1: d9                  SDD
 label_1a29:
-0x1a29 DD=1: 8c 3a               SUB A, 0x023a
+0x1a29 DD=1: 8c 3a               SUB A, fix 0x023a
 0x1a2b DD=1: 9a 56               BOR C, PSWH.6
 0x1a2d DD=1: 8a 1b               MB PSWL.3, C
 0x1a2f DD=1: f5 01               JGE label_1a32
 0x1a31 DD=1: cf                  NEG A
 label_1a32:
-0x1a32 DD=1: a4 34 a9            MUL 0x0234
+0x1a32 DD=1: a4 34 a9            MUL fix 0x0234
 0x1a35 DD=1: 67 fb               DIVQ ER3
 0x1a37 DD=1: 9a 29 05            JBS PSWH.1, label_1a3f
 0x1a3a DD=1: 9e ff 03            CMP A, #0x03ff
@@ -2299,7 +2299,7 @@ label_1a4d:
 0x1a4d DD=0: 8f                  SLLB A
 0x1a4e DD=0: aa 97               MOV A, [X1+A]
 0x1a50 DD=1: d9                  SDD
-0x1a51 DD=1: 8c 3a               SUB A, 0x023a
+0x1a51 DD=1: 8c 3a               SUB A, fix 0x023a
 0x1a53 DD=1: 9a 56               BOR C, PSWH.6
 0x1a55 DD=1: f5 01               JGE label_1a58
 0x1a57 DD=1: cf                  NEG A
@@ -2316,7 +2316,7 @@ label_1a68:
 0x1a68 DD=1: 24 03 00            MOV ER0, #0x0003
 0x1a6b DD=1: 64 a9               MUL ER0
 0x1a6d DD=1: 74                  L A, ER0
-0x1a6e DD=1: a4 34 a9            MUL 0x0234
+0x1a6e DD=1: a4 34 a9            MUL fix 0x0234
 0x1a71 DD=1: 67 fb               DIVQ ER3
 0x1a73 DD=1: 9a 29 05            JBS PSWH.1, label_1a7b
 0x1a76 DD=1: 9e ff 03            CMP A, #0x03ff
@@ -2336,10 +2336,10 @@ label_1a8f:
 0x1a8f DD=0: 8f                  SLLB A
 0x1a90 DD=0: aa 97               MOV A, [X1+A]
 0x1a92 DD=1: d9                  SDD
-0x1a93 DD=1: 9c 3a               CMP A, 0x023a
+0x1a93 DD=1: 9c 3a               CMP A, fix 0x023a
 0x1a95 DD=1: fd                  CPL C
 label_1a96:
-0x1a96 DD=1: b4 e9 1d            MB 0x02e9.5, C
+0x1a96 DD=1: b4 e9 1d            MB fix 0x02e9.5, C
 0x1a99 DD=1: 76                  L A, ER2
 0x1a9a DD=1: ca                  RC
 0x1a9b DD=1: 8a 26 04            JBR PSWL.6, label_1aa2
@@ -2350,13 +2350,13 @@ label_1aa2:
 0x1aa2 DD=1: b5 c0 1e            MB off 0x04c0.6, C
 0x1aa5 DD=1: 8a 23 09            JBR PSWL.3, label_1ab1
 0x1aa8 DD=1: 5b e9 06            JBR sbafix 0x02e9.3, label_1ab1
-0x1aab DD=1: 9c 44               CMP A, 0x0244
+0x1aab DD=1: 9c 44               CMP A, fix 0x0244
 0x1aad DD=1: f5 02               JGE label_1ab1
-0x1aaf DD=1: 84 44               L A, 0x0244
+0x1aaf DD=1: 84 44               L A, fix 0x0244
 label_1ab1:
 0x1ab1 DD=1: 8a 13               MB C, PSWL.3
-0x1ab3 DD=1: b4 e9 1b            MB 0x02e9.3, C
-0x1ab6 DD=1: 34 44               ST A, 0x0244
+0x1ab3 DD=1: b4 e9 1b            MB fix 0x02e9.3, C
+0x1ab6 DD=1: 34 44               ST A, fix 0x0244
 label_1ab8:
 0x1ab8 DD=1: b5 18 c6            INCB off 0x0418
 0x1abb DD=1: 5c 94 23            JBS sbafix 0x02d4.4, label_1ae1
@@ -2369,13 +2369,13 @@ label_1aca:
 0x1acb DD=1: 58 a9 0f            JBS sbafix 0x02e9.0, label_1add
 0x1ace DD=1: a2 a5               ADD A, [DP]
 0x1ad0 DD=1: f2 17               JLT label_1ae9
-0x1ad2 DD=1: a4 3c 94            CMP 0x023c, A
+0x1ad2 DD=1: a4 3c 94            CMP fix 0x023c, A
 0x1ad5 DD=1: f2 12               JLT label_1ae9
 0x1ad7 DD=1: 58 29               SB sbafix 0x02e9.0
 0x1ad9 DD=1: 5a 29               SB sbafix 0x02e9.2
 0x1adb DD=1: 04 0c               SJ label_1ae9
 label_1add:
-0x1add DD=1: 9c 3c               CMP A, 0x023c
+0x1add DD=1: 9c 3c               CMP A, fix 0x023c
 0x1adf DD=1: f2 08               JLT label_1ae9
 label_1ae1:
 0x1ae1 DD=1: 58 69               RB sbafix 0x02e9.0
@@ -2388,7 +2388,7 @@ label_1ae9:
 0x1af0 DD=1: 49 86 03            JBS sbaoff 0x04c6.1, label_1af6
 0x1af3 DD=1: f8 cd 01            L A, #0x01cd
 label_1af6:
-0x1af6 DD=1: 9c 3c               CMP A, 0x023c
+0x1af6 DD=1: 9c 3c               CMP A, fix 0x023c
 0x1af8 DD=1: b5 c6 19            MB off 0x04c6.1, C
 label_1afb:
 0x1afb DD=1: b5 c7 18            MB off 0x04c7.0, C
@@ -2396,11 +2396,11 @@ label_1afb:
 0x1b00 DD=1: b6 07 2f 09         JBS ACCH.7, label_1b0d
 0x1b04 DD=1: b6 40 22 05         JBR IRQ0L.2, label_1b0d
 0x1b08 DD=1: 5a 2f               SB sbafix 0x02ef.2
-0x1b0a DD=1: b4 2d c6            INCB 0x022d
+0x1b0a DD=1: b4 2d c6            INCB fix 0x022d
 label_1b0d:
 0x1b0d DD=1: b5 c0 35 46         JBRS off 0x04c0.5, label_1b57
 0x1b11 DD=1: 8d 0c               SUB A, off 0x040c
-0x1b13 DD=1: b4 2d e3 00         SBCB 0x022d, #0x00
+0x1b13 DD=1: b4 2d e3 00         SBCB fix 0x022d, #0x00
 0x1b17 DD=1: f1 04               JEQ label_1b1d
 0x1b19 DD=1: 59 2f               SB sbafix 0x02ef.1
 0x1b1b DD=1: bc d7               FILL A
@@ -2408,14 +2408,14 @@ label_1b1d:
 0x1b1d DD=1: 35 0e               ST A, off 0x040e
 0x1b1f DD=1: 58 e8 1a            JBR sbafix 0x02e8.0, label_1b3c
 0x1b22 DD=1: 20 00 0b            MOV X1, #0x0b00
-0x1b25 DD=1: b4 2c 70            MOVB R0, 0x022c
+0x1b25 DD=1: b4 2c 70            MOVB R0, fix 0x022c
 0x1b28 DD=1: 68 8c               SLLB R0, 1
 0x1b2a DD=1: ab c8               XCHG A, [X1+R0]
-0x1b2c DD=1: a4 2e 84            SUB 0x022e, A
-0x1b2f DD=1: b4 32 e3 00         SBCB 0x0232, #0x00
+0x1b2c DD=1: a4 2e 84            SUB fix 0x022e, A
+0x1b2f DD=1: b4 32 e3 00         SBCB fix 0x0232, #0x00
 0x1b33 DD=1: 85 0e               L A, off 0x040e
-0x1b35 DD=1: a4 2e a4            ADD 0x022e, A
-0x1b38 DD=1: b4 32 f3 00         ADCB 0x0232, #0x00
+0x1b35 DD=1: a4 2e a4            ADD fix 0x022e, A
+0x1b38 DD=1: b4 32 f3 00         ADCB fix 0x0232, #0x00
 label_1b3c:
 0x1b3c DD=1: 58 ef 0b            JBR sbafix 0x02ef.0, label_1b4a
 0x1b3f DD=1: 9e 50 c3            CMP A, #0xc350
@@ -2430,11 +2430,11 @@ label_1b4a:
 0x1b52 DD=1: d7 10 17            MOVB off 0x0410, #0x17
 0x1b55 DD=1: 5d 28               SB sbafix 0x02e8.5
 label_1b57:
-0x1b57 DD=1: b4 2d ab 00         MOVB 0x022d, #0x00
+0x1b57 DD=1: b4 2d ab 00         MOVB fix 0x022d, #0x00
 0x1b5b DD=1: a5 0a 87 0c         MOV off 0x040c, off 0x040a
 0x1b5f DD=1: 58 e3 28            JBR sbafix 0x02e3.0, label_1b8a
 0x1b62 DD=1: 58 e8 25            JBR sbafix 0x02e8.0, label_1b8a
-0x1b65 DD=0: 94 2c               LB A, 0x022c
+0x1b65 DD=0: 94 2c               LB A, fix 0x022c
 0x1b67 DD=0: b7 00 8e ca         TBR 0x8e00.(AL)
 0x1b6b DD=0: f1 06               JEQ label_1b73
 0x1b6d DD=0: a6 f1 87 58         MOV off 0x0458, ADCR13
@@ -2452,7 +2452,7 @@ label_1b7e:
 0x1b87 DD=1: b6 11 0c            SB P1.4
 label_1b8a:
 0x1b8a DD=1: a6 e1 70            MOV ER0, ADCR1
-0x1b8d DD=0: 94 2c               LB A, 0x022c
+0x1b8d DD=0: 94 2c               LB A, fix 0x022c
 0x1b8f DD=0: 9e 02               CMPB A, #0x02
 0x1b91 DD=0: f1 0c               JEQ label_1b9f
 0x1b93 DD=0: 9e 08               CMPB A, #0x08
@@ -2708,7 +2708,7 @@ label_1da3:
 0x1da8 DD=0: f6 2e               JNE label_1dd8
 label_1daa:
 0x1daa DD=0: 5b e9 0c            JBR sbafix 0x02e9.3, label_1db9
-0x1dad DD=0: a7 86 80 90 44      CMP 0x8086, 0x0244
+0x1dad DD=0: a7 86 80 90 44      CMP 0x8086, fix 0x0244
 0x1db2 DD=0: f0 05               JGT label_1db9
 0x1db4 DD=0: b7 d2 03 29 03      JBS 0x03d2.1, label_1dbc
 label_1db9:
@@ -2752,7 +2752,7 @@ label_1e09:
 0x1e10 DD=1: bc d7               FILL A
 label_1e12:
 0x1e12 DD=1: 39                  ST A, ER1
-0x1e13 DD=0: 94 2c               LB A, 0x022c
+0x1e13 DD=0: 94 2c               LB A, fix 0x022c
 0x1e15 DD=0: 20 ae 80            MOV X1, #0x80ae
 0x1e18 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_1e1e
 0x1e1b DD=0: 20 34 84            MOV X1, #0x8434
@@ -2831,13 +2831,13 @@ label_1ea1:
 label_1eaf:
 0x1eaf DD=1: b7 df 03 03         RB 0x03df.3
 label_1eb3:
-0x1eb3 DD=0: 94 2c               LB A, 0x022c
+0x1eb3 DD=0: 94 2c               LB A, fix 0x022c
 0x1eb5 DD=0: b7 19 8d ba         MBR C, 0x8d19.(AL)
 0x1eb9 DD=0: b6 10 1a            MB P0.2, C
 0x1ebc DD=0: 58 a3 03            JBS sbafix 0x02e3.0, label_1ec2
 0x1ebf DD=0: 03 73 1f            J label_1f73
 label_1ec2:
-0x1ec2 DD=0: 94 2c               LB A, 0x022c
+0x1ec2 DD=0: 94 2c               LB A, fix 0x022c
 0x1ec4 DD=0: b7 06 8e ca         TBR 0x8e06.(AL)
 0x1ec8 DD=0: f1 43               JEQ label_1f0d
 0x1eca DD=0: 48 86 13            JBS sbaoff 0x04c6.0, label_1ee0
@@ -2856,7 +2856,7 @@ label_1ede:
 0x1ede DD=0: 35 56               STB A, off 0x0456
 label_1ee0:
 0x1ee0 DD=0: 95 56               LB A, off 0x0456
-0x1ee2 DD=0: b4 a7 a9            MULB 0x02a7
+0x1ee2 DD=0: b4 a7 a9            MULB fix 0x02a7
 0x1ee5 DD=1: d9                  SDD
 0x1ee6 DD=1: bc 8e               SLL A, 3
 0x1ee8 DD=1: f5 02               JGE label_1eec
@@ -2880,7 +2880,7 @@ label_1f01:
 label_1f0a:
 0x1f0a DD=0: b5 c6 18            MB off 0x04c6.0, C
 label_1f0d:
-0x1f0d DD=0: 94 2c               LB A, 0x022c
+0x1f0d DD=0: 94 2c               LB A, fix 0x022c
 0x1f0f DD=0: cc                  INCB A
 0x1f10 DD=0: 9e 18               CMPB A, #0x18
 0x1f12 DD=0: f2 01               JLT label_1f15
@@ -2943,7 +2943,7 @@ label_1f6e:
 label_1f73:
 0x1f73 DD=1: 58 e4 18            JBR sbafix 0x02e4.0, label_1f8e
 0x1f76 DD=1: a6 e2 70            MOV ER0, ADCR2
-0x1f79 DD=0: 94 2c               LB A, 0x022c
+0x1f79 DD=0: 94 2c               LB A, fix 0x022c
 0x1f7b DD=0: 9e 02               CMPB A, #0x02
 0x1f7d DD=0: f1 0c               JEQ label_1f8b
 0x1f7f DD=0: 9e 08               CMPB A, #0x08
@@ -2965,7 +2965,7 @@ label_1f90:
 0x1f9b DD=0: bc 8d               SLLB A, 2
 0x1f9d DD=0: 62 a4               ADD DP, A
 label_1f9f:
-0x1f9f DD=0: a2 90 3c            CMP [DP], 0x023c
+0x1f9f DD=0: a2 90 3c            CMP [DP], fix 0x023c
 0x1fa2 DD=0: f5 08               JGE label_1fac
 0x1fa4 DD=0: 62 a3 04 00         ADD DP, #0x0004
 0x1fa8 DD=0: ae 04               ADDB A, #0x04
@@ -2974,7 +2974,7 @@ label_1fac:
 0x1fac DD=0: 22 2c 8a            MOV DP, #0x8a2c
 0x1faf DD=0: 62 a4               ADD DP, A
 label_1fb1:
-0x1fb1 DD=0: a2 90 3c            CMP [DP], 0x023c
+0x1fb1 DD=0: a2 90 3c            CMP [DP], fix 0x023c
 0x1fb4 DD=0: f7 08               JLE label_1fbe
 0x1fb6 DD=0: 62 83 04 00         SUB DP, #0x0004
 0x1fba DD=0: 8e 04               SUBB A, #0x04
@@ -3016,8 +3016,8 @@ label_1ffc:
 0x1ffd DD=0: 60 93 04 00         CMP X1, #0x0004
 0x2001 DD=0: f2 8d               JLT label_1f90
 0x2003 DD=0: 59 e8 0d            JBR sbafix 0x02e8.1, label_2013
-0x2006 DD=0: b4 7a ab 01         MOVB 0x027a, #0x01
-0x200a DD=0: b4 79 ab 01         MOVB 0x0279, #0x01
+0x2006 DD=0: b4 7a ab 01         MOVB fix 0x027a, #0x01
+0x200a DD=0: b4 79 ab 01         MOVB fix 0x0279, #0x01
 0x200e DD=0: b6 42 0b            SB IRQ1L.3
 0x2011 DD=0: 04 52               SJ label_2065
 label_2013:
@@ -3032,7 +3032,7 @@ label_2018:
 0x2023 DD=0: b8 45 04 95         CMPB A, 0x0445[X1]
 0x2027 DD=0: f6 17               JNE label_2040
 0x2029 DD=0: 22 7a 02            MOV DP, #0x027a
-0x202c DD=0: 94 79               LB A, 0x0279
+0x202c DD=0: 94 79               LB A, fix 0x0279
 0x202e DD=0: 9e 04               CMPB A, #0x04
 0x2030 DD=0: f2 04               JLT label_2036
 0x2032 DD=0: 5b 32               SB sbafix 0x02f2.3
@@ -3041,14 +3041,14 @@ label_2036:
 0x2036 DD=0: 62 a4               ADD DP, A
 0x2038 DD=0: 6c 8a               MOVB [DP], R4
 0x203a DD=0: cc                  INCB A
-0x203b DD=0: 34 79               STB A, 0x0279
+0x203b DD=0: 34 79               STB A, fix 0x0279
 0x203d DD=0: b6 42 0b            SB IRQ1L.3
 label_2040:
 0x2040 DD=0: 98 14 8d            LB A, 0x8d14[X1]
-0x2043 DD=0: 9c 2c               CMPB A, 0x022c
+0x2043 DD=0: 9c 2c               CMPB A, fix 0x022c
 0x2045 DD=0: f6 17               JNE label_205e
 0x2047 DD=0: 22 80 02            MOV DP, #0x0280
-0x204a DD=0: 94 7f               LB A, 0x027f
+0x204a DD=0: 94 7f               LB A, fix 0x027f
 0x204c DD=0: 9e 04               CMPB A, #0x04
 0x204e DD=0: f2 04               JLT label_2054
 0x2050 DD=0: 5c 32               SB sbafix 0x02f2.4
@@ -3057,7 +3057,7 @@ label_2054:
 0x2054 DD=0: 62 a4               ADD DP, A
 0x2056 DD=0: 6c 8a               MOVB [DP], R4
 0x2058 DD=0: cc                  INCB A
-0x2059 DD=0: 34 7f               STB A, 0x027f
+0x2059 DD=0: 34 7f               STB A, fix 0x027f
 0x205b DD=0: b6 42 0a            SB IRQ1L.2
 label_205e:
 0x205e DD=0: 41                  INC X2
@@ -3356,10 +3356,10 @@ label_22a4:
 tm1_vector:
 0x22a5 DD=0: 5a 6f               RB sbafix 0x02ef.2
 0x22a7 DD=0: f6 07               JNE label_22b0
-0x22a9 DD=0: 94 2d               LB A, 0x022d
+0x22a9 DD=0: 94 2d               LB A, fix 0x022d
 0x22ab DD=0: cc                  INCB A
 0x22ac DD=0: f1 02               JEQ label_22b0
-0x22ae DD=0: 34 2d               STB A, 0x022d
+0x22ae DD=0: 34 2d               STB A, fix 0x022d
 label_22b0:
 0x22b0 DD=0: 02                  RTI
 gtmc_vector:
@@ -3468,48 +3468,48 @@ label_238f:
 0x2395 DD=0: 5b 33               SB sbafix 0x02f3.3
 0x2397 DD=0: 59 a5 26            JBS sbafix 0x02e5.1, label_23c0
 0x239a DD=0: bc 27 05            JBR A.7, label_23a2
-0x239d DD=0: 34 84               STB A, 0x0284
+0x239d DD=0: 34 84               STB A, fix 0x0284
 0x239f DD=0: 03 28 24            J label_2428
 label_23a2:
 0x23a2 DD=0: 9f                  SRLB A
 0x23a3 DD=0: df                  SWAP
-0x23a4 DD=0: 94 84               LB A, 0x0284
+0x23a4 DD=0: 94 84               LB A, fix 0x0284
 0x23a6 DD=0: bc 1f               MB A.7, C
 0x23a8 DD=1: d9                  SDD
 0x23a9 DD=1: 9e ff 19            CMP A, #0x19ff
 0x23ac DD=1: f0 0e               JGT label_23bc
 0x23ae DD=1: 86 06               L A, ACC
 0x23b0 DD=1: 3e                  ST A, DP
-0x23b1 DD=1: b4 85 97            MOVB A, 0x0285
+0x23b1 DD=1: b4 85 97            MOVB A, fix 0x0285
 0x23b4 DD=1: f1 06               JEQ label_23bc
 0x23b6 DD=1: da                  DI
 0x23b7 DD=0: 93                  LB A, [DP+]
-0x23b8 DD=0: b2 86 85            MOVB 0x0285, [DP]
+0x23b8 DD=0: b2 86 85            MOVB fix 0x0285, [DP]
 0x23bb DD=0: db                  EI
 label_23bc:
 0x23bc DD=0: d8                  RDD
 0x23bd DD=0: 03 28 24            J label_2428
 label_23c0:
 0x23c0 DD=0: bc 27 04            JBR A.7, label_23c7
-0x23c3 DD=0: 34 84               STB A, 0x0284
+0x23c3 DD=0: 34 84               STB A, fix 0x0284
 0x23c5 DD=0: 04 61               SJ label_2428
 label_23c7:
 0x23c7 DD=0: 3c                  STB A, R4
 0x23c8 DD=0: 9f                  SRLB A
 0x23c9 DD=0: 3d                  STB A, R5
 0x23ca DD=0: df                  SWAP
-0x23cb DD=0: 94 84               LB A, 0x0284
+0x23cb DD=0: 94 84               LB A, fix 0x0284
 0x23cd DD=0: bc 1f               MB A.7, C
 0x23cf DD=1: 86 06               L A, ACC
 0x23d1 DD=1: 3e                  ST A, DP
-0x23d2 DD=1: b4 85 97            MOVB A, 0x0285
+0x23d2 DD=1: b4 85 97            MOVB A, fix 0x0285
 0x23d5 DD=1: f1 0e               JEQ label_23e5
 0x23d7 DD=1: 6d b3 38            ANDB R5, #0x38
 0x23da DD=1: 6d 93 28            CMPB R5, #0x28
 0x23dd DD=1: f1 09               JEQ label_23e8
 0x23df DD=1: da                  DI
 0x23e0 DD=0: 93                  LB A, [DP+]
-0x23e1 DD=0: b2 86 85            MOVB 0x0285, [DP]
+0x23e1 DD=0: b2 86 85            MOVB fix 0x0285, [DP]
 0x23e4 DD=0: db                  EI
 label_23e5:
 0x23e5 DD=0: d8                  RDD
@@ -3523,18 +3523,18 @@ label_23e8:
 0x23ef DD=0: df                  SWAP
 0x23f0 DD=0: 9e 06               CMPB A, #0x06
 0x23f2 DD=0: f6 36               JNE label_242a
-0x23f4 DD=0: 34 87               STB A, 0x0287
+0x23f4 DD=0: 34 87               STB A, fix 0x0287
 0x23f6 DD=0: 04 2f               SJ label_2427
 label_23f8:
 0x23f8 DD=0: 9e 01               CMPB A, #0x01
 0x23fa DD=0: f6 05               JNE label_2401
 0x23fc DD=0: df                  SWAP
-0x23fd DD=0: 34 86               STB A, 0x0286
+0x23fd DD=0: 34 86               STB A, fix 0x0286
 0x23ff DD=0: 04 26               SJ label_2427
 label_2401:
 0x2401 DD=0: 9e 02               CMPB A, #0x02
 0x2403 DD=0: f6 25               JNE label_242a
-0x2405 DD=0: 94 86               LB A, 0x0286
+0x2405 DD=0: 94 86               LB A, fix 0x0286
 0x2407 DD=0: f6 08               JNE label_2411
 0x2409 DD=0: 96 07               LB A, ACCH
 0x240b DD=0: f6 1d               JNE label_242a
@@ -3544,7 +3544,7 @@ label_2411:
 0x2411 DD=0: 9e ff               CMPB A, #0xff
 0x2413 DD=0: f6 07               JNE label_241c
 0x2415 DD=0: df                  SWAP
-0x2416 DD=0: 34 8c               STB A, 0x028c
+0x2416 DD=0: 34 8c               STB A, fix 0x028c
 0x2418 DD=0: 5b 34               SB sbafix 0x02f4.3
 0x241a DD=0: 04 0b               SJ label_2427
 label_241c:
@@ -3561,22 +3561,22 @@ label_2428:
 label_242a:
 0x242a DD=0: 02                  RTI
 adc0_vector:
-0x242b DD=0: b4 79 a6 03         TJNZB 0x0279, label_2432
+0x242b DD=0: b4 79 a6 03         TJNZB fix 0x0279, label_2432
 0x242f DD=0: 03 72 30            J label_3072
 label_2432:
 0x2432 DD=0: c6 02 e1 03         MOV LRB, #0x03e1
 0x2436 DD=0: 8a ab 01            MOVB PSWL, #0x01
 0x2439 DD=0: fb                  CLRB A
-0x243a DD=0: b4 7d c8            XCHGB A, 0x027d
-0x243d DD=0: b4 7c c8            XCHGB A, 0x027c
-0x2440 DD=0: b4 7b c8            XCHGB A, 0x027b
-0x2443 DD=0: b4 7a c8            XCHGB A, 0x027a
+0x243a DD=0: b4 7d c8            XCHGB A, fix 0x027d
+0x243d DD=0: b4 7c c8            XCHGB A, fix 0x027c
+0x2440 DD=0: b4 7b c8            XCHGB A, fix 0x027b
+0x2443 DD=0: b4 7a c8            XCHGB A, fix 0x027a
 0x2446 DD=0: dc                  DECB A
-0x2447 DD=0: 34 78               STB A, 0x0278
-0x2449 DD=0: b4 79 d6            DECB 0x0279
+0x2447 DD=0: 34 78               STB A, fix 0x0278
+0x2449 DD=0: b4 79 d6            DECB fix 0x0279
 0x244c DD=0: 5d 2f               SB sbafix 0x02ef.5
 0x244e DD=0: db                  EI
-0x244f DD=0: 94 78               LB A, 0x0278
+0x244f DD=0: 94 78               LB A, fix 0x0278
 0x2451 DD=0: da                  DI
 0x2452 DD=0: b6 12 ba            MBR C, P2.(AL)
 0x2455 DD=0: b5 df bb            MBR off 0x03df.(AL), C
@@ -3585,21 +3585,21 @@ label_2432:
 0x245c DD=1: 49 91 03            JBS sbaoff 0x03d1.1, label_2462
 0x245f DD=1: f8 ab 2a            L A, #0x2aab
 label_2462:
-0x2462 DD=1: 9c 34               CMP A, 0x0234
+0x2462 DD=1: 9c 34               CMP A, fix 0x0234
 0x2464 DD=1: b5 d1 19            MB off 0x03d1.1, C
 0x2467 DD=1: fa                  CLR A
 0x2468 DD=1: 59 af 47            JBS sbafix 0x02ef.1, label_24b2
 0x246b DD=1: f2 0a               JLT label_2477
 0x246d DD=1: da                  DI
-0x246e DD=1: a4 2e 73            MOV ER3, 0x022e
-0x2471 DD=1: b4 32 74            MOVB R4, 0x0232
+0x246e DD=1: a4 2e 73            MOV ER3, fix 0x022e
+0x2471 DD=1: b4 32 74            MOVB R4, fix 0x0232
 0x2474 DD=1: db                  EI
 0x2475 DD=1: 04 22               SJ label_2499
 label_2477:
 0x2477 DD=1: 26 00 0c            MOV ER2, #0x0c00
 0x247a DD=1: 22 00 0b            MOV DP, #0x0b00
 0x247d DD=1: fa                  CLR A
-0x247e DD=1: b4 2c 97            MOVB A, 0x022c
+0x247e DD=1: b4 2c 97            MOVB A, fix 0x022c
 0x2481 DD=1: 8f                  SLL A
 0x2482 DD=1: 62 a4               ADD DP, A
 0x2484 DD=1: fa                  CLR A
@@ -3629,21 +3629,21 @@ label_24ab:
 0x24ad DD=1: 9a 21 02            JBR PSWH.1, label_24b2
 0x24b0 DD=1: bc d7               FILL A
 label_24b2:
-0x24b2 DD=1: 34 34               ST A, 0x0234
+0x24b2 DD=1: 34 34               ST A, fix 0x0234
 0x24b4 DD=1: 38                  ST A, ER0
 0x24b5 DD=1: 22 68 a0            MOV DP, #0xa068
-0x24b8 DD=1: b4 38 74            MOVB R4, 0x0238
+0x24b8 DD=1: b4 38 74            MOVB R4, fix 0x0238
 0x24bb DD=1: 15 1a               MOVB R5, #0x1a
 0x24bd DD=1: 45 d6               ACAL label_11d6
-0x24bf DD=1: 6c 86 38            MOVB 0x0238, R4
-0x24c2 DD=1: 34 36               ST A, 0x0236
+0x24bf DD=1: 6c 86 38            MOVB fix 0x0238, R4
+0x24c2 DD=1: 34 36               ST A, fix 0x0236
 0x24c4 DD=1: 22 06 8a            MOV DP, #0x8a06
 0x24c7 DD=1: fa                  CLR A
 0x24c8 DD=0: 97 42 04            LB A, 0x0442
 0x24cb DD=0: bc 8d               SLLB A, 2
 0x24cd DD=0: 62 a4               ADD DP, A
 label_24cf:
-0x24cf DD=0: a2 90 34            CMP [DP], 0x0234
+0x24cf DD=0: a2 90 34            CMP [DP], fix 0x0234
 0x24d2 DD=0: f5 08               JGE label_24dc
 0x24d4 DD=0: 62 a3 04 00         ADD DP, #0x0004
 0x24d8 DD=0: ae 04               ADDB A, #0x04
@@ -3652,7 +3652,7 @@ label_24dc:
 0x24dc DD=0: 22 00 8a            MOV DP, #0x8a00
 0x24df DD=0: 62 a4               ADD DP, A
 label_24e1:
-0x24e1 DD=0: a2 90 34            CMP [DP], 0x0234
+0x24e1 DD=0: a2 90 34            CMP [DP], fix 0x0234
 0x24e4 DD=0: f7 08               JLE label_24ee
 0x24e6 DD=0: 62 83 04 00         SUB DP, #0x0004
 0x24ea DD=0: 8e 04               SUBB A, #0x04
@@ -3665,15 +3665,15 @@ label_24ee:
 label_24f6:
 0x24f6 DD=0: 37 42 04            STB A, 0x0442
 0x24f9 DD=0: da                  DI
-0x24fa DD=0: a4 3c 86 4c         MOV 0x024c, 0x023c
-0x24fe DD=0: a4 44 86 4e         MOV 0x024e, 0x0244
-0x2502 DD=0: a7 16 04 86 44      MOV 0x0244, 0x0416
-0x2507 DD=0: b4 e9 13            MB C, 0x02e9.3
-0x250a DD=0: b4 e9 1c            MB 0x02e9.4, C
-0x250d DD=0: b4 e9 10            MB C, 0x02e9.0
-0x2510 DD=0: b4 e9 19            MB 0x02e9.1, C
-0x2513 DD=0: b4 e9 15            MB C, 0x02e9.5
-0x2516 DD=0: b4 e9 1e            MB 0x02e9.6, C
+0x24fa DD=0: a4 3c 86 4c         MOV fix 0x024c, fix 0x023c
+0x24fe DD=0: a4 44 86 4e         MOV fix 0x024e, fix 0x0244
+0x2502 DD=0: a7 16 04 86 44      MOV fix 0x0244, 0x0416
+0x2507 DD=0: b4 e9 13            MB C, fix 0x02e9.3
+0x250a DD=0: b4 e9 1c            MB fix 0x02e9.4, C
+0x250d DD=0: b4 e9 10            MB C, fix 0x02e9.0
+0x2510 DD=0: b4 e9 19            MB fix 0x02e9.1, C
+0x2513 DD=0: b4 e9 15            MB C, fix 0x02e9.5
+0x2516 DD=0: b4 e9 1e            MB fix 0x02e9.6, C
 0x2519 DD=0: 48 53               RB sbaoff 0x03d3.0
 0x251b DD=0: 9a 16               MB C, PSWH.6
 0x251d DD=0: fd                  CPL C
@@ -3683,42 +3683,42 @@ label_24f6:
 0x2525 DD=0: fd                  CPL C
 0x2526 DD=0: b5 d3 1d            MB off 0x03d3.5, C
 0x2529 DD=0: db                  EI
-0x252a DD=1: 84 4c               L A, 0x024c
+0x252a DD=1: 84 4c               L A, fix 0x024c
 0x252c DD=1: 59 e4 31            JBR sbafix 0x02e4.1, label_2560
 0x252f DD=1: 5c e9 2e            JBR sbafix 0x02e9.4, label_2560
 0x2532 DD=1: fa                  CLR A
-0x2533 DD=1: b4 78 97            MOVB A, 0x0278
+0x2533 DD=1: b4 78 97            MOVB A, fix 0x0278
 0x2536 DD=1: 3c                  ST A, X1
 0x2537 DD=0: 98 5f 80            LB A, 0x805f[X1]
 0x253a DD=0: b8 46 04 85         SUBB A, 0x0446[X1]
 0x253e DD=0: f5 01               JGE label_2541
 0x2540 DD=0: fb                  CLRB A
 label_2541:
-0x2541 DD=0: 34 52               STB A, 0x0252
+0x2541 DD=0: 34 52               STB A, fix 0x0252
 0x2543 DD=1: fc                  EXTND
-0x2544 DD=1: a4 4e a9            MUL 0x024e
+0x2544 DD=1: a4 4e a9            MUL fix 0x024e
 0x2547 DD=1: 74                  L A, ER0
 0x2548 DD=1: a7 0e 04 a9         MUL 0x040e
 0x254c DD=1: 25 20 4e            MOV ER1, #0x4e20
 0x254f DD=1: 65 fb               DIVQ ER1
 0x2551 DD=1: 9a 29 09            JBS PSWH.1, label_255d
-0x2554 DD=1: ac 4c               ADD A, 0x024c
+0x2554 DD=1: ac 4c               ADD A, fix 0x024c
 0x2556 DD=1: f2 05               JLT label_255d
 0x2558 DD=1: 9e ff 03            CMP A, #0x03ff
 0x255b DD=1: f2 03               JLT label_2560
 label_255d:
 0x255d DD=1: f8 ff 03            L A, #0x03ff
 label_2560:
-0x2560 DD=1: 34 50               ST A, 0x0250
+0x2560 DD=1: 34 50               ST A, fix 0x0250
 0x2562 DD=1: 38                  ST A, ER0
 0x2563 DD=1: 22 20 a0            MOV DP, #0xa020
-0x2566 DD=1: b4 53 74            MOVB R4, 0x0253
+0x2566 DD=1: b4 53 74            MOVB R4, fix 0x0253
 0x2569 DD=1: 15 12               MOVB R5, #0x12
 0x256b DD=1: 45 d6               ACAL label_11d6
-0x256d DD=1: 6c 86 53            MOVB 0x0253, R4
-0x2570 DD=1: 34 54               ST A, 0x0254
+0x256d DD=1: 6c 86 53            MOVB fix 0x0253, R4
+0x2570 DD=1: 34 54               ST A, fix 0x0254
 0x2572 DD=1: fa                  CLR A
-0x2573 DD=0: 94 78               LB A, 0x0278
+0x2573 DD=0: 94 78               LB A, fix 0x0278
 0x2575 DD=0: 8f                  SLLB A
 0x2576 DD=0: 60 aa               MOV X1, A
 0x2578 DD=1: f8 8e 01            L A, #0x018e
@@ -3733,25 +3733,25 @@ label_2560:
 0x2590 DD=1: f2 06               JLT label_2598
 label_2592:
 0x2592 DD=1: 58 50               RB sbafix 0x02d0.0
-0x2594 DD=1: 34 56               ST A, 0x0256
+0x2594 DD=1: 34 56               ST A, fix 0x0256
 0x2596 DD=1: 04 04               SJ label_259c
 label_2598:
 0x2598 DD=1: 58 10               SB sbafix 0x02d0.0
-0x259a DD=1: 84 56               L A, 0x0256
+0x259a DD=1: 84 56               L A, fix 0x0256
 label_259c:
 0x259c DD=1: c8 58 02            ST A, 0x0258[X1]
 0x259f DD=1: 38                  ST A, ER0
 0x25a0 DD=1: 22 44 a0            MOV DP, #0xa044
-0x25a3 DD=1: b4 62 74            MOVB R4, 0x0262
+0x25a3 DD=1: b4 62 74            MOVB R4, fix 0x0262
 0x25a6 DD=1: 15 12               MOVB R5, #0x12
 0x25a8 DD=1: 45 d6               ACAL label_11d6
-0x25aa DD=1: 6c 86 62            MOVB 0x0262, R4
-0x25ad DD=1: 34 60               ST A, 0x0260
+0x25aa DD=1: 6c 86 62            MOVB fix 0x0262, R4
+0x25ad DD=1: 34 60               ST A, fix 0x0260
 0x25af DD=1: fa                  CLR A
 0x25b0 DD=1: ca                  RC
 0x25b1 DD=1: 58 e4 1e            JBR sbafix 0x02e4.0, label_25d2
 0x25b4 DD=1: 58 a6 21            JBS sbafix 0x02e6.0, label_25d8
-0x25b7 DD=0: 94 d6               LB A, 0x02d6
+0x25b7 DD=0: 94 d6               LB A, fix 0x02d6
 0x25b9 DD=0: be 60               ANDB A, #0x60
 0x25bb DD=0: f6 1b               JNE label_25d8
 0x25bd DD=1: 87 14 04            L A, 0x0414
@@ -3763,12 +3763,12 @@ label_259c:
 0x25cb DD=1: 9e 2c 00            CMP A, #0x002c
 0x25ce DD=1: f5 02               JGE label_25d2
 label_25d0:
-0x25d0 DD=1: 84 64               L A, 0x0264
+0x25d0 DD=1: 84 64               L A, fix 0x0264
 label_25d2:
-0x25d2 DD=1: b4 d1 18            MB 0x02d1.0, C
+0x25d2 DD=1: b4 d1 18            MB fix 0x02d1.0, C
 0x25d5 DD=1: 03 21 26            J label_2621
 label_25d8:
-0x25d8 DD=0: 94 d4               LB A, 0x02d4
+0x25d8 DD=0: 94 d4               LB A, fix 0x02d4
 0x25da DD=0: be 03               ANDB A, #0x03
 0x25dc DD=0: f6 0a               JNE label_25e8
 0x25de DD=1: 87 12 04            L A, 0x0412
@@ -3776,33 +3776,33 @@ label_25d8:
 0x25e3 DD=1: bc 9d               SRL A, 2
 0x25e5 DD=1: 03 1f 26            J label_261f
 label_25e8:
-0x25e8 DD=0: a4 4c 70            MOV ER0, 0x024c
-0x25eb DD=0: b4 6c 74            MOVB R4, 0x026c
+0x25e8 DD=0: a4 4c 70            MOV ER0, fix 0x024c
+0x25eb DD=0: b4 6c 74            MOVB R4, fix 0x026c
 0x25ee DD=0: 15 08               MOVB R5, #0x08
 0x25f0 DD=0: 22 a4 eb            MOV DP, #0xeba4
 0x25f3 DD=0: 45 d6               ACAL label_11d6
-0x25f5 DD=0: 34 68               STB A, 0x0268
-0x25f7 DD=0: 6c 86 6c            MOVB 0x026c, R4
+0x25f5 DD=0: 34 68               STB A, fix 0x0268
+0x25f7 DD=0: 6c 86 6c            MOVB fix 0x026c, R4
 0x25fa DD=0: 22 90 eb            MOV DP, #0xeb90
-0x25fd DD=0: a4 34 70            MOV ER0, 0x0234
-0x2600 DD=0: b4 6d 74            MOVB R4, 0x026d
+0x25fd DD=0: a4 34 70            MOV ER0, fix 0x0234
+0x2600 DD=0: b4 6d 74            MOVB R4, fix 0x026d
 0x2603 DD=0: 15 0a               MOVB R5, #0x0a
 0x2605 DD=0: 45 d6               ACAL label_11d6
-0x2607 DD=0: 6c 86 6d            MOVB 0x026d, R4
-0x260a DD=0: 34 6a               STB A, 0x026a
+0x2607 DD=0: 6c 86 6d            MOVB fix 0x026d, R4
+0x260a DD=0: 34 6a               STB A, fix 0x026a
 0x260c DD=0: 3c                  STB A, R4
 0x260d DD=0: 7c                  LB A, R4
-0x260e DD=0: b4 6c 71            MOVB R1, 0x026c
+0x260e DD=0: b4 6c 71            MOVB R1, fix 0x026c
 0x2611 DD=0: 16 08               MOVB R6, #0x08
-0x2613 DD=0: a4 68 72            MOV ER2, 0x0268
+0x2613 DD=0: a4 68 72            MOV ER2, fix 0x0268
 0x2616 DD=0: 22 b4 eb            MOV DP, #0xebb4
 0x2619 DD=0: 46 56               ACAL label_1256
-0x261b DD=0: 34 66               STB A, 0x0266
+0x261b DD=0: 34 66               STB A, fix 0x0266
 0x261d DD=0: 4f 18               SB sbaoff 0x03d8.7
 label_261f:
 0x261f DD=0: 58 51               RB sbafix 0x02d1.0
 label_2621:
-0x2621 DD=0: 34 64               STB A, 0x0264
+0x2621 DD=0: 34 64               STB A, fix 0x0264
 0x2623 DD=0: 8e 00               SUBB A, #0x00
 0x2625 DD=0: 02                  RTI
 0x2626 DD=1: f5 01               JGE label_2629
@@ -3810,7 +3810,7 @@ label_2621:
 label_2629:
 0x2629 DD=1: 9f                  SRL A
 0x262a DD=0: d8                  RDD
-0x262b DD=0: 34 63               STB A, 0x0263
+0x262b DD=0: 34 63               STB A, fix 0x0263
 0x262d DD=0: b7 53 06 85         SUBB A, 0x0653
 0x2631 DD=0: da                  DI
 0x2632 DD=0: b5 d8 1c            MB off 0x03d8.4, C
@@ -3819,8 +3819,8 @@ label_2629:
 label_2638:
 0x2638 DD=0: 35 54               STB A, off 0x0354
 0x263a DD=0: db                  EI
-0x263b DD=0: b4 f0 13            MB C, 0x02f0.3
-0x263e DD=0: b4 f0 1c            MB 0x02f0.4, C
+0x263b DD=0: b4 f0 13            MB C, fix 0x02f0.3
+0x263e DD=0: b4 f0 1c            MB fix 0x02f0.4, C
 0x2641 DD=1: f8 14 00            L A, #0x0014
 0x2644 DD=1: 38                  ST A, ER0
 0x2645 DD=1: f8 0a 00            L A, #0x000a
@@ -3828,8 +3828,8 @@ label_2638:
 0x2649 DD=1: f2 01               JLT label_264c
 0x264b DD=1: 74                  L A, ER0
 label_264c:
-0x264c DD=1: 9c 4c               CMP A, 0x024c
-0x264e DD=1: b4 f0 1b            MB 0x02f0.3, C
+0x264c DD=1: 9c 4c               CMP A, fix 0x024c
+0x264e DD=1: b4 f0 1b            MB fix 0x02f0.3, C
 0x2651 DD=1: f8 a5 0f            L A, #0x0fa5
 0x2654 DD=1: 37 50 05            ST A, 0x0550
 0x2657 DD=1: 3b                  ST A, ER3
@@ -3842,26 +3842,26 @@ label_265f:
 0x2663 DD=1: b7 ea 05 23 01      JBR 0x05ea.3, label_2669
 0x2668 DD=1: 77                  L A, ER3
 label_2669:
-0x2669 DD=1: 9c 34               CMP A, 0x0234
+0x2669 DD=1: 9c 34               CMP A, fix 0x0234
 0x266b DD=1: b7 ea 05 1b         MB 0x05ea.3, C
-0x266f DD=1: b4 f0 11            MB C, 0x02f0.1
-0x2672 DD=1: b4 f0 1a            MB 0x02f0.2, C
+0x266f DD=1: b4 f0 11            MB C, fix 0x02f0.1
+0x2672 DD=1: b4 f0 1a            MB fix 0x02f0.2, C
 0x2675 DD=1: f5 04               JGE label_267b
 0x2677 DD=1: 66 73               MOV ER3, ER2
 0x2679 DD=1: 64 71               MOV ER1, ER0
 label_267b:
-0x267b DD=1: 67 90 34            CMP ER3, 0x0234
+0x267b DD=1: 67 90 34            CMP ER3, fix 0x0234
 0x267e DD=1: f2 03               JLT label_2683
-0x2680 DD=1: 65 90 4c            CMP ER1, 0x024c
+0x2680 DD=1: 65 90 4c            CMP ER1, fix 0x024c
 label_2683:
 0x2683 DD=1: fd                  CPL C
-0x2684 DD=1: b4 f0 19            MB 0x02f0.1, C
+0x2684 DD=1: b4 f0 19            MB fix 0x02f0.1, C
 0x2687 DD=1: 5b e2 38            JBR sbafix 0x02e2.3, label_26c2
 0x268a DD=1: 22 aa 80            MOV DP, #0x80aa
 0x268d DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2693
 0x2690 DD=1: 22 30 84            MOV DP, #0x8430
 label_2693:
-0x2693 DD=1: 84 34               L A, 0x0234
+0x2693 DD=1: 84 34               L A, fix 0x0234
 0x2695 DD=1: 14 07               MOVB R4, #0x07
 loop_2697:
 0x2697 DD=1: a1 95               CMP A, [DP-]
@@ -3873,10 +3873,10 @@ label_269d:
 0x26a2 DD=1: 68 8c               SLLB R0, 1
 0x26a4 DD=1: 20 c6 80            MOV X1, #0x80c6
 0x26a7 DD=1: ab 97               MOV A, [X1+R0]
-0x26a9 DD=1: 9c 64               CMP A, 0x0264
+0x26a9 DD=1: 9c 64               CMP A, fix 0x0264
 0x26ab DD=1: 9a 56               BOR C, PSWH.6
 0x26ad DD=1: b5 d5 18            MB off 0x03d5.0, C
-0x26b0 DD=0: 94 78               LB A, 0x0278
+0x26b0 DD=0: 94 78               LB A, fix 0x0278
 0x26b2 DD=0: b7 c5 04 b8         SBR 0x04c5.(AL)
 0x26b6 DD=0: 95 d2               LB A, off 0x03d2
 0x26b8 DD=0: be 30               ANDB A, #0x30
@@ -3893,9 +3893,9 @@ label_26c5:
 label_26ce:
 0x26ce DD=0: 6f c7               CLRB R7
 0x26d0 DD=0: a5 68 74            MOV X1, off 0x0368
-0x26d3 DD=0: 8b 04 90 34         CMP 4[DP], 0x0234
+0x26d3 DD=0: 8b 04 90 34         CMP 4[DP], fix 0x0234
 0x26d7 DD=0: f0 18               JGT label_26f1
-0x26d9 DD=0: 8b 06 90 34         CMP 6[DP], 0x0234
+0x26d9 DD=0: 8b 06 90 34         CMP 6[DP], fix 0x0234
 0x26dd DD=0: f2 12               JLT label_26f1
 0x26df DD=0: 20 1e 83            MOV X1, #0x831e
 0x26e2 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_26e8
@@ -3907,9 +3907,9 @@ label_26e8:
 0x26ef DD=0: 6f 09               SB R7.1
 label_26f1:
 0x26f1 DD=0: a5 6a 75            MOV X2, off 0x036a
-0x26f4 DD=0: a2 90 34            CMP [DP], 0x0234
+0x26f4 DD=0: a2 90 34            CMP [DP], fix 0x0234
 0x26f7 DD=0: f0 26               JGT label_271f
-0x26f9 DD=0: 8b 02 90 34         CMP 2[DP], 0x0234
+0x26f9 DD=0: 8b 02 90 34         CMP 2[DP], fix 0x0234
 0x26fd DD=0: f2 20               JLT label_271f
 0x26ff DD=0: 21 ae 81            MOV X2, #0x81ae
 0x2702 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_2708
@@ -4015,15 +4015,15 @@ label_27ba:
 label_27c7:
 0x27c7 DD=1: 5a e5 08            JBR sbafix 0x02e5.2, label_27d2
 label_27ca:
-0x27ca DD=1: b4 f4 12            MB C, 0x02f4.2
-0x27cd DD=1: b4 f0 18            MB 0x02f0.0, C
+0x27ca DD=1: b4 f4 12            MB C, fix 0x02f4.2
+0x27cd DD=1: b4 f0 18            MB fix 0x02f0.0, C
 0x27d0 DD=1: 04 29               SJ label_27fb
 label_27d2:
-0x27d2 DD=0: 94 d4               LB A, 0x02d4
+0x27d2 DD=0: 94 d4               LB A, fix 0x02d4
 0x27d4 DD=0: be 03               ANDB A, #0x03
 0x27d6 DD=0: f6 17               JNE label_27ef
 0x27d8 DD=0: 22 3d 80            MOV DP, #0x803d
-0x27db DD=1: 84 34               L A, 0x0234
+0x27db DD=1: 84 34               L A, fix 0x0234
 0x27dd DD=1: 44 a3               ACAL label_10a3
 0x27df DD=1: 58 b0 11            JBS sbafix 0x02f0.0, label_27f3
 0x27e2 DD=1: ae 04 00            ADD A, #0x0004
@@ -4031,19 +4031,19 @@ label_27d2:
 0x27e7 DD=1: bc d7               FILL A
 label_27e9:
 0x27e9 DD=1: 35 0c               ST A, off 0x030c
-0x27eb DD=1: 9c 4c               CMP A, 0x024c
+0x27eb DD=1: 9c 4c               CMP A, fix 0x024c
 0x27ed DD=1: f5 0c               JGE label_27fb
 label_27ef:
 0x27ef DD=1: 58 30               SB sbafix 0x02f0.0
 0x27f1 DD=1: 04 08               SJ label_27fb
 label_27f3:
 0x27f3 DD=1: 35 0c               ST A, off 0x030c
-0x27f5 DD=1: 9c 4c               CMP A, 0x024c
+0x27f5 DD=1: 9c 4c               CMP A, fix 0x024c
 0x27f7 DD=1: f7 02               JLE label_27fb
 0x27f9 DD=1: 58 70               RB sbafix 0x02f0.0
 label_27fb:
 0x27fb DD=1: fa                  CLR A
-0x27fc DD=0: 94 78               LB A, 0x0278
+0x27fc DD=0: 94 78               LB A, fix 0x0278
 0x27fe DD=0: 61 aa               MOV X2, A
 0x2800 DD=1: f8 a8 03            L A, #0x03a8
 0x2803 DD=1: 61 a9               MUL X2
@@ -4051,17 +4051,17 @@ label_27fb:
 0x2806 DD=1: 58 b0 0d            JBS sbafix 0x02f0.0, label_2816
 0x2809 DD=1: 22 10 b1            MOV DP, #0xb110
 0x280c DD=1: 62 a4               ADD DP, A
-0x280e DD=1: b4 62 71            MOVB R1, 0x0262
-0x2811 DD=1: a4 60 72            MOV ER2, 0x0260
+0x280e DD=1: b4 62 71            MOVB R1, fix 0x0262
+0x2811 DD=1: a4 60 72            MOV ER2, fix 0x0260
 0x2814 DD=1: 04 0b               SJ label_2821
 label_2816:
 0x2816 DD=1: 22 50 ce            MOV DP, #0xce50
 0x2819 DD=1: 62 a4               ADD DP, A
-0x281b DD=1: b4 3f 71            MOVB R1, 0x023f
-0x281e DD=1: a4 40 72            MOV ER2, 0x0240
+0x281b DD=1: b4 3f 71            MOVB R1, fix 0x023f
+0x281e DD=1: a4 40 72            MOV ER2, fix 0x0240
 label_2821:
-0x2821 DD=0: 94 38               LB A, 0x0238
-0x2823 DD=0: a4 36 74            MOV X1, 0x0236
+0x2821 DD=0: 94 38               LB A, fix 0x0238
+0x2823 DD=0: a4 36 74            MOV X1, fix 0x0236
 0x2826 DD=0: 16 12               MOVB R6, #0x12
 0x2828 DD=0: 46 56               ACAL label_1256
 0x282a DD=0: 61 74               MOV X1, X2
@@ -4069,7 +4069,7 @@ label_2821:
 0x282e DD=0: c8 0e 03            STB A, 0x030e[X1]
 0x2831 DD=0: c8 16 03            STB A, 0x0316[X1]
 0x2834 DD=1: fa                  CLR A
-0x2835 DD=0: 94 78               LB A, 0x0278
+0x2835 DD=0: 94 78               LB A, fix 0x0278
 0x2837 DD=0: 61 aa               MOV X2, A
 0x2839 DD=0: 61 74               MOV X1, X2
 0x283b DD=0: 60 8c               SLL X1, 1
@@ -4079,7 +4079,7 @@ label_2821:
 0x2847 DD=0: 58 b0 14            JBS sbafix 0x02f0.0, label_285e
 0x284a DD=0: b7 16 06 75         MOVB R5, 0x0616
 0x284e DD=0: a7 12 06 73         MOV ER3, 0x0612
-0x2852 DD=0: d4 70 00            CMPB 0x0270, #0x00
+0x2852 DD=0: d4 70 00            CMPB fix 0x0270, #0x00
 0x2855 DD=0: f5 07               JGE label_285e
 0x2857 DD=0: 59 f0 04            JBR sbafix 0x02f0.1, label_285e
 0x285a DD=0: a8 1e 03 71         MOV ER1, 0x031e[X1]
@@ -4120,15 +4120,15 @@ label_2886:
 label_2895:
 0x2895 DD=1: c8 2a 03            ST A, 0x032a[X1]
 0x2898 DD=1: 22 10 b1            MOV DP, #0xb110
-0x289b DD=1: b4 62 71            MOVB R1, 0x0262
-0x289e DD=1: a4 60 72            MOV ER2, 0x0260
+0x289b DD=1: b4 62 71            MOVB R1, fix 0x0262
+0x289e DD=1: a4 60 72            MOV ER2, fix 0x0260
 0x28a1 DD=1: 58 f0 09            JBR sbafix 0x02f0.0, label_28ad
 0x28a4 DD=1: 22 50 ce            MOV DP, #0xce50
-0x28a7 DD=1: b4 3f 71            MOVB R1, 0x023f
-0x28aa DD=1: a4 40 72            MOV ER2, 0x0240
+0x28a7 DD=1: b4 3f 71            MOVB R1, fix 0x023f
+0x28aa DD=1: a4 40 72            MOV ER2, fix 0x0240
 label_28ad:
-0x28ad DD=0: 94 38               LB A, 0x0238
-0x28af DD=0: a4 36 74            MOV X1, 0x0236
+0x28ad DD=0: 94 38               LB A, fix 0x0238
+0x28af DD=0: a4 36 74            MOV X1, fix 0x0236
 0x28b2 DD=0: 16 12               MOVB R6, #0x12
 0x28b4 DD=0: 46 56               ACAL label_1256
 0x28b6 DD=0: 35 16               STB A, off 0x0316
@@ -4148,7 +4148,7 @@ label_28d6:
 0x28d6 DD=0: 68 c7               CLRB R0
 0x28d8 DD=0: 22 82 80            MOV DP, #0x8082
 0x28db DD=0: 5c e9 14            JBR sbafix 0x02e9.4, label_28f2
-0x28de DD=1: 84 4e               L A, 0x024e
+0x28de DD=1: 84 4e               L A, fix 0x024e
 0x28e0 DD=1: a3 95               CMP A, [DP+]
 0x28e2 DD=1: f2 0e               JLT label_28f2
 0x28e4 DD=1: 10 01               MOVB R0, #0x01
@@ -4204,7 +4204,7 @@ label_2950:
 0x2951 DD=0: 4d 92 03            JBS sbaoff 0x03d2.5, label_2957
 0x2954 DD=0: 03 b3 29            J label_29b3
 label_2957:
-0x2957 DD=1: 84 4e               L A, 0x024e
+0x2957 DD=1: 84 4e               L A, fix 0x024e
 0x2959 DD=1: 5c a9 09            JBS sbafix 0x02e9.4, label_2965
 0x295c DD=1: a7 9a 80 95         CMP A, 0x809a
 0x2960 DD=1: f7 1c               JLE label_297e
@@ -4218,7 +4218,7 @@ label_2965:
 0x2974 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_297a
 0x2977 DD=1: 87 20 84            L A, 0x8420
 label_297a:
-0x297a DD=1: 9c 34               CMP A, 0x0234
+0x297a DD=1: 9c 34               CMP A, fix 0x0234
 0x297c DD=1: f5 07               JGE label_2985
 label_297e:
 0x297e DD=1: b5 8b a6 25         TJNZB off 0x038b, label_29a7
@@ -4234,7 +4234,7 @@ label_2985:
 0x2994 DD=1: 72                  L A, DP
 0x2995 DD=1: ae 13 00            ADD A, #0x0013
 0x2998 DD=1: 35 6e               ST A, off 0x036e
-0x299a DD=1: 84 4e               L A, 0x024e
+0x299a DD=1: 84 4e               L A, fix 0x024e
 0x299c DD=1: 44 a3               ACAL label_10a3
 0x299e DD=1: a5 7a a9            MUL off 0x037a
 0x29a1 DD=1: 10 04               MOVB R0, #0x04
@@ -4271,7 +4271,7 @@ label_29b9:
 0x29e0 DD=0: 60 87 6e            MOV off 0x036e, X1
 0x29e3 DD=0: 5c e9 16            JBR sbafix 0x02e9.4, label_29fc
 0x29e6 DD=0: 4b d2 13            JBR sbaoff 0x03d2.3, label_29fc
-0x29e9 DD=1: 84 4e               L A, 0x024e
+0x29e9 DD=1: 84 4e               L A, fix 0x024e
 0x29eb DD=1: a7 9c 80 95         CMP A, 0x809c
 0x29ef DD=1: f2 0b               JLT label_29fc
 0x29f1 DD=1: a5 6c 76            MOV DP, off 0x036c
@@ -4287,7 +4287,7 @@ label_2a00:
 0x2a06 DD=0: 4b 53               RB sbaoff 0x03d3.3
 0x2a08 DD=0: a5 6c a3 10 00      ADD off 0x036c, #0x0010
 label_2a0d:
-0x2a0d DD=1: 84 4e               L A, 0x024e
+0x2a0d DD=1: 84 4e               L A, fix 0x024e
 0x2a0f DD=1: 5c a9 0c            JBS sbafix 0x02e9.4, label_2a1e
 0x2a12 DD=1: a7 9a 80 95         CMP A, 0x809a
 0x2a16 DD=1: f7 1f               JLE label_2a37
@@ -4302,7 +4302,7 @@ label_2a1e:
 0x2a2d DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2a33
 0x2a30 DD=1: 87 1e 84            L A, 0x841e
 label_2a33:
-0x2a33 DD=1: 9c 34               CMP A, 0x0234
+0x2a33 DD=1: 9c 34               CMP A, fix 0x0234
 0x2a35 DD=1: f5 07               JGE label_2a3e
 label_2a37:
 0x2a37 DD=1: b5 8b a6 27         TJNZB off 0x038b, label_2a62
@@ -4318,7 +4318,7 @@ label_2a3e:
 0x2a4f DD=1: 72                  L A, DP
 0x2a50 DD=1: ae 13 00            ADD A, #0x0013
 0x2a53 DD=1: 35 6e               ST A, off 0x036e
-0x2a55 DD=1: 84 4e               L A, 0x024e
+0x2a55 DD=1: 84 4e               L A, fix 0x024e
 0x2a57 DD=1: 44 a3               ACAL label_10a3
 label_2a59:
 0x2a59 DD=1: a5 7a a9            MUL off 0x037a
@@ -4334,7 +4334,7 @@ label_2a69:
 label_2a6b:
 0x2a6b DD=1: 60 c7               CLR X1
 0x2a6d DD=1: 60 c8               XCHG A, X1
-0x2a6f DD=1: b4 78 97            MOVB A, 0x0278
+0x2a6f DD=1: b4 78 97            MOVB A, fix 0x0278
 0x2a72 DD=1: 8f                  SLL A
 0x2a73 DD=1: 60 c8               XCHG A, X1
 0x2a75 DD=1: a8 16 03 70         MOV ER0, 0x0316[X1]
@@ -4353,7 +4353,7 @@ label_2a91:
 0x2a94 DD=1: 03 ef 2a            J label_2aef
 label_2a97:
 0x2a97 DD=1: fa                  CLR A
-0x2a98 DD=0: 94 78               LB A, 0x0278
+0x2a98 DD=0: 94 78               LB A, fix 0x0278
 0x2a9a DD=0: 61 aa               MOV X2, A
 0x2a9c DD=0: 8f                  SLLB A
 0x2a9d DD=0: 60 aa               MOV X1, A
@@ -4397,7 +4397,7 @@ label_2adc:
 0x2ae9 DD=1: b5 8d a6 02         TJNZB off 0x038d, label_2aef
 0x2aed DD=1: 4c 52               RB sbaoff 0x03d2.4
 label_2aef:
-0x2aef DD=0: 94 70               LB A, 0x0270
+0x2aef DD=0: 94 70               LB A, fix 0x0270
 0x2af1 DD=0: 9e a1               CMPB A, #0xa1
 0x2af3 DD=0: b5 d8 1a            MB off 0x03d8.2, C
 0x2af6 DD=0: 9e 58               CMPB A, #0x58
@@ -4423,7 +4423,7 @@ label_2b1f:
 0x2b28 DD=0: 4a 98 03            JBS sbaoff 0x03d8.2, label_2b2e
 0x2b2b DD=0: 20 8c 87            MOV X1, #0x878c
 label_2b2e:
-0x2b2e DD=1: 84 34               L A, 0x0234
+0x2b2e DD=1: 84 34               L A, fix 0x0234
 0x2b30 DD=1: 38                  ST A, ER0
 0x2b31 DD=1: 8d 62               SUB A, off 0x0362
 0x2b33 DD=1: 64 87 62            MOV off 0x0362, ER0
@@ -4436,10 +4436,10 @@ label_2b3c:
 label_2b43:
 0x2b43 DD=1: b7 e5 05 0f         SB 0x05e5.7
 0x2b47 DD=1: 35 64               ST A, off 0x0364
-0x2b49 DD=1: 9c 34               CMP A, 0x0234
+0x2b49 DD=1: 9c 34               CMP A, fix 0x0234
 0x2b4b DD=1: b5 d0 19            MB off 0x03d0.1, C
 0x2b4e DD=1: f2 07               JLT label_2b57
-0x2b50 DD=1: a7 94 87 90 34      CMP 0x8794, 0x0234
+0x2b50 DD=1: a7 94 87 90 34      CMP 0x8794, fix 0x0234
 0x2b55 DD=1: f7 11               JLE label_2b68
 label_2b57:
 0x2b57 DD=1: fd                  CPL C
@@ -4456,7 +4456,7 @@ label_2b68:
 0x2b68 DD=1: 4a 90 1c            JBS sbaoff 0x03d0.2, label_2b87
 0x2b6b DD=1: 87 96 87            L A, 0x8796
 0x2b6e DD=1: 6d c7               CLRB R5
-0x2b70 DD=1: b4 78 74            MOVB R4, 0x0278
+0x2b70 DD=1: b4 78 74            MOVB R4, fix 0x0278
 0x2b73 DD=1: 66 74               MOV X1, ER2
 0x2b75 DD=1: b8 98 87 74         MOVB R4, 0x8798[X1]
 0x2b79 DD=1: 6c 93 04            CMPB R4, #0x04
@@ -4481,7 +4481,7 @@ label_2b8c:
 0x2b98 DD=1: b5 d0 1c            MB off 0x03d0.4, C
 0x2b9b DD=1: 5c 94 13            JBS sbafix 0x02d4.4, label_2bb1
 0x2b9e DD=1: 59 a9 10            JBS sbafix 0x02e9.1, label_2bb1
-0x2ba1 DD=1: 84 34               L A, 0x0234
+0x2ba1 DD=1: 84 34               L A, fix 0x0234
 0x2ba3 DD=1: 9e ff ff            CMP A, #0xffff
 0x2ba6 DD=1: f0 09               JGT label_2bb1
 0x2ba8 DD=1: 9e ff ff            CMP A, #0xffff
@@ -4498,18 +4498,18 @@ label_2bb3:
 0x2bbd DD=1: b5 93 a6 1c         TJNZB off 0x0393, label_2bdd
 0x2bc1 DD=1: cb                  SC
 label_2bc2:
-0x2bc2 DD=1: b4 d1 1b            MB 0x02d1.3, C
+0x2bc2 DD=1: b4 d1 1b            MB fix 0x02d1.3, C
 0x2bc5 DD=1: 04 12               SJ label_2bd9
 label_2bc7:
 0x2bc7 DD=1: d7 93 14            MOVB off 0x0393, #0x14
 0x2bca DD=0: f9 0c               LB A, #0x0c
-0x2bcc DD=0: 9c a2               CMPB A, 0x02a2
+0x2bcc DD=0: 9c a2               CMPB A, fix 0x02a2
 0x2bce DD=0: f5 0d               JGE label_2bdd
-0x2bd0 DD=0: 94 6f               LB A, 0x026f
+0x2bd0 DD=0: 94 6f               LB A, fix 0x026f
 0x2bd2 DD=0: 9e 1f               CMPB A, #0x1f
 0x2bd4 DD=0: f5 07               JGE label_2bdd
 label_2bd6:
-0x2bd6 DD=0: b4 d1 1d            MB 0x02d1.5, C
+0x2bd6 DD=0: b4 d1 1d            MB fix 0x02d1.5, C
 label_2bd9:
 0x2bd9 DD=0: b7 c2 06 09         SB 0x06c2.1
 label_2bdd:
@@ -4517,7 +4517,7 @@ label_2bdd:
 0x2be0 DD=0: cb                  SC
 0x2be1 DD=0: 5f 96 27            JBS sbafix 0x02d6.7, label_2c0b
 0x2be4 DD=0: 22 a8 87            MOV DP, #0x87a8
-0x2be7 DD=1: 84 34               L A, 0x0234
+0x2be7 DD=1: 84 34               L A, fix 0x0234
 0x2be9 DD=1: 44 a3               ACAL label_10a3
 0x2beb DD=1: 64 c7               CLR ER0
 0x2bed DD=1: b5 57 70            MOVB R0, off 0x0357
@@ -4527,7 +4527,7 @@ label_2bdd:
 0x2bf5 DD=1: fa                  CLR A
 label_2bf6:
 0x2bf6 DD=1: 35 58               ST A, off 0x0358
-0x2bf8 DD=1: 9c 64               CMP A, 0x0264
+0x2bf8 DD=1: 9c 64               CMP A, fix 0x0264
 0x2bfa DD=1: f5 0a               JGE label_2c06
 0x2bfc DD=1: ca                  RC
 0x2bfd DD=1: b7 b6 06 a6 0b      TJNZB 0x06b6, label_2c0d
@@ -4540,7 +4540,7 @@ label_2c0b:
 label_2c0d:
 0x2c0d DD=1: b7 c2 06 1c         MB 0x06c2.4, C
 label_2c11:
-0x2c11 DD=0: 94 d7               LB A, 0x02d7
+0x2c11 DD=0: 94 d7               LB A, fix 0x02d7
 0x2c13 DD=0: be 03               ANDB A, #0x03
 0x2c15 DD=0: f1 0a               JEQ label_2c21
 0x2c17 DD=0: 4d 18               SB sbaoff 0x03d8.5
@@ -4548,12 +4548,12 @@ label_2c11:
 0x2c1b DD=0: b6 11 0b            SB P1.3
 0x2c1e DD=0: 03 9e 2c            J label_2c9e
 label_2c21:
-0x2c21 DD=1: 84 d4               L A, 0x02d4
-0x2c23 DD=1: b4 d7 14            MB C, 0x02d7.4
+0x2c21 DD=1: 84 d4               L A, fix 0x02d4
+0x2c23 DD=1: b4 d7 14            MB C, fix 0x02d7.4
 0x2c26 DD=1: bc 18               MB A.0, C
 0x2c28 DD=1: b5 d8 17            MB C, off 0x03d8.7
 0x2c2b DD=1: bc 19               MB A.1, C
-0x2c2d DD=1: b4 d6 17            MB C, 0x02d6.7
+0x2c2d DD=1: b4 d6 17            MB C, fix 0x02d6.7
 0x2c30 DD=1: bc 1c               MB A.4, C
 0x2c32 DD=1: be 3f 0f            AND A, #0x0f3f
 0x2c35 DD=1: f1 07               JEQ label_2c3e
@@ -4563,11 +4563,11 @@ label_2c21:
 label_2c3e:
 0x2c3e DD=1: 5c e7 19            JBR sbafix 0x02e7.4, label_2c5a
 0x2c41 DD=0: f9 0c               LB A, #0x0c
-0x2c43 DD=0: 9c a2               CMPB A, 0x02a2
+0x2c43 DD=0: 9c a2               CMPB A, fix 0x02a2
 0x2c45 DD=0: f5 13               JGE label_2c5a
-0x2c47 DD=0: d4 6f 27            CMPB 0x026f, #0x27
+0x2c47 DD=0: d4 6f 27            CMPB fix 0x026f, #0x27
 0x2c4a DD=0: f2 05               JLT label_2c51
-0x2c4c DD=0: d4 6e 07            CMPB 0x026e, #0x07
+0x2c4c DD=0: d4 6e 07            CMPB fix 0x026e, #0x07
 0x2c4f DD=0: f5 02               JGE label_2c53
 label_2c51:
 0x2c51 DD=0: 4c 17               SB sbaoff 0x03d7.4
@@ -4576,7 +4576,7 @@ label_2c53:
 0x2c57 DD=0: b6 11 1b            MB P1.3, C
 label_2c5a:
 0x2c5a DD=0: 5d e7 41            JBR sbafix 0x02e7.5, label_2c9e
-0x2c5d DD=1: 84 34               L A, 0x0234
+0x2c5d DD=1: 84 34               L A, fix 0x0234
 0x2c5f DD=1: 9e 39 0e            CMP A, #0x0e39
 0x2c62 DD=1: f7 30               JLE label_2c94
 0x2c64 DD=1: 5a 9c 09            JBS sbafix 0x02dc.2, label_2c70
@@ -4606,7 +4606,7 @@ label_2c9e:
 0x2c9e DD=1: ca                  RC
 0x2c9f DD=1: 4c d7 49            JBR sbaoff 0x03d7.4, label_2ceb
 0x2ca2 DD=1: 4e 98 1d            JBS sbaoff 0x03d8.6, label_2cc2
-0x2ca5 DD=1: 84 34               L A, 0x0234
+0x2ca5 DD=1: 84 34               L A, fix 0x0234
 0x2ca7 DD=1: 10 28               MOVB R0, #0x28
 0x2ca9 DD=1: 9e 1c 47            CMP A, #0x471c
 0x2cac DD=1: f5 11               JGE label_2cbf
@@ -4646,7 +4646,7 @@ label_2ceb:
 0x2cf6 DD=1: f5 01               JGE label_2cf9
 0x2cf8 DD=1: fa                  CLR A
 label_2cf9:
-0x2cf9 DD=1: 9c 34               CMP A, 0x0234
+0x2cf9 DD=1: 9c 34               CMP A, fix 0x0234
 0x2cfb DD=1: b5 d4 1b            MB off 0x03d4.3, C
 0x2cfe DD=1: 85 5c               L A, off 0x035c
 0x2d00 DD=1: 4c 94 06            JBS sbaoff 0x03d4.4, label_2d09
@@ -4654,7 +4654,7 @@ label_2cf9:
 0x2d06 DD=1: f5 01               JGE label_2d09
 0x2d08 DD=1: fa                  CLR A
 label_2d09:
-0x2d09 DD=1: 9c 34               CMP A, 0x0234
+0x2d09 DD=1: 9c 34               CMP A, fix 0x0234
 0x2d0b DD=1: 9a 56               BOR C, PSWH.6
 0x2d0d DD=1: b5 d4 1c            MB off 0x03d4.4, C
 0x2d10 DD=1: ca                  RC
@@ -4670,7 +4670,7 @@ label_2d1e:
 0x2d23 DD=1: 04 22               SJ label_2d47
 label_2d25:
 0x2d25 DD=1: 4a 94 18            JBS sbaoff 0x03d4.2, label_2d40
-0x2d28 DD=0: 94 78               LB A, 0x0278
+0x2d28 DD=0: 94 78               LB A, fix 0x0278
 0x2d2a DD=0: 20 a4 87            MOV X1, #0x87a4
 0x2d2d DD=0: ba 74               MOVB R4, [X1+A]
 0x2d2f DD=1: f8 ff ff            L A, #0xffff
@@ -4697,10 +4697,10 @@ label_2d47:
 0x2d52 DD=1: 4e 90 02            JBS sbaoff 0x03d0.6, label_2d57
 0x2d55 DD=1: 89 02               L A, 2[DP]
 label_2d57:
-0x2d57 DD=1: 9c 34               CMP A, 0x0234
+0x2d57 DD=1: 9c 34               CMP A, fix 0x0234
 0x2d59 DD=1: b5 d0 1e            MB off 0x03d0.6, C
 0x2d5c DD=1: f2 06               JLT label_2d64
-0x2d5e DD=1: 8b 04 90 34         CMP 4[DP], 0x0234
+0x2d5e DD=1: 8b 04 90 34         CMP 4[DP], fix 0x0234
 0x2d62 DD=1: f7 07               JLE label_2d6b
 label_2d64:
 0x2d64 DD=1: fd                  CPL C
@@ -4711,7 +4711,7 @@ label_2d6b:
 0x2d6b DD=1: 4f 90 1b            JBS sbaoff 0x03d0.7, label_2d89
 0x2d6e DD=1: 89 06               L A, 6[DP]
 0x2d70 DD=1: 6d c7               CLRB R5
-0x2d72 DD=1: b4 78 74            MOVB R4, 0x0278
+0x2d72 DD=1: b4 78 74            MOVB R4, fix 0x0278
 0x2d75 DD=1: 66 74               MOV X1, ER2
 0x2d77 DD=1: b8 ea 87 74         MOVB R4, 0x87ea[X1]
 0x2d7b DD=1: 6c 93 04            CMPB R4, #0x04
@@ -4732,13 +4732,13 @@ label_2d8e:
 0x2d90 DD=1: fd                  CPL C
 0x2d91 DD=1: b5 d0 1d            MB off 0x03d0.5, C
 label_2d94:
-0x2d94 DD=1: b4 e8 12            MB C, 0x02e8.2
-0x2d97 DD=1: b4 e8 1c            MB 0x02e8.4, C
+0x2d94 DD=1: b4 e8 12            MB C, fix 0x02e8.2
+0x2d97 DD=1: b4 e8 1c            MB fix 0x02e8.4, C
 0x2d9a DD=1: b5 d0 10            MB C, off 0x03d0.0
 0x2d9d DD=1: b5 d0 53            BOR C, off 0x03d0.3
 0x2da0 DD=1: b5 d4 50            BOR C, off 0x03d4.0
 0x2da3 DD=1: b5 d0 55            BOR C, off 0x03d0.5
-0x2da6 DD=1: b4 e8 1a            MB 0x02e8.2, C
+0x2da6 DD=1: b4 e8 1a            MB fix 0x02e8.2, C
 0x2da9 DD=0: f9 80               LB A, #0x80
 0x2dab DD=0: b5 55 70            MOVB R0, off 0x0355
 0x2dae DD=0: 58 e3 33            JBR sbafix 0x02e3.0, label_2de4
@@ -4780,7 +4780,7 @@ label_2de4:
 0x2dee DD=0: 95 4e               LB A, off 0x034e
 0x2df0 DD=0: 58 b0 0a            JBS sbafix 0x02f0.0, label_2dfd
 0x2df3 DD=0: 95 4f               LB A, off 0x034f
-0x2df5 DD=0: a4 56 91 4c         CMP 0x0256, off 0x034c
+0x2df5 DD=0: a4 56 91 4c         CMP fix 0x0256, off 0x034c
 0x2df9 DD=0: f2 02               JLT label_2dfd
 0x2dfb DD=0: 95 50               LB A, off 0x0350
 label_2dfd:
@@ -4793,23 +4793,23 @@ label_2e07:
 0x2e0a DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_2e10
 0x2e0d DD=0: 20 e7 88            MOV X1, #0x88e7
 label_2e10:
-0x2e10 DD=1: 84 34               L A, 0x0234
+0x2e10 DD=1: 84 34               L A, fix 0x0234
 0x2e12 DD=1: 60 76               MOV DP, X1
 0x2e14 DD=1: 62 a3 0a 00         ADD DP, #0x000a
 0x2e18 DD=1: 44 a3               ACAL label_10a3
 0x2e1a DD=1: 48 97 04            JBS sbaoff 0x03d7.0, label_2e21
 0x2e1d DD=1: a8 08 00 a5         ADD A, 0x0008[X1]
 label_2e21:
-0x2e21 DD=1: 9c 4c               CMP A, 0x024c
+0x2e21 DD=1: 9c 4c               CMP A, fix 0x024c
 0x2e23 DD=1: b5 d7 18            MB off 0x03d7.0, C
-0x2e26 DD=1: 84 34               L A, 0x0234
+0x2e26 DD=1: 84 34               L A, fix 0x0234
 0x2e28 DD=1: 60 76               MOV DP, X1
 0x2e2a DD=1: 62 a3 36 00         ADD DP, #0x0036
 0x2e2e DD=1: 44 a3               ACAL label_10a3
 0x2e30 DD=1: 49 97 04            JBS sbaoff 0x03d7.1, label_2e37
 0x2e33 DD=1: a8 34 00 a5         ADD A, 0x0034[X1]
 label_2e37:
-0x2e37 DD=1: 9c 4c               CMP A, 0x024c
+0x2e37 DD=1: 9c 4c               CMP A, fix 0x024c
 0x2e39 DD=1: 9a 56               BOR C, PSWH.6
 0x2e3b DD=1: b5 d7 19            MB off 0x03d7.1, C
 0x2e3e DD=1: 6d c7               CLRB R5
@@ -4824,7 +4824,7 @@ label_2e4f:
 0x2e52 DD=1: 60 a3 2c 00         ADD X1, #0x002c
 label_2e56:
 0x2e56 DD=1: a8 06 00 71         MOV ER1, 0x0006[X1]
-0x2e5a DD=1: 84 34               L A, 0x0234
+0x2e5a DD=1: 84 34               L A, fix 0x0234
 0x2e5c DD=1: 65 94               CMP ER1, A
 0x2e5e DD=1: f2 25               JLT label_2e85
 0x2e60 DD=1: a0 70               MOV ER0, [X1]
@@ -4847,7 +4847,7 @@ label_2e81:
 0x2e83 DD=1: 6c aa               MOVB R4, A
 label_2e85:
 0x2e85 DD=1: 6c 87 46            MOVB off 0x0346, R4
-0x2e88 DD=1: c4 4c 04 00         CMP 0x024c, #0x0004
+0x2e88 DD=1: c4 4c 04 00         CMP fix 0x0004, #0x0004
 0x2e8c DD=1: f2 46               JLT label_2ed4
 0x2e8e DD=1: 20 69 89            MOV X1, #0x8969
 0x2e91 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2e97
@@ -4887,11 +4887,11 @@ label_2ede:
 0x2ee0 DD=0: 58 e4 2b            JBR sbafix 0x02e4.0, label_2f0e
 0x2ee3 DD=0: 5b a7 28            JBS sbafix 0x02e7.3, label_2f0e
 0x2ee6 DD=0: 22 c3 89            MOV DP, #0x89c3
-0x2ee9 DD=0: 94 6e               LB A, 0x026e
+0x2ee9 DD=0: 94 6e               LB A, fix 0x026e
 0x2eeb DD=0: 44 04               ACAL label_1004
 0x2eed DD=0: 58 f0 1e            JBR sbafix 0x02f0.0, label_2f0e
 0x2ef0 DD=0: 3a                  STB A, R2
-0x2ef1 DD=1: 84 64               L A, 0x0264
+0x2ef1 DD=1: 84 64               L A, fix 0x0264
 0x2ef3 DD=1: 8e a5 00            SUB A, #0x00a5
 0x2ef6 DD=1: f5 03               JGE label_2efb
 0x2ef8 DD=0: fb                  CLRB A
@@ -4955,7 +4955,7 @@ label_2f68:
 label_2f6c:
 0x2f6c DD=1: 35 32               ST A, off 0x0332
 0x2f6e DD=1: fa                  CLR A
-0x2f6f DD=0: 94 78               LB A, 0x0278
+0x2f6f DD=0: 94 78               LB A, fix 0x0278
 0x2f71 DD=0: 60 aa               MOV X1, A
 0x2f73 DD=0: 60 8c               SLL X1, 1
 0x2f75 DD=1: 88 2a 03            L A, 0x032a[X1]
@@ -4965,7 +4965,7 @@ label_2f6c:
 0x2f7f DD=1: c8 34 03            ST A, 0x0334[X1]
 label_2f82:
 0x2f82 DD=1: fa                  CLR A
-0x2f83 DD=1: b4 78 97            MOVB A, 0x0278
+0x2f83 DD=1: b4 78 97            MOVB A, fix 0x0278
 0x2f86 DD=1: 3d                  ST A, X2
 0x2f87 DD=1: 3c                  ST A, X1
 0x2f88 DD=1: 60 8c               SLL X1, 1
@@ -5076,36 +5076,36 @@ label_3053:
 0x305f DD=1: 9e 0d 00            CMP A, #0x000d
 0x3062 DD=1: f2 ef               JLT label_3053
 0x3064 DD=1: 71                  L A, X2
-0x3065 DD=1: b4 d3 b8            SBR 0x02d3.(AL)
+0x3065 DD=1: b4 d3 b8            SBR fix 0x02d3.(AL)
 label_3068:
 0x3068 DD=1: 59 68               RB sbafix 0x02e8.1
 0x306a DD=1: da                  DI
-0x306b DD=1: b4 79 a7 03         TJZB 0x0279, label_3072
+0x306b DD=1: b4 79 a7 03         TJZB fix 0x0279, label_3072
 0x306f DD=1: b6 42 0b            SB IRQ1L.3
 label_3072:
 0x3072 DD=1: 5d 6f               RB sbafix 0x02ef.5
 0x3074 DD=1: 02                  RTI
 adc1_vector:
-0x3075 DD=0: b4 7f a6 03         TJNZB 0x027f, label_307c
+0x3075 DD=0: b4 7f a6 03         TJNZB fix 0x027f, label_307c
 0x3079 DD=0: 03 9a 38            J label_389a
 label_307c:
 0x307c DD=0: c6 02 e1 05         MOV LRB, #0x05e1
 0x3080 DD=0: 8a ab 01            MOVB PSWL, #0x01
 0x3083 DD=0: fb                  CLRB A
-0x3084 DD=0: b4 83 c8            XCHGB A, 0x0283
-0x3087 DD=0: b4 82 c8            XCHGB A, 0x0282
-0x308a DD=0: b4 81 c8            XCHGB A, 0x0281
-0x308d DD=0: b4 80 c8            XCHGB A, 0x0280
+0x3084 DD=0: b4 83 c8            XCHGB A, fix 0x0283
+0x3087 DD=0: b4 82 c8            XCHGB A, fix 0x0282
+0x308a DD=0: b4 81 c8            XCHGB A, fix 0x0281
+0x308d DD=0: b4 80 c8            XCHGB A, fix 0x0280
 0x3090 DD=0: dc                  DECB A
-0x3091 DD=0: 34 7e               STB A, 0x027e
-0x3093 DD=0: b4 7f d6            DECB 0x027f
+0x3091 DD=0: 34 7e               STB A, fix 0x027e
+0x3093 DD=0: b4 7f d6            DECB fix 0x027f
 0x3096 DD=0: 5e 2f               SB sbafix 0x02ef.6
 0x3098 DD=0: db                  EI
 0x3099 DD=1: fa                  CLR A
 0x309a DD=1: 59 af 21            JBS sbafix 0x02ef.1, label_30be
 0x309d DD=1: da                  DI
-0x309e DD=1: a4 2e 73            MOV ER3, 0x022e
-0x30a1 DD=1: b4 32 74            MOVB R4, 0x0232
+0x309e DD=1: a4 2e 73            MOV ER3, fix 0x022e
+0x30a1 DD=1: b4 32 74            MOVB R4, fix 0x0232
 0x30a4 DD=1: db                  EI
 0x30a5 DD=1: f8 0a 1a            L A, #0x1a0a
 0x30a8 DD=1: 24 aa aa            MOV ER0, #0xaaaa
@@ -5130,20 +5130,20 @@ label_30be:
 0x30cb DD=1: 6c 87 04            MOVB off 0x0504, R4
 0x30ce DD=1: 35 02               ST A, off 0x0502
 0x30d0 DD=1: da                  DI
-0x30d1 DD=1: a4 3c 86 4c         MOV 0x024c, 0x023c
-0x30d5 DD=1: a4 44 86 4e         MOV 0x024e, 0x0244
-0x30d9 DD=1: b4 e9 13            MB C, 0x02e9.3
-0x30dc DD=1: b4 e9 1c            MB 0x02e9.4, C
-0x30df DD=1: b4 e9 10            MB C, 0x02e9.0
-0x30e2 DD=1: b4 e9 19            MB 0x02e9.1, C
+0x30d1 DD=1: a4 3c 86 4c         MOV fix 0x024c, fix 0x023c
+0x30d5 DD=1: a4 44 86 4e         MOV fix 0x024e, fix 0x0244
+0x30d9 DD=1: b4 e9 13            MB C, fix 0x02e9.3
+0x30dc DD=1: b4 e9 1c            MB fix 0x02e9.4, C
+0x30df DD=1: b4 e9 10            MB C, fix 0x02e9.0
+0x30e2 DD=1: b4 e9 19            MB fix 0x02e9.1, C
 0x30e5 DD=1: db                  EI
-0x30e6 DD=1: a4 4c 70            MOV ER0, 0x024c
+0x30e6 DD=1: a4 4c 70            MOV ER0, fix 0x024c
 0x30e9 DD=1: 22 20 a0            MOV DP, #0xa020
-0x30ec DD=1: b4 3f 74            MOVB R4, 0x023f
+0x30ec DD=1: b4 3f 74            MOVB R4, fix 0x023f
 0x30ef DD=1: 15 12               MOVB R5, #0x12
 0x30f1 DD=1: 45 d6               ACAL label_11d6
-0x30f3 DD=1: 6c 86 3f            MOVB 0x023f, R4
-0x30f6 DD=1: 34 40               ST A, 0x0240
+0x30f3 DD=1: 6c 86 3f            MOVB fix 0x023f, R4
+0x30f6 DD=1: 34 40               ST A, fix 0x0240
 0x30f8 DD=1: f8 1d 07            L A, #0x071d
 0x30fb DD=1: 48 a0 03            JBS sbaoff 0x05e0.0, label_3101
 0x30fe DD=1: f8 f5 09            L A, #0x09f5
@@ -5163,7 +5163,7 @@ label_3116:
 0x311a DD=1: b5 e0 19            MB off 0x05e0.1, C
 label_311d:
 0x311d DD=1: fa                  CLR A
-0x311e DD=0: 94 7e               LB A, 0x027e
+0x311e DD=0: 94 7e               LB A, fix 0x027e
 0x3120 DD=0: 61 aa               MOV X2, A
 0x3122 DD=0: 5c 94 03            JBS sbafix 0x02d4.4, label_3128
 0x3125 DD=0: 5c d7 0f            JBR sbafix 0x02d7.4, label_3137
@@ -5182,8 +5182,8 @@ label_3137:
 0x3140 DD=1: 62 a4               ADD DP, A
 0x3142 DD=0: 95 04               LB A, off 0x0504
 0x3144 DD=0: a5 02 74            MOV X1, off 0x0502
-0x3147 DD=0: b4 3f 71            MOVB R1, 0x023f
-0x314a DD=0: a4 40 72            MOV ER2, 0x0240
+0x3147 DD=0: b4 3f 71            MOVB R1, fix 0x023f
+0x314a DD=0: a4 40 72            MOV ER2, fix 0x0240
 0x314d DD=0: 16 12               MOVB R6, #0x12
 0x314f DD=0: 46 1d               ACAL label_121d
 0x3151 DD=0: b9 0e 05 a5         ADDB A, 0x050e[X2]
@@ -5207,7 +5207,7 @@ label_3170:
 0x317a DD=1: 48 a9 04            JBS sbaoff 0x05e9.0, label_3181
 0x317d DD=1: a8 08 00 a5         ADD A, 0x0008[X1]
 label_3181:
-0x3181 DD=1: 9c 4c               CMP A, 0x024c
+0x3181 DD=1: 9c 4c               CMP A, fix 0x024c
 0x3183 DD=1: 9a 56               BOR C, PSWH.6
 0x3185 DD=1: b5 e9 18            MB off 0x05e9.0, C
 0x3188 DD=1: 26 80 00            MOV ER2, #0x0080
@@ -5245,11 +5245,11 @@ label_31c1:
 0x31ce DD=0: 49 69               RB sbaoff 0x05e9.1
 0x31d0 DD=0: 04 59               SJ label_322b
 label_31d2:
-0x31d2 DD=1: b8 20 00 90 70      CMPB 0x0020[X1], 0x0270
+0x31d2 DD=1: b8 20 00 90 70      CMPB 0x0020[X1], fix 0x0270
 0x31d7 DD=1: f2 0e               JLT label_31e7
 0x31d9 DD=1: a8 21 00 91 00      CMP 0x0021[X1], off 0x0500
 0x31de DD=1: f0 07               JGT label_31e7
-0x31e0 DD=1: a8 23 00 90 4c      CMP 0x0023[X1], 0x024c
+0x31e0 DD=1: a8 23 00 90 4c      CMP 0x0023[X1], fix 0x024c
 0x31e5 DD=1: f7 08               JLE label_31ef
 label_31e7:
 0x31e7 DD=1: b8 25 00 87 70      MOVB off 0x0570, 0x0025[X1]
@@ -5301,7 +5301,7 @@ label_323a:
 0x3244 DD=1: 4c a9 04            JBS sbaoff 0x05e9.4, label_324b
 0x3247 DD=1: a8 09 00 a5         ADD A, 0x0009[X1]
 label_324b:
-0x324b DD=1: 9c 4c               CMP A, 0x024c
+0x324b DD=1: 9c 4c               CMP A, fix 0x024c
 0x324d DD=1: 9a 56               BOR C, PSWH.6
 0x324f DD=1: b5 e9 1c            MB off 0x05e9.4, C
 0x3252 DD=1: 85 00               L A, off 0x0500
@@ -5311,10 +5311,10 @@ label_324b:
 0x325c DD=1: 4b a9 04            JBS sbaoff 0x05e9.3, label_3263
 0x325f DD=1: a8 29 00 a5         ADD A, 0x0029[X1]
 label_3263:
-0x3263 DD=1: 9c 4c               CMP A, 0x024c
+0x3263 DD=1: 9c 4c               CMP A, fix 0x024c
 0x3265 DD=1: 9a 56               BOR C, PSWH.6
 0x3267 DD=1: b5 e9 1b            MB off 0x05e9.3, C
-0x326a DD=1: b0 90 70            CMPB [X1], 0x0270
+0x326a DD=1: b0 90 70            CMPB [X1], fix 0x0270
 0x326d DD=1: f0 11               JGT label_3280
 0x326f DD=1: 60 a3 21 00         ADD X1, #0x0021
 0x3273 DD=1: 6f c7               CLRB R7
@@ -5408,7 +5408,7 @@ label_3324:
 0x332c DD=0: 20 fa 8d            MOV X1, #0x8dfa
 0x332f DD=0: 5c 97 13            JBS sbafix 0x02d7.4, label_3345
 0x3332 DD=0: 90                  LB A, [X1]
-0x3333 DD=0: 9c 70               CMPB A, 0x0270
+0x3333 DD=0: 9c 70               CMPB A, fix 0x0270
 0x3335 DD=0: f2 0e               JLT label_3345
 0x3337 DD=1: 88 01 00            L A, 0x0001[X1]
 0x333a DD=1: 9d 00               CMP A, off 0x0500
@@ -5454,15 +5454,15 @@ label_337a:
 0x3388 DD=1: 5c 94 0c            JBS sbafix 0x02d4.4, label_3397
 0x338b DD=1: 4b e5 09            JBR sbaoff 0x05e5.3, label_3397
 0x338e DD=1: 4c a5 06            JBS sbaoff 0x05e5.4, label_3397
-0x3391 DD=0: 94 70               LB A, 0x0270
+0x3391 DD=0: 94 70               LB A, fix 0x0270
 0x3393 DD=0: b8 08 00 95         CMPB A, 0x0008[X1]
 label_3397:
-0x3397 DD=0: b4 ec 18            MB 0x02ec.0, C
+0x3397 DD=0: b4 ec 18            MB fix 0x02ec.0, C
 0x339a DD=0: 22 70 ee            MOV DP, #0xee70
 0x339d DD=0: 95 04               LB A, off 0x0504
 0x339f DD=0: a5 02 74            MOV X1, off 0x0502
-0x33a2 DD=0: b4 3f 71            MOVB R1, 0x023f
-0x33a5 DD=0: a4 40 72            MOV ER2, 0x0240
+0x33a2 DD=0: b4 3f 71            MOVB R1, fix 0x023f
+0x33a5 DD=0: a4 40 72            MOV ER2, fix 0x0240
 0x33a8 DD=0: 16 12               MOVB R6, #0x12
 0x33aa DD=0: 46 1d               ACAL label_121d
 0x33ac DD=0: 35 60               STB A, off 0x0560
@@ -5472,7 +5472,7 @@ label_3397:
 0x33b4 DD=1: f5 02               JGE label_33b8
 0x33b6 DD=1: bc d7               FILL A
 label_33b8:
-0x33b8 DD=1: b6 07 86 a7         MOVB 0x02a7, ACCH
+0x33b8 DD=1: b6 07 86 a7         MOVB fix 0x02a7, ACCH
 0x33bc DD=1: 59 6c               RB sbafix 0x02ec.1
 0x33be DD=1: 9a 16               MB C, PSWH.6
 0x33c0 DD=1: fd                  CPL C
@@ -5509,7 +5509,7 @@ label_3400:
 0x3405 DD=0: 20 36 8e            MOV X1, #0x8e36
 0x3408 DD=0: 22 1d 8e            MOV DP, #0x8e1d
 0x340b DD=0: 14 02               MOVB R4, #0x02
-0x340d DD=1: 84 4c               L A, 0x024c
+0x340d DD=1: 84 4c               L A, fix 0x024c
 loop_340f:
 0x340f DD=1: 50                  DEC X1
 0x3410 DD=1: a1 95               CMP A, [DP-]
@@ -5680,9 +5680,9 @@ label_354b:
 0x354e DD=1: 44 70               ACAL label_1070
 0x3550 DD=1: ae 80 35            ADD A, #0x3580
 0x3553 DD=1: 19                  CMP A, ER1
-0x3554 DD=1: c4 4c 20 00         CMP 0x024c, #0x0020
+0x3554 DD=1: c4 4c 20 00         CMP fix 0x0020, #0x0020
 0x3558 DD=1: f5 23               JGE label_357d
-0x355a DD=1: 84 34               L A, 0x0234
+0x355a DD=1: 84 34               L A, fix 0x0234
 0x355c DD=1: 48 a6 09            JBS sbaoff 0x05e6.0, label_3568
 0x355f DD=1: 9e 00 40            CMP A, #0x4000
 0x3562 DD=1: f7 19               JLE label_357d
@@ -5734,7 +5734,7 @@ label_3583:
 0x35ab DD=1: fa                  CLR A
 0x35ac DD=0: 95 46               LB A, off 0x0546
 0x35ae DD=0: 64 84               SUB ER0, A
-0x35b0 DD=0: 94 7e               LB A, 0x027e
+0x35b0 DD=0: 94 7e               LB A, fix 0x027e
 0x35b2 DD=0: 61 aa               MOV X2, A
 0x35b4 DD=0: b9 0a 05 97         MOVB A, 0x050a[X2]
 0x35b8 DD=0: 28                  ADDB A, R0
@@ -5750,12 +5750,12 @@ label_35c7:
 label_35ca:
 0x35ca DD=0: bc 99 1a 05         STB A, 0x051a[X2]
 0x35ce DD=0: 5a e4 11            JBR sbafix 0x02e4.2, label_35e2
-0x35d1 DD=0: c4 4c ff 03         CMP 0x024c, #0x03ff
+0x35d1 DD=0: c4 4c ff 03         CMP fix 0x03ff, #0x03ff
 0x35d5 DD=0: 8a 1b               MB PSWL.3, C
 0x35d7 DD=0: f5 03               JGE label_35dc
 0x35d9 DD=0: d7 6e 14            MOVB off 0x056e, #0x14
 label_35dc:
-0x35dc DD=0: c4 4c 04 00         CMP 0x024c, #0x0004
+0x35dc DD=0: c4 4c 04 00         CMP fix 0x0004, #0x0004
 0x35e0 DD=0: f5 09               JGE label_35eb
 label_35e2:
 0x35e2 DD=0: b5 e7 c7            CLRB off 0x05e7
@@ -5769,7 +5769,7 @@ label_35eb:
 0x35f4 DD=0: 48 a7 15            JBS sbaoff 0x05e7.0, label_360c
 0x35f7 DD=0: b5 1e c7            CLRB off 0x051e
 0x35fa DD=0: 8a 2b 40            JBS PSWL.3, label_363d
-0x35fd DD=0: c5 00 ff ff         CMP off 0x0500, #0xffff
+0x35fd DD=0: c5 00 ff ff         CMP off 0xffff, #0xffff
 0x3601 DD=0: f7 3a               JLE label_363d
 0x3603 DD=0: b5 6e a7 36         TJZB off 0x056e, label_363d
 0x3607 DD=0: d7 6a 00            MOVB off 0x056a, #0x00
@@ -5800,7 +5800,7 @@ label_363d:
 0x3643 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3649
 0x3646 DD=0: 20 ff 8b            MOV X1, #0x8bff
 label_3649:
-0x3649 DD=1: 84 4c               L A, 0x024c
+0x3649 DD=1: 84 4c               L A, fix 0x024c
 0x364b DD=1: a0 95               CMP A, [X1]
 0x364d DD=1: 48 aa 04            JBS sbaoff 0x05ea.0, label_3654
 0x3650 DD=1: a8 02 00 95         CMP A, 0x0002[X1]
@@ -5826,7 +5826,7 @@ label_3674:
 label_3683:
 0x3683 DD=1: fd                  CPL C
 0x3684 DD=1: b5 e0 1c            MB off 0x05e0.4, C
-0x3687 DD=1: c4 4c 04 00         CMP 0x024c, #0x0004
+0x3687 DD=1: c4 4c 04 00         CMP fix 0x0004, #0x0004
 0x368b DD=1: f5 05               JGE label_3692
 label_368d:
 0x368d DD=1: 64 c7               CLR ER0
@@ -5838,9 +5838,9 @@ label_3692:
 0x3698 DD=1: b5 e0 43            BAND C, off 0x05e0.3
 0x369b DD=1: b5 e0 4c            BANDN C, off 0x05e0.4
 0x369e DD=1: f5 1f               JGE label_36bf
-0x36a0 DD=1: b8 10 00 90 70      CMPB 0x0010[X1], 0x0270
+0x36a0 DD=1: b8 10 00 90 70      CMPB 0x0010[X1], fix 0x0270
 0x36a5 DD=1: f2 18               JLT label_36bf
-0x36a7 DD=1: b8 11 00 90 6e      CMPB 0x0011[X1], 0x026e
+0x36a7 DD=1: b8 11 00 90 6e      CMPB 0x0011[X1], fix 0x026e
 0x36ac DD=1: f2 11               JLT label_36bf
 0x36ae DD=0: 95 04               LB A, off 0x0504
 0x36b0 DD=0: ae 14               ADDB A, #0x14
@@ -5874,7 +5874,7 @@ label_36db:
 0x36ed DD=0: 45 17               ACAL label_1117
 0x36ef DD=0: 35 20               STB A, off 0x0520
 0x36f1 DD=1: fa                  CLR A
-0x36f2 DD=0: 94 7e               LB A, 0x027e
+0x36f2 DD=0: 94 7e               LB A, fix 0x027e
 0x36f4 DD=0: 61 aa               MOV X2, A
 0x36f6 DD=0: 4a a7 18            JBS sbaoff 0x05e7.2, label_3711
 0x36f9 DD=0: 48 a8 2d            JBS sbaoff 0x05e8.0, label_3729
@@ -5913,7 +5913,7 @@ label_3738:
 0x3741 DD=1: 44 70               ACAL label_1070
 0x3743 DD=1: 35 25               ST A, off 0x0525
 0x3745 DD=1: fa                  CLR A
-0x3746 DD=0: 94 7e               LB A, 0x027e
+0x3746 DD=0: 94 7e               LB A, fix 0x027e
 0x3748 DD=0: 61 aa               MOV X2, A
 0x374a DD=0: 95 25               LB A, off 0x0525
 0x374c DD=0: b9 21 05 a5         ADDB A, 0x0521[X2]
@@ -5953,7 +5953,7 @@ label_377a:
 label_378f:
 0x378f DD=0: 6d 84               SUBB R5, A
 0x3791 DD=1: fa                  CLR A
-0x3792 DD=0: 94 7e               LB A, 0x027e
+0x3792 DD=0: 94 7e               LB A, fix 0x027e
 0x3794 DD=0: 60 aa               MOV X1, A
 0x3796 DD=0: 61 aa               MOV X2, A
 0x3798 DD=0: 61 8c               SLL X2, 1
@@ -5968,7 +5968,7 @@ label_378f:
 0x37b7 DD=0: db                  EI
 0x37b8 DD=0: d6 03 06            MOVB LRBH, #0x06
 0x37bb DD=0: 5d e4 36            JBR sbafix 0x02e4.5, label_37f4
-0x37be DD=0: 94 7e               LB A, 0x027e
+0x37be DD=0: 94 7e               LB A, fix 0x027e
 0x37c0 DD=0: f6 2e               JNE label_37f0
 0x37c2 DD=1: 85 84               L A, off 0x0684
 0x37c4 DD=1: a5 86 70            MOV ER0, off 0x0686
@@ -6001,15 +6001,15 @@ label_37f7:
 0x37fe DD=1: 22 5f 8e            MOV DP, #0x8e5f
 0x3801 DD=1: 44 00               ACAL label_1000
 0x3803 DD=1: 35 8a               ST A, off 0x068a
-0x3805 DD=0: 94 71               LB A, 0x0271
+0x3805 DD=0: 94 71               LB A, fix 0x0271
 0x3807 DD=0: 22 7d 8e            MOV DP, #0x8e7d
 0x380a DD=0: 45 33               ACAL label_1133
 0x380c DD=0: 35 8b               STB A, off 0x068b
 0x380e DD=0: b7 ee 05 2c 3f      JBS 0x05ee.4, label_3852
-0x3813 DD=1: 84 d4               L A, 0x02d4
+0x3813 DD=1: 84 d4               L A, fix 0x02d4
 0x3815 DD=1: be 13 00            AND A, #0x0013
 0x3818 DD=1: f6 0a               JNE label_3824
-0x381a DD=1: 84 d6               L A, 0x02d6
+0x381a DD=1: 84 d6               L A, fix 0x02d6
 0x381c DD=1: be 00 80            AND A, #0x8000
 0x381f DD=1: f6 03               JNE label_3824
 0x3821 DD=1: 5f d0 31            JBR sbafix 0x02d0.7, label_3855
@@ -6041,7 +6041,7 @@ label_3865:
 0x3868 DD=1: d0                  DEC R0
 0x3869 DD=1: 04 14               SJ label_387f
 label_386b:
-0x386b DD=1: d4 70 7c            CMPB 0x0270, #0x7c
+0x386b DD=1: d4 70 7c            CMPB fix 0x0270, #0x7c
 0x386e DD=0: fb                  CLRB A
 0x386f DD=0: f2 0c               JLT label_387d
 0x3871 DD=0: 95 8a               LB A, off 0x068a
@@ -6066,7 +6066,7 @@ label_3882:
 label_388f:
 0x388f DD=0: 35 8e               STB A, off 0x068e
 label_3891:
-0x3891 DD=0: b4 7f a7 03         TJZB 0x027f, label_3898
+0x3891 DD=0: b4 7f a7 03         TJZB fix 0x027f, label_3898
 0x3895 DD=0: b6 42 0a            SB IRQ1L.2
 label_3898:
 0x3898 DD=0: 5e 6f               RB sbafix 0x02ef.6
@@ -6074,13 +6074,13 @@ label_389a:
 0x389a DD=0: 02                  RTI
 label_389b:
 0x389b DD=1: 86 f8               L A, ADCR20
-0x389d DD=1: b6 07 86 74         MOVB 0x0274, ACCH
+0x389d DD=1: b6 07 86 74         MOVB fix 0x0274, ACCH
 0x38a1 DD=1: 86 f9               L A, ADCR21
-0x38a3 DD=1: b6 07 86 75         MOVB 0x0275, ACCH
+0x38a3 DD=1: b6 07 86 75         MOVB fix 0x0275, ACCH
 0x38a7 DD=1: 86 fa               L A, ADCR22
-0x38a9 DD=1: b6 07 86 76         MOVB 0x0276, ACCH
+0x38a9 DD=1: b6 07 86 76         MOVB fix 0x0276, ACCH
 0x38ad DD=1: 86 fb               L A, ADCR23
-0x38af DD=1: b6 07 86 77         MOVB 0x0277, ACCH
+0x38af DD=1: b6 07 86 77         MOVB fix 0x0277, ACCH
 0x38b3 DD=1: 86 f6               L A, ADCR18
 0x38b5 DD=1: b6 07 9b 95 03      MOVB 0x0395, ACCH
 0x38ba DD=1: 86 f7               L A, ADCR19
@@ -6125,7 +6125,7 @@ loop_38ee:
 0x390c DD=1: 62 93 aa aa         CMP DP, #0xaaaa
 0x3910 DD=1: f1 05               JEQ label_3917
 label_3912:
-0x3912 DD=1: b4 2a ab c1         MOVB 0x022a, #0xc1
+0x3912 DD=1: b4 2a ab c1         MOVB fix 0x022a, #0xc1
 0x3916 DD=0: ff                  BRK
 label_3917:
 0x3917 DD=1: a7 4e 04 a3 02 00   ADD 0x044e, #0x0002
@@ -6140,7 +6140,7 @@ label_3926:
 0x392b DD=1: 9e 02 00            CMP A, #0x0002
 0x392e DD=1: f0 05               JGT label_3935
 label_3930:
-0x3930 DD=1: b4 2a ab c5         MOVB 0x022a, #0xc5
+0x3930 DD=1: b4 2a ab c5         MOVB fix 0x022a, #0xc5
 0x3934 DD=0: ff                  BRK
 label_3935:
 0x3935 DD=1: 20 08 00            MOV X1, #0x0008
@@ -6177,7 +6177,7 @@ label_393b:
 0x396d DD=0: 95 10               LB A, off 0x0610
 0x396f DD=0: f1 08               JEQ label_3979
 0x3971 DD=0: b5 10 c7            CLRB off 0x0610
-0x3974 DD=0: b4 2a ab c2         MOVB 0x022a, #0xc2
+0x3974 DD=0: b4 2a ab c2         MOVB fix 0x022a, #0xc2
 0x3978 DD=0: ff                  BRK
 label_3979:
 0x3979 DD=1: e0                  VCAL 0x0
@@ -6213,7 +6213,7 @@ label_39c2:
 0x39c4 DD=0: 8a 95               CMPB A, PSWL
 0x39c6 DD=0: f1 05               JEQ label_39cd
 label_39c8:
-0x39c8 DD=0: b4 2a ab c0         MOVB 0x022a, #0xc0
+0x39c8 DD=0: b4 2a ab c0         MOVB fix 0x022a, #0xc0
 0x39cc DD=0: ff                  BRK
 label_39cd:
 0x39cd DD=0: 8f                  SLLB A
@@ -6222,7 +6222,7 @@ label_39cd:
 0x39d4 DD=0: 8a ab 00            MOVB PSWL, #0x00
 0x39d7 DD=0: d6 03 08            MOVB LRBH, #0x08
 0x39da DD=0: f9 14               LB A, #0x14
-0x39dc DD=0: ac a5               ADDB A, 0x02a5
+0x39dc DD=0: ac a5               ADDB A, fix 0x02a5
 0x39de DD=0: f5 44               JGE label_3a24
 0x39e0 DD=0: b5 b2 2e 49         JBS off 0x08b2.6, label_3a2d
 0x39e4 DD=0: b5 b0 01            RB off 0x08b0.1
@@ -6271,28 +6271,28 @@ label_3a41:
 label_3a49:
 0x3a49 DD=0: 59 e5 34            JBR sbafix 0x02e5.1, label_3a80
 0x3a4c DD=0: 59 f3 31            JBR sbafix 0x02f3.1, label_3a80
-0x3a4f DD=0: d4 8c 01            CMPB 0x028c, #0x01
+0x3a4f DD=0: d4 8c 01            CMPB fix 0x028c, #0x01
 0x3a52 DD=0: fd                  CPL C
-0x3a53 DD=0: b4 f4 1a            MB 0x02f4.2, C
-0x3a56 DD=0: 94 88               LB A, 0x0288
+0x3a53 DD=0: b4 f4 1a            MB fix 0x02f4.2, C
+0x3a56 DD=0: 94 88               LB A, fix 0x0288
 0x3a58 DD=0: 8e 08               SUBB A, #0x08
 0x3a5a DD=0: f5 01               JGE label_3a5d
 0x3a5c DD=0: fb                  CLRB A
 label_3a5d:
 0x3a5d DD=0: 37 26 03            STB A, 0x0326
-0x3a60 DD=0: 94 89               LB A, 0x0289
+0x3a60 DD=0: 94 89               LB A, fix 0x0289
 0x3a62 DD=0: 8e 08               SUBB A, #0x08
 0x3a64 DD=0: f5 01               JGE label_3a67
 0x3a66 DD=0: fb                  CLRB A
 label_3a67:
 0x3a67 DD=0: 37 27 03            STB A, 0x0327
-0x3a6a DD=0: 94 8a               LB A, 0x028a
+0x3a6a DD=0: 94 8a               LB A, fix 0x028a
 0x3a6c DD=0: 8e 08               SUBB A, #0x08
 0x3a6e DD=0: f5 01               JGE label_3a71
 0x3a70 DD=0: fb                  CLRB A
 label_3a71:
 0x3a71 DD=0: 37 28 03            STB A, 0x0328
-0x3a74 DD=0: 94 8b               LB A, 0x028b
+0x3a74 DD=0: 94 8b               LB A, fix 0x028b
 0x3a76 DD=0: 8e 08               SUBB A, #0x08
 0x3a78 DD=0: f5 01               JGE label_3a7b
 0x3a7a DD=0: fb                  CLRB A
@@ -6301,14 +6301,14 @@ label_3a7b:
 0x3a7e DD=0: 04 23               SJ label_3aa3
 label_3a80:
 0x3a80 DD=0: f9 88               LB A, #0x88
-0x3a82 DD=0: 34 88               STB A, 0x0288
-0x3a84 DD=0: 34 89               STB A, 0x0289
-0x3a86 DD=0: 34 8a               STB A, 0x028a
-0x3a88 DD=0: 34 8b               STB A, 0x028b
-0x3a8a DD=0: b4 8c c7            CLRB 0x028c
+0x3a82 DD=0: 34 88               STB A, fix 0x0288
+0x3a84 DD=0: 34 89               STB A, fix 0x0289
+0x3a86 DD=0: 34 8a               STB A, fix 0x028a
+0x3a88 DD=0: 34 8b               STB A, fix 0x028b
+0x3a8a DD=0: b4 8c c7            CLRB fix 0x028c
 0x3a8d DD=0: 5b 74               RB sbafix 0x02f4.3
-0x3a8f DD=0: b4 e5 13            MB C, 0x02e5.3
-0x3a92 DD=0: b4 f4 1a            MB 0x02f4.2, C
+0x3a8f DD=0: b4 e5 13            MB C, fix 0x02e5.3
+0x3a92 DD=0: b4 f4 1a            MB fix 0x02f4.2, C
 0x3a95 DD=0: f9 80               LB A, #0x80
 0x3a97 DD=0: 37 26 03            STB A, 0x0326
 0x3a9a DD=0: 37 27 03            STB A, 0x0327
@@ -6323,34 +6323,34 @@ label_3aa3:
 0x3ab0 DD=0: 37 11 05            STB A, 0x0511
 0x3ab3 DD=0: 04 24               SJ label_3ad9
 label_3ab5:
-0x3ab5 DD=0: 94 74               LB A, 0x0274
+0x3ab5 DD=0: 94 74               LB A, fix 0x0274
 0x3ab7 DD=0: 9f                  SRLB A
 0x3ab8 DD=0: ae c0               ADDB A, #0xc0
 0x3aba DD=0: 37 0e 05            STB A, 0x050e
-0x3abd DD=0: 94 75               LB A, 0x0275
+0x3abd DD=0: 94 75               LB A, fix 0x0275
 0x3abf DD=0: 9f                  SRLB A
 0x3ac0 DD=0: ae c0               ADDB A, #0xc0
 0x3ac2 DD=0: 37 0f 05            STB A, 0x050f
 0x3ac5 DD=0: fb                  CLRB A
 0x3ac6 DD=0: 5c a5 05            JBS sbafix 0x02e5.4, label_3ace
-0x3ac9 DD=0: 94 76               LB A, 0x0276
+0x3ac9 DD=0: 94 76               LB A, fix 0x0276
 0x3acb DD=0: 9f                  SRLB A
 0x3acc DD=0: ae c0               ADDB A, #0xc0
 label_3ace:
 0x3ace DD=0: 37 10 05            STB A, 0x0510
-0x3ad1 DD=0: 94 77               LB A, 0x0277
+0x3ad1 DD=0: 94 77               LB A, fix 0x0277
 0x3ad3 DD=0: 9f                  SRLB A
 0x3ad4 DD=0: ae c0               ADDB A, #0xc0
 0x3ad6 DD=0: 37 11 05            STB A, 0x0511
 label_3ad9:
 0x3ad9 DD=0: f9 40               LB A, #0x40
 0x3adb DD=0: 5c e5 02            JBR sbafix 0x02e5.4, label_3ae0
-0x3ade DD=0: 94 76               LB A, 0x0276
+0x3ade DD=0: 94 76               LB A, fix 0x0276
 label_3ae0:
 0x3ae0 DD=0: 37 5d 05            STB A, 0x055d
 0x3ae3 DD=0: fb                  CLRB A
 0x3ae4 DD=0: 5f e5 02            JBR sbafix 0x02e5.7, label_3ae9
-0x3ae7 DD=0: 94 77               LB A, 0x0277
+0x3ae7 DD=0: 94 77               LB A, fix 0x0277
 label_3ae9:
 0x3ae9 DD=0: 35 8c               STB A, off 0x068c
 0x3aeb DD=0: 5c 94 10            JBS sbafix 0x02d4.4, label_3afe
@@ -6418,7 +6418,7 @@ label_3b58:
 label_3b5b:
 0x3b5b DD=1: f8 18 fc            L A, #0xfc18
 0x3b5e DD=1: 24 e8 03            MOV ER0, #0x03e8
-0x3b61 DD=1: c5 14 00 80         CMP off 0x0614, #0x8000
+0x3b61 DD=1: c5 14 00 80         CMP off 0x8000, #0x8000
 0x3b65 DD=1: f5 09               JGE label_3b70
 0x3b67 DD=1: 64 71               MOV ER1, ER0
 0x3b69 DD=1: 64 91 14            CMP ER0, off 0x0614
@@ -6431,7 +6431,7 @@ label_3b70:
 label_3b75:
 0x3b75 DD=1: 65 87 14            MOV off 0x0614, ER1
 label_3b78:
-0x3b78 DD=1: c5 12 00 80         CMP off 0x0612, #0x8000
+0x3b78 DD=1: c5 12 00 80         CMP off 0x8000, #0x8000
 0x3b7c DD=1: f5 09               JGE label_3b87
 0x3b7e DD=1: 64 71               MOV ER1, ER0
 0x3b80 DD=1: 64 91 12            CMP ER0, off 0x0612
@@ -6446,7 +6446,7 @@ label_3b8c:
 label_3b8f:
 0x3b8f DD=1: e0                  VCAL 0x0
 0x3b90 DD=1: da                  DI
-0x3b91 DD=1: d4 2d 02            CMPB 0x022d, #0x02
+0x3b91 DD=1: d4 2d 02            CMPB fix 0x022d, #0x02
 0x3b94 DD=1: f5 09               JGE label_3b9f
 0x3b96 DD=1: 58 af 03            JBS sbafix 0x02ef.0, label_3b9c
 0x3b99 DD=1: 59 af 03            JBS sbafix 0x02ef.1, label_3b9f
@@ -6455,24 +6455,24 @@ label_3b9c:
 label_3b9f:
 0x3b9f DD=1: 58 2f               SB sbafix 0x02ef.0
 0x3ba1 DD=0: fb                  CLRB A
-0x3ba2 DD=0: 34 2d               STB A, 0x022d
-0x3ba4 DD=0: 34 e8               STB A, 0x02e8
-0x3ba6 DD=0: 34 e9               STB A, 0x02e9
-0x3ba8 DD=0: 34 ea               STB A, 0x02ea
-0x3baa DD=0: 34 eb               STB A, 0x02eb
-0x3bac DD=0: 34 ec               STB A, 0x02ec
-0x3bae DD=0: 34 ed               STB A, 0x02ed
-0x3bb0 DD=0: 34 ee               STB A, 0x02ee
+0x3ba2 DD=0: 34 2d               STB A, fix 0x022d
+0x3ba4 DD=0: 34 e8               STB A, fix 0x02e8
+0x3ba6 DD=0: 34 e9               STB A, fix 0x02e9
+0x3ba8 DD=0: 34 ea               STB A, fix 0x02ea
+0x3baa DD=0: 34 eb               STB A, fix 0x02eb
+0x3bac DD=0: 34 ec               STB A, fix 0x02ec
+0x3bae DD=0: 34 ed               STB A, fix 0x02ed
+0x3bb0 DD=0: 34 ee               STB A, fix 0x02ee
 0x3bb2 DD=0: 37 c0 04            STB A, 0x04c0
 0x3bb5 DD=0: 37 c6 04            STB A, 0x04c6
-0x3bb8 DD=0: 34 2c               STB A, 0x022c
+0x3bb8 DD=0: 34 2c               STB A, fix 0x022c
 0x3bba DD=0: 37 00 04            STB A, 0x0400
 0x3bbd DD=0: 37 10 04            STB A, 0x0410
 0x3bc0 DD=0: 37 18 04            STB A, 0x0418
 0x3bc3 DD=1: fa                  CLR A
-0x3bc4 DD=1: 34 44               ST A, 0x0244
-0x3bc6 DD=1: 34 4e               ST A, 0x024e
-0x3bc8 DD=1: 34 34               ST A, 0x0234
+0x3bc4 DD=1: 34 44               ST A, fix 0x0244
+0x3bc6 DD=1: 34 4e               ST A, fix 0x024e
+0x3bc8 DD=1: 34 34               ST A, fix 0x0234
 0x3bca DD=1: 37 00 05            ST A, 0x0500
 0x3bcd DD=1: 37 62 03            ST A, 0x0362
 0x3bd0 DD=1: dc                  DEC A
@@ -6482,8 +6482,8 @@ label_3b9f:
 loop_3bd9:
 0x3bd9 DD=1: 33                  ST A, [DP+]
 0x3bda DD=1: 05 7d               DJNZ R4, loop_3bd9
-0x3bdc DD=1: b4 32 ab 17         MOVB 0x0232, #0x17
-0x3be0 DD=1: a4 2e ab e8 ff      MOV 0x022e, #0xffe8
+0x3bdc DD=1: b4 32 ab 17         MOVB fix 0x0232, #0x17
+0x3be0 DD=1: a4 2e ab e8 ff      MOV fix 0x022e, #0xffe8
 0x3be5 DD=0: fb                  CLRB A
 0x3be6 DD=0: 37 d0 03            STB A, 0x03d0
 0x3be9 DD=0: 37 d1 03            STB A, 0x03d1
@@ -6559,15 +6559,15 @@ label_3c95:
 0x3c97 DD=0: db                  EI
 0x3c98 DD=0: cb                  SC
 0x3c99 DD=0: 58 af 0b            JBS sbafix 0x02ef.0, label_3ca7
-0x3c9c DD=1: 84 34               L A, 0x0234
+0x3c9c DD=1: 84 34               L A, fix 0x0234
 0x3c9e DD=1: 9e 65 07            CMP A, #0x0765
 0x3ca1 DD=1: 5b af 03            JBS sbafix 0x02ef.3, label_3ca7
 0x3ca4 DD=1: 9e 1c 07            CMP A, #0x071c
 label_3ca7:
-0x3ca7 DD=1: b4 ef 1b            MB 0x02ef.3, C
+0x3ca7 DD=1: b4 ef 1b            MB fix 0x02ef.3, C
 0x3caa DD=1: f5 12               JGE label_3cbe
-0x3cac DD=1: b4 a1 c7            CLRB 0x02a1
-0x3caf DD=1: b4 a2 c7            CLRB 0x02a2
+0x3cac DD=1: b4 a1 c7            CLRB fix 0x02a1
+0x3caf DD=1: b4 a2 c7            CLRB fix 0x02a2
 0x3cb2 DD=1: d7 b2 0f            MOVB off 0x06b2, #0x0f
 0x3cb5 DD=1: d7 b3 32            MOVB off 0x06b3, #0x32
 0x3cb8 DD=1: 58 af 03            JBS sbafix 0x02ef.0, label_3cbe
@@ -6586,9 +6586,9 @@ label_3cc1:
 0x3cd6 DD=0: f2 01               JLT label_3cd9
 0x3cd8 DD=0: 39                  STB A, R1
 label_3cd9:
-0x3cd9 DD=0: 69 86 6f            MOVB 0x026f, R1
+0x3cd9 DD=0: 69 86 6f            MOVB fix 0x026f, R1
 label_3cdc:
-0x3cdc DD=0: b4 d0 1b            MB 0x02d0.3, C
+0x3cdc DD=0: b4 d0 1b            MB fix 0x02d0.3, C
 0x3cdf DD=0: 11 58               MOVB R1, #0x58
 0x3ce1 DD=0: 5a 94 37            JBS sbafix 0x02d4.2, label_3d1b
 0x3ce4 DD=0: a6 f2 97            MOV A, ADCR14
@@ -6597,7 +6597,7 @@ label_3cdc:
 0x3ced DD=0: f2 04               JLT label_3cf3
 0x3cef DD=0: b7 d2 8e 95         CMPB A, 0x8ed2
 label_3cf3:
-0x3cf3 DD=0: b4 d0 1f            MB 0x02d0.7, C
+0x3cf3 DD=0: b4 d0 1f            MB fix 0x02d0.7, C
 0x3cf6 DD=0: f2 3c               JLT label_3d34
 0x3cf8 DD=0: 39                  STB A, R1
 0x3cf9 DD=0: 8d 18               SUBB A, off 0x0618
@@ -6634,7 +6634,7 @@ label_3d2f:
 0x3d2f DD=0: 20 d8 8e            MOV X1, #0x8ed8
 0x3d32 DD=0: ba 71               MOVB R1, [X1+A]
 label_3d34:
-0x3d34 DD=0: 69 86 70            MOVB 0x0270, R1
+0x3d34 DD=0: 69 86 70            MOVB fix 0x0270, R1
 label_3d37:
 0x3d37 DD=0: b7 d4 8e 87 ac      MOVB off 0x06ac, 0x8ed4
 label_3d3c:
@@ -6704,11 +6704,11 @@ label_3dc6:
 0x3dc6 DD=0: 32                  STB A, [DP]
 0x3dc7 DD=0: ca                  RC
 label_3dc8:
-0x3dc8 DD=0: b4 d0 1d            MB 0x02d0.5, C
+0x3dc8 DD=0: b4 d0 1d            MB fix 0x02d0.5, C
 0x3dcb DD=0: f9 80               LB A, #0x80
 0x3dcd DD=0: 59 a7 25            JBS sbafix 0x02e7.1, label_3df5
 0x3dd0 DD=0: 22 3f 89            MOV DP, #0x893f
-0x3dd3 DD=1: 84 34               L A, 0x0234
+0x3dd3 DD=1: 84 34               L A, fix 0x0234
 0x3dd5 DD=1: 9e 06 1b            CMP A, #0x1b06
 0x3dd8 DD=1: b7 d1 03 2b 03      JBS 0x03d1.3, label_3de0
 0x3ddd DD=1: 9e 72 1c            CMP A, #0x1c72
@@ -6716,12 +6716,12 @@ label_3de0:
 0x3de0 DD=1: fd                  CPL C
 0x3de1 DD=1: b7 d1 03 1b         MB 0x03d1.3, C
 0x3de5 DD=1: f2 06               JLT label_3ded
-0x3de7 DD=1: c4 3c 04 00         CMP 0x023c, #0x0004
+0x3de7 DD=1: c4 3c 04 00         CMP fix 0x0004, #0x0004
 0x3deb DD=1: f2 04               JLT label_3df1
 label_3ded:
 0x3ded DD=1: 62 a3 15 00         ADD DP, #0x0015
 label_3df1:
-0x3df1 DD=0: 94 6e               LB A, 0x026e
+0x3df1 DD=0: 94 6e               LB A, fix 0x026e
 0x3df3 DD=0: 44 04               ACAL label_1004
 label_3df5:
 0x3df5 DD=0: 37 4a 03            STB A, 0x034a
@@ -6729,7 +6729,7 @@ label_3df5:
 0x3dfb DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3e01
 0x3dfe DD=0: 22 f2 8a            MOV DP, #0x8af2
 label_3e01:
-0x3e01 DD=0: 94 6e               LB A, 0x026e
+0x3e01 DD=0: 94 6e               LB A, fix 0x026e
 0x3e03 DD=0: 44 04               ACAL label_1004
 0x3e05 DD=0: 37 13 05            STB A, 0x0513
 0x3e08 DD=0: e0                  VCAL 0x0
@@ -6798,27 +6798,27 @@ label_3e78:
 0x3e78 DD=0: 32                  STB A, [DP]
 0x3e79 DD=0: ca                  RC
 label_3e7a:
-0x3e7a DD=0: b4 d0 1e            MB 0x02d0.6, C
+0x3e7a DD=0: b4 d0 1e            MB fix 0x02d0.6, C
 0x3e7d DD=0: 95 1a               LB A, off 0x061a
 0x3e7f DD=0: 5a e6 02            JBR sbafix 0x02e6.2, label_3e84
 label_3e82:
 0x3e82 DD=0: 95 1b               LB A, off 0x061b
 label_3e84:
-0x3e84 DD=0: 34 71               STB A, 0x0271
+0x3e84 DD=0: 34 71               STB A, fix 0x0271
 0x3e86 DD=0: 22 ee 87            MOV DP, #0x87ee
-0x3e89 DD=0: 94 71               LB A, 0x0271
+0x3e89 DD=0: 94 71               LB A, fix 0x0271
 0x3e8b DD=0: 44 04               ACAL label_1004
 0x3e8d DD=0: 37 4f 03            STB A, 0x034f
 0x3e90 DD=0: 22 fb 87            MOV DP, #0x87fb
-0x3e93 DD=0: 94 71               LB A, 0x0271
+0x3e93 DD=0: 94 71               LB A, fix 0x0271
 0x3e95 DD=0: 44 04               ACAL label_1004
 0x3e97 DD=0: 37 50 03            STB A, 0x0350
 0x3e9a DD=0: 22 08 88            MOV DP, #0x8808
-0x3e9d DD=0: 94 71               LB A, 0x0271
+0x3e9d DD=0: 94 71               LB A, fix 0x0271
 0x3e9f DD=0: 44 04               ACAL label_1004
 0x3ea1 DD=0: 37 4e 03            STB A, 0x034e
 0x3ea4 DD=1: fa                  CLR A
-0x3ea5 DD=1: b4 71 97            MOVB A, 0x0271
+0x3ea5 DD=1: b4 71 97            MOVB A, fix 0x0271
 0x3ea8 DD=1: ae 22 00            ADD A, #0x0022
 0x3eab DD=1: 38                  ST A, ER0
 0x3eac DD=1: f8 d4 01            L A, #0x01d4
@@ -6847,7 +6847,7 @@ label_3ec9:
 0x3ee0 DD=1: 37 78 03            ST A, 0x0378
 0x3ee3 DD=1: a6 e6 97            MOV A, ADCR6
 0x3ee6 DD=0: 96 07               LB A, ACCH
-0x3ee8 DD=0: 34 72               STB A, 0x0272
+0x3ee8 DD=0: 34 72               STB A, fix 0x0272
 0x3eea DD=0: 5f e6 23            JBR sbafix 0x02e6.7, label_3f10
 0x3eed DD=0: 5c e6 20            JBR sbafix 0x02e6.4, label_3f10
 0x3ef0 DD=0: fb                  CLRB A
@@ -6863,12 +6863,12 @@ label_3ec9:
 label_3f0e:
 0x3f0e DD=0: bc d7               FILLB A
 label_3f10:
-0x3f10 DD=0: 34 73               STB A, 0x0273
-0x3f12 DD=0: 94 73               LB A, 0x0273
+0x3f10 DD=0: 34 73               STB A, fix 0x0273
+0x3f12 DD=0: 94 73               LB A, fix 0x0273
 0x3f14 DD=0: 22 e9 89            MOV DP, #0x89e9
 0x3f17 DD=0: 44 30               ACAL label_1030
 0x3f19 DD=0: 37 3c 03            STB A, 0x033c
-0x3f1c DD=0: 94 73               LB A, 0x0273
+0x3f1c DD=0: 94 73               LB A, fix 0x0273
 0x3f1e DD=0: 22 0c 8d            MOV DP, #0x8d0c
 0x3f21 DD=0: 44 04               ACAL label_1004
 0x3f23 DD=0: 37 2b 05            STB A, 0x052b
@@ -6880,10 +6880,10 @@ label_3f30:
 0x3f30 DD=0: 58 af 23            JBS sbafix 0x02ef.0, label_3f56
 0x3f33 DD=0: 42                  INC DP
 0x3f34 DD=0: f9 85               LB A, #0x85
-0x3f36 DD=0: d4 70 7c            CMPB 0x0270, #0x7c
+0x3f36 DD=0: d4 70 7c            CMPB fix 0x0270, #0x7c
 0x3f39 DD=0: f0 1a               JGT label_3f55
-0x3f3b DD=0: b4 3e 71            MOVB R1, 0x023e
-0x3f3e DD=0: c4 34 e9 13         CMP 0x0234, #0x13e9
+0x3f3b DD=0: b4 3e 71            MOVB R1, fix 0x023e
+0x3f3e DD=0: c4 34 e9 13         CMP fix 0x13e9, #0x13e9
 0x3f42 DD=0: f0 11               JGT label_3f55
 0x3f44 DD=0: 19                  CMPB A, R1
 0x3f45 DD=0: f2 0e               JLT label_3f55
@@ -6942,7 +6942,7 @@ label_3f9b:
 0x3f9d DD=0: 4c 85 1e            JBS sbaoff 0x06c5.4, label_3fbe
 0x3fa0 DD=0: 58 94 1b            JBS sbafix 0x02d4.0, label_3fbe
 0x3fa3 DD=0: 59 94 18            JBS sbafix 0x02d4.1, label_3fbe
-0x3fa6 DD=0: 94 a5               LB A, 0x02a5
+0x3fa6 DD=0: 94 a5               LB A, fix 0x02a5
 0x3fa8 DD=0: ae 20               ADDB A, #0x20
 0x3faa DD=0: f5 03               JGE label_3faf
 0x3fac DD=0: 58 ef 0f            JBR sbafix 0x02ef.0, label_3fbe
@@ -6961,22 +6961,22 @@ label_3fbe:
 0x3fc1 DD=0: 04 04               SJ label_3fc7
 label_3fc3:
 0x3fc3 DD=0: f9 30               LB A, #0x30
-0x3fc5 DD=0: 9c a1               CMPB A, 0x02a1
+0x3fc5 DD=0: 9c a1               CMPB A, fix 0x02a1
 label_3fc7:
-0x3fc7 DD=0: b4 d0 19            MB 0x02d0.1, C
+0x3fc7 DD=0: b4 d0 19            MB fix 0x02d0.1, C
 0x3fca DD=0: 58 e4 30            JBR sbafix 0x02e4.0, label_3ffd
 0x3fcd DD=0: 58 a6 2d            JBS sbafix 0x02e6.0, label_3ffd
 0x3fd0 DD=0: 4e 85 2a            JBS sbaoff 0x06c5.6, label_3ffd
 0x3fd3 DD=0: 5d 96 27            JBS sbafix 0x02d6.5, label_3ffd
 0x3fd6 DD=0: 5e 96 24            JBS sbafix 0x02d6.6, label_3ffd
-0x3fd9 DD=0: 94 a5               LB A, 0x02a5
+0x3fd9 DD=0: 94 a5               LB A, fix 0x02a5
 0x3fdb DD=0: ae 20               ADDB A, #0x20
 0x3fdd DD=0: f5 03               JGE label_3fe2
 0x3fdf DD=0: 58 ef 1b            JBR sbafix 0x02ef.0, label_3ffd
 label_3fe2:
-0x3fe2 DD=0: c4 34 e4 38         CMP 0x0234, #0x38e4
+0x3fe2 DD=0: c4 34 e4 38         CMP fix 0x38e4, #0x38e4
 0x3fe6 DD=0: f2 17               JLT label_3fff
-0x3fe8 DD=0: c4 3c 33 01         CMP 0x023c, #0x0133
+0x3fe8 DD=0: c4 3c 33 01         CMP fix 0x0133, #0x0133
 0x3fec DD=0: f2 11               JLT label_3fff
 0x3fee DD=1: 87 14 04            L A, 0x0414
 0x3ff1 DD=0: 95 1d               LB A, off 0x061d
@@ -6993,25 +6993,25 @@ label_3fff:
 0x4000 DD=0: 04 04               SJ label_4006
 label_4002:
 0x4002 DD=0: f9 30               LB A, #0x30
-0x4004 DD=0: 9c a1               CMPB A, 0x02a1
+0x4004 DD=0: 9c a1               CMPB A, fix 0x02a1
 label_4006:
-0x4006 DD=0: b4 d1 19            MB 0x02d1.1, C
+0x4006 DD=0: b4 d1 19            MB fix 0x02d1.1, C
 0x4009 DD=0: ca                  RC
-0x400a DD=0: 94 d5               LB A, 0x02d5
+0x400a DD=0: 94 d5               LB A, fix 0x02d5
 0x400c DD=0: be 0f               ANDB A, #0x0f
 0x400e DD=0: f6 06               JNE label_4016
-0x4010 DD=0: 94 a5               LB A, 0x02a5
+0x4010 DD=0: 94 a5               LB A, fix 0x02a5
 0x4012 DD=0: ae 14               ADDB A, #0x14
 0x4014 DD=0: f2 04               JLT label_401a
 label_4016:
-0x4016 DD=0: b4 ef 10            MB C, 0x02ef.0
+0x4016 DD=0: b4 ef 10            MB C, fix 0x02ef.0
 0x4019 DD=0: fd                  CPL C
 label_401a:
 0x401a DD=0: b6 10 18            MB P0.0, C
 0x401d DD=0: 8a 03               RB PSWL.3
 0x401f DD=0: 58 af 16            JBS sbafix 0x02ef.0, label_4038
-0x4022 DD=1: 84 34               L A, 0x0234
-0x4024 DD=1: a4 3c 72            MOV ER2, 0x023c
+0x4022 DD=1: 84 34               L A, fix 0x0234
+0x4024 DD=1: a4 3c 72            MOV ER2, fix 0x023c
 0x4027 DD=1: 4d c2 12            JBR sbaoff 0x06c2.5, label_403c
 0x402a DD=1: 5e dc 0b            JBR sbafix 0x02dc.6, label_4038
 0x402d DD=1: 9e e4 38            CMP A, #0x38e4
@@ -7036,7 +7036,7 @@ label_4050:
 label_4059:
 0x4059 DD=1: b5 a6 a6 43         TJNZB off 0x06a6, label_40a0
 0x405d DD=1: d7 a6 0a            MOVB off 0x06a6, #0x0a
-0x4060 DD=1: 84 34               L A, 0x0234
+0x4060 DD=1: 84 34               L A, fix 0x0234
 0x4062 DD=1: d5 35 04            CMPB off 0x0635, #0x04
 0x4065 DD=1: f2 24               JLT label_408b
 0x4067 DD=1: 38                  ST A, ER0
@@ -7117,9 +7117,9 @@ label_410b:
 0x410b DD=1: b6 10 1b            MB P0.3, C
 0x410e DD=1: cb                  SC
 0x410f DD=1: 4d c2 0a            JBR sbaoff 0x06c2.5, label_411c
-0x4112 DD=1: c4 3c 00 00         CMP 0x023c, #0x0000
+0x4112 DD=1: c4 3c 00 00         CMP fix 0x0000, #0x0000
 0x4116 DD=1: f2 04               JLT label_411c
-0x4118 DD=1: c4 34 00 00         CMP 0x0234, #0x0000
+0x4118 DD=1: c4 34 00 00         CMP fix 0x0000, #0x0000
 label_411c:
 0x411c DD=1: fd                  CPL C
 0x411d DD=1: b6 11 18            MB P1.0, C
@@ -7127,7 +7127,7 @@ label_411c:
 0x4123 DD=1: 03 de 41            J label_41de
 label_4126:
 0x4126 DD=1: e0                  VCAL 0x0
-0x4127 DD=1: a4 d0 70            MOV ER0, 0x02d0
+0x4127 DD=1: a4 d0 70            MOV ER0, fix 0x02d0
 0x412a DD=1: 17 01               MOVB R7, #0x01
 0x412c DD=1: 22 b1 06            MOV DP, #0x06b1
 label_412f:
@@ -7165,7 +7165,7 @@ label_4159:
 0x415f DD=0: ba 8a               MOVB [DP], [X1+A]
 label_4161:
 0x4161 DD=1: fa                  CLR A
-0x4162 DD=1: a4 d2 c8            XCHG A, 0x02d2
+0x4162 DD=1: a4 d2 c8            XCHG A, fix 0x02d2
 0x4165 DD=1: 39                  ST A, ER1
 0x4166 DD=1: 17 11               MOVB R7, #0x11
 0x4168 DD=1: 22 8e 02            MOV DP, #0x028e
@@ -7210,41 +7210,41 @@ label_419e:
 0x41ab DD=0: 6e aa               MOVB R6, A
 0x41ad DD=0: 54 2a               ACAL label_142a
 label_41af:
-0x41af DD=0: 94 d4               LB A, 0x02d4
-0x41b1 DD=0: ac d5               ADDB A, 0x02d5
-0x41b3 DD=0: ac d6               ADDB A, 0x02d6
-0x41b5 DD=0: ac d7               ADDB A, 0x02d7
-0x41b7 DD=0: 9c 9f               CMPB A, 0x029f
+0x41af DD=0: 94 d4               LB A, fix 0x02d4
+0x41b1 DD=0: ac d5               ADDB A, fix 0x02d5
+0x41b3 DD=0: ac d6               ADDB A, fix 0x02d6
+0x41b5 DD=0: ac d7               ADDB A, fix 0x02d7
+0x41b7 DD=0: 9c 9f               CMPB A, fix 0x029f
 0x41b9 DD=0: f6 11               JNE label_41cc
 0x41bb DD=0: fb                  CLRB A
-0x41bc DD=0: b4 d4 d5            XORB A, 0x02d4
-0x41bf DD=0: b4 d5 d5            XORB A, 0x02d5
-0x41c2 DD=0: b4 d6 d5            XORB A, 0x02d6
-0x41c5 DD=0: b4 d7 d5            XORB A, 0x02d7
-0x41c8 DD=0: 9c a0               CMPB A, 0x02a0
+0x41bc DD=0: b4 d4 d5            XORB A, fix 0x02d4
+0x41bf DD=0: b4 d5 d5            XORB A, fix 0x02d5
+0x41c2 DD=0: b4 d6 d5            XORB A, fix 0x02d6
+0x41c5 DD=0: b4 d7 d5            XORB A, fix 0x02d7
+0x41c8 DD=0: 9c a0               CMPB A, fix 0x02a0
 0x41ca DD=0: f1 12               JEQ label_41de
 label_41cc:
 0x41cc DD=1: fa                  CLR A
-0x41cd DD=1: 34 d4               ST A, 0x02d4
-0x41cf DD=1: 34 d6               ST A, 0x02d6
+0x41cd DD=1: 34 d4               ST A, fix 0x02d4
+0x41cf DD=1: 34 d6               ST A, fix 0x02d6
 0x41d1 DD=1: 5d 75               RB sbafix 0x02f5.5
 0x41d3 DD=0: d8                  RDD
-0x41d4 DD=0: 34 9f               STB A, 0x029f
-0x41d6 DD=0: 34 a0               STB A, 0x02a0
+0x41d4 DD=0: 34 9f               STB A, fix 0x029f
+0x41d6 DD=0: 34 a0               STB A, fix 0x02a0
 0x41d8 DD=0: 35 2f               STB A, off 0x062f
 0x41da DD=0: 35 30               STB A, off 0x0630
 0x41dc DD=0: 35 ad               STB A, off 0x06ad
 label_41de:
 0x41de DD=0: d6 03 0c            MOVB LRBH, #0x0c
 0x41e1 DD=1: 87 19 90            L A, 0x9019
-0x41e4 DD=1: a4 34 a9            MUL 0x0234
+0x41e4 DD=1: a4 34 a9            MUL fix 0x0234
 0x41e7 DD=1: 37 06 0c            ST A, 0x0c06
 0x41ea DD=1: 86 e0               L A, ADCR0
 0x41ec DD=1: b6 07 87 08         MOVB off 0x0c08, ACCH
 0x41f0 DD=1: bc 9f               SRL A, 4
 0x41f2 DD=1: bc 9d               SRL A, 2
 0x41f4 DD=1: 64 c7               CLR ER0
-0x41f6 DD=1: b4 42 70            MOVB R0, 0x0242
+0x41f6 DD=1: b4 42 70            MOVB R0, fix 0x0242
 0x41f9 DD=1: 08                  SUB A, ER0
 0x41fa DD=1: f5 01               JGE label_41fd
 0x41fc DD=1: fa                  CLR A
@@ -7387,24 +7387,24 @@ label_4308:
 0x4317 DD=1: b6 07 87 25         MOVB off 0x0c25, ACCH
 0x431b DD=1: b5 26 c7            CLRB off 0x0c26
 0x431e DD=0: fb                  CLRB A
-0x431f DD=0: b4 dc 10            MB C, 0x02dc.0
+0x431f DD=0: b4 dc 10            MB C, fix 0x02dc.0
 0x4322 DD=0: bc 1a               MB A.2, C
 0x4324 DD=0: 35 27               STB A, off 0x0c27
 0x4326 DD=0: fb                  CLRB A
-0x4327 DD=0: b4 dc 17            MB C, 0x02dc.7
+0x4327 DD=0: b4 dc 17            MB C, fix 0x02dc.7
 0x432a DD=0: fd                  CPL C
 0x432b DD=0: bc 19               MB A.1, C
-0x432d DD=0: b4 dc 12            MB C, 0x02dc.2
+0x432d DD=0: b4 dc 12            MB C, fix 0x02dc.2
 0x4330 DD=0: bc 1a               MB A.2, C
-0x4332 DD=0: b4 dc 11            MB C, 0x02dc.1
+0x4332 DD=0: b4 dc 11            MB C, fix 0x02dc.1
 0x4335 DD=0: bc 1b               MB A.3, C
-0x4337 DD=0: b4 dc 13            MB C, 0x02dc.3
+0x4337 DD=0: b4 dc 13            MB C, fix 0x02dc.3
 0x433a DD=0: bc 1c               MB A.4, C
-0x433c DD=0: b4 dc 14            MB C, 0x02dc.4
+0x433c DD=0: b4 dc 14            MB C, fix 0x02dc.4
 0x433f DD=0: bc 1d               MB A.5, C
-0x4341 DD=0: b4 dc 16            MB C, 0x02dc.6
+0x4341 DD=0: b4 dc 16            MB C, fix 0x02dc.6
 0x4344 DD=0: bc 1e               MB A.6, C
-0x4346 DD=0: b4 df 10            MB C, 0x02df.0
+0x4346 DD=0: b4 df 10            MB C, fix 0x02df.0
 0x4349 DD=0: bc 1f               MB A.7, C
 0x434b DD=0: 35 28               STB A, off 0x0c28
 0x434d DD=0: fb                  CLRB A
@@ -7454,7 +7454,7 @@ label_437b:
 0x43d7 DD=0: b5 1f 87 9c         MOVB off 0x0c9c, off 0x0c1f
 0x43db DD=0: b5 20 87 9d         MOVB off 0x0c9d, off 0x0c20
 0x43df DD=0: b5 21 87 9e         MOVB off 0x0c9e, off 0x0c21
-0x43e3 DD=0: 94 8d               LB A, 0x028d
+0x43e3 DD=0: 94 8d               LB A, fix 0x028d
 0x43e5 DD=0: f1 02               JEQ label_43e9
 0x43e7 DD=0: 5f 38               SB sbafix 0x02f8.7
 label_43e9:
@@ -7799,7 +7799,7 @@ label_468d:
 label_4690:
 0x4690 DD=1: 9e 27 06            CMP A, #0x0627
 0x4693 DD=1: f1 10               JEQ label_46a5
-0x4695 DD=1: b4 a5 70            MOVB R0, 0x02a5
+0x4695 DD=1: b4 a5 70            MOVB R0, fix 0x02a5
 0x4698 DD=1: 68 a3 14            ADDB R0, #0x14
 0x469b DD=1: f5 05               JGE label_46a2
 0x469d DD=1: 9e 27 0b            CMP A, #0x0b27
@@ -7826,11 +7826,11 @@ label_46be:
 0x46c5 DD=0: b5 b0 28 2e         JBS off 0x08b0.0, label_46f7
 0x46c9 DD=0: d5 67 48            CMPB off 0x0867, #0x48
 0x46cc DD=0: f6 44               JNE label_4712
-0x46ce DD=0: c5 68 65 6c         CMP off 0x0868, #0x6c65
+0x46ce DD=0: c5 68 65 6c         CMP off 0x6c65, #0x6c65
 0x46d2 DD=0: f6 3e               JNE label_4712
-0x46d4 DD=0: c5 6a 6c 6f         CMP off 0x086a, #0x6f6c
+0x46d4 DD=0: c5 6a 6c 6f         CMP off 0x6f6c, #0x6f6c
 0x46d8 DD=0: f6 38               JNE label_4712
-0x46da DD=0: c5 6c 48 6f         CMP off 0x086c, #0x6f48
+0x46da DD=0: c5 6c 48 6f         CMP off 0x6f48, #0x6f48
 0x46de DD=0: f6 32               JNE label_4712
 0x46e0 DD=0: a3 ab 49 7f         MOV [DP+], #0x7f49
 0x46e4 DD=0: a3 ab 61 6d         MOV [DP+], #0x6d61
@@ -7844,11 +7844,11 @@ label_46f7:
 0x46f9 DD=0: f1 17               JEQ label_4712
 0x46fb DD=0: d5 67 77            CMPB off 0x0867, #0x77
 0x46fe DD=0: f6 12               JNE label_4712
-0x4700 DD=0: c5 68 41 72         CMP off 0x0868, #0x7241
+0x4700 DD=0: c5 68 41 72         CMP off 0x7241, #0x7241
 0x4704 DD=0: f6 0c               JNE label_4712
-0x4706 DD=0: c5 6a 65 59         CMP off 0x086a, #0x5965
+0x4706 DD=0: c5 6a 65 59         CMP off 0x5965, #0x5965
 0x470a DD=0: f6 06               JNE label_4712
-0x470c DD=0: c5 6c 6f 75         CMP off 0x086c, #0x756f
+0x470c DD=0: c5 6c 6f 75         CMP off 0x756f, #0x756f
 0x4710 DD=0: f1 0f               JEQ label_4721
 label_4712:
 0x4712 DD=0: b5 b7 c7            CLRB off 0x08b7
@@ -8183,7 +8183,7 @@ label_49e8:
 label_49f4:
 0x49f4 DD=1: b7 10 90 87 9a      MOVB off 0x069a, 0x9010
 0x49f9 DD=1: a5 98 c7            CLR off 0x0698
-0x49fc DD=1: c7 9c 80 0c         MOV off 0x069c, #0x0c80
+0x49fc DD=1: c7 9c 80 0c         MOV off 0x0c80, #0x0c80
 0x4a00 DD=1: 5c 37               SB sbafix 0x02f7.4
 0x4a02 DD=1: 4c 47               RB sbaoff 0x06c7.4
 0x4a04 DD=1: 04 3f               SJ label_4a45
@@ -8240,8 +8240,8 @@ label_4a6f:
 label_4a72:
 0x4a72 DD=1: 5b f7 27            JBR sbafix 0x02f7.3, label_4a9c
 0x4a75 DD=1: b7 b4 08 21 13      JBR 0x08b4.1, label_4a8d
-0x4a7a DD=1: b4 42 ab 67         MOVB 0x0242, #0x67
-0x4a7e DD=1: b4 43 ab 85         MOVB 0x0243, #0x85
+0x4a7a DD=1: b4 42 ab 67         MOVB fix 0x0242, #0x67
+0x4a7e DD=1: b4 43 ab 85         MOVB fix 0x0243, #0x85
 0x4a82 DD=1: 48 45               RB sbaoff 0x06c5.0
 0x4a84 DD=1: 49 45               RB sbaoff 0x06c5.1
 0x4a86 DD=1: b5 a9 c7            CLRB off 0x06a9
@@ -8323,12 +8323,12 @@ label_4b38:
 0x4b39 DD=1: 03 ec 4b            J label_4bec
 label_4b3c:
 0x4b3c DD=1: fa                  CLR A
-0x4b3d DD=1: 34 d4               ST A, 0x02d4
-0x4b3f DD=1: 34 d6               ST A, 0x02d6
-0x4b41 DD=1: 34 d0               ST A, 0x02d0
-0x4b43 DD=1: 34 d2               ST A, 0x02d2
-0x4b45 DD=1: 34 d8               ST A, 0x02d8
-0x4b47 DD=1: 34 da               ST A, 0x02da
+0x4b3d DD=1: 34 d4               ST A, fix 0x02d4
+0x4b3f DD=1: 34 d6               ST A, fix 0x02d6
+0x4b41 DD=1: 34 d0               ST A, fix 0x02d0
+0x4b43 DD=1: 34 d2               ST A, fix 0x02d2
+0x4b45 DD=1: 34 d8               ST A, fix 0x02d8
+0x4b47 DD=1: 34 da               ST A, fix 0x02da
 0x4b49 DD=1: 37 a0 0c            ST A, 0x0ca0
 0x4b4c DD=1: 37 a2 0c            ST A, 0x0ca2
 0x4b4f DD=1: 37 a4 0c            ST A, 0x0ca4
@@ -8341,9 +8341,9 @@ loop_4b5a:
 0x4b5d DD=1: 40                  INC X1
 0x4b5e DD=1: 05 7a               DJNZ R4, loop_4b5a
 0x4b60 DD=0: fb                  CLRB A
-0x4b61 DD=0: 34 9f               STB A, 0x029f
-0x4b63 DD=0: 34 a0               STB A, 0x02a0
-0x4b65 DD=0: 34 8d               STB A, 0x028d
+0x4b61 DD=0: 34 9f               STB A, fix 0x029f
+0x4b63 DD=0: 34 a0               STB A, fix 0x02a0
+0x4b65 DD=0: 34 8d               STB A, fix 0x028d
 0x4b67 DD=0: 5c 75               RB sbafix 0x02f5.4
 0x4b69 DD=0: 5d 75               RB sbafix 0x02f5.5
 0x4b6b DD=0: 5e 75               RB sbafix 0x02f5.6
@@ -8358,10 +8358,10 @@ loop_4b5a:
 0x4b7d DD=0: 35 30               STB A, off 0x0630
 0x4b7f DD=0: 35 af               STB A, off 0x06af
 0x4b81 DD=0: b7 b2 08 04         RB 0x08b2.4
-0x4b85 DD=0: b4 2a c7            CLRB 0x022a
-0x4b88 DD=0: b4 28 c7            CLRB 0x0228
-0x4b8b DD=0: b4 2b c7            CLRB 0x022b
-0x4b8e DD=0: b4 29 ab 02         MOVB 0x0229, #0x02
+0x4b85 DD=0: b4 2a c7            CLRB fix 0x022a
+0x4b88 DD=0: b4 28 c7            CLRB fix 0x0228
+0x4b8b DD=0: b4 2b c7            CLRB fix 0x022b
+0x4b8e DD=0: b4 29 ab 02         MOVB fix 0x0229, #0x02
 0x4b92 DD=0: d7 b6 05            MOVB off 0x06b6, #0x05
 0x4b95 DD=0: 4c 42               RB sbaoff 0x06c2.4
 0x4b97 DD=0: b7 93 03 ab 14      MOVB 0x0393, #0x14
@@ -8430,7 +8430,7 @@ label_4c1b:
 0x4c1e DD=1: 03 7d 50            J label_507d
 label_4c21:
 0x4c21 DD=1: 5b af 06            JBS sbafix 0x02ef.3, label_4c2a
-0x4c24 DD=0: 94 d4               LB A, 0x02d4
+0x4c24 DD=0: 94 d4               LB A, fix 0x02d4
 0x4c26 DD=0: be 37               ANDB A, #0x37
 0x4c28 DD=0: f1 08               JEQ label_4c32
 label_4c2a:
@@ -8439,10 +8439,10 @@ label_4c2a:
 0x4c2f DD=0: 03 c5 4e            J label_4ec5
 label_4c32:
 0x4c32 DD=0: 48 80 2f            JBS sbaoff 0x06c0.0, label_4c64
-0x4c35 DD=0: c4 34 c7 31         CMP 0x0234, #0x31c7
+0x4c35 DD=0: c4 34 c7 31         CMP fix 0x31c7, #0x31c7
 0x4c39 DD=0: f5 09               JGE label_4c44
 0x4c3b DD=0: 5e e4 0d            JBR sbafix 0x02e4.6, label_4c4b
-0x4c3e DD=0: c4 3c 9a 03         CMP 0x023c, #0x039a
+0x4c3e DD=0: c4 3c 9a 03         CMP fix 0x039a, #0x039a
 0x4c42 DD=0: f2 07               JLT label_4c4b
 label_4c44:
 0x4c44 DD=0: 49 40               RB sbaoff 0x06c0.1
@@ -8463,10 +8463,10 @@ label_4c5b:
 label_4c62:
 0x4c62 DD=0: 04 29               SJ label_4c8d
 label_4c64:
-0x4c64 DD=0: c4 34 c7 31         CMP 0x0234, #0x31c7
+0x4c64 DD=0: c4 34 c7 31         CMP fix 0x31c7, #0x31c7
 0x4c68 DD=0: f2 1e               JLT label_4c88
 0x4c6a DD=0: 5e e4 06            JBR sbafix 0x02e4.6, label_4c73
-0x4c6d DD=0: c4 3c cd 03         CMP 0x023c, #0x03cd
+0x4c6d DD=0: c4 3c cd 03         CMP fix 0x03cd, #0x03cd
 0x4c71 DD=0: f2 15               JLT label_4c88
 label_4c73:
 0x4c73 DD=0: 10 0b               MOVB R0, #0x0b
@@ -8563,7 +8563,7 @@ label_4d17:
 label_4d19:
 0x4d19 DD=0: a5 48 87 4a         MOV off 0x064a, off 0x0648
 0x4d1d DD=0: 24 03 00            MOV ER0, #0x0003
-0x4d20 DD=1: 84 3c               L A, 0x023c
+0x4d20 DD=1: 84 3c               L A, fix 0x023c
 0x4d22 DD=1: 39                  ST A, ER1
 0x4d23 DD=1: 8d 48               SUB A, off 0x0648
 0x4d25 DD=1: f5 04               JGE label_4d2b
@@ -8583,7 +8583,7 @@ label_4d31:
 0x4d41 DD=1: 35 4e               ST A, off 0x064e
 0x4d43 DD=1: 22 54 ec            MOV DP, #0xec54
 0x4d46 DD=1: 15 0f               MOVB R5, #0x0f
-0x4d48 DD=1: a4 34 70            MOV ER0, 0x0234
+0x4d48 DD=1: a4 34 70            MOV ER0, fix 0x0234
 0x4d4b DD=1: b5 50 74            MOVB R4, off 0x0650
 0x4d4e DD=1: 45 d6               ACAL label_11d6
 0x4d50 DD=1: 6c 87 50            MOVB off 0x0650, R4
@@ -8605,21 +8605,21 @@ label_4d31:
 0x4d73 DD=0: 03 c5 4e            J label_4ec5
 label_4d76:
 0x4d76 DD=0: 22 3a ed            MOV DP, #0xed3a
-0x4d79 DD=0: b4 6e 70            MOVB R0, 0x026e
+0x4d79 DD=0: b4 6e 70            MOVB R0, fix 0x026e
 0x4d7c DD=0: 15 0a               MOVB R5, #0x0a
 0x4d7e DD=0: b5 59 74            MOVB R4, off 0x0659
 0x4d81 DD=0: 45 8d               ACAL label_118d
 0x4d83 DD=0: 6c 87 59            MOVB off 0x0659, R4
 0x4d86 DD=0: 35 56               STB A, off 0x0656
 0x4d88 DD=0: 22 1c ed            MOV DP, #0xed1c
-0x4d8b DD=0: a4 34 70            MOV ER0, 0x0234
+0x4d8b DD=0: a4 34 70            MOV ER0, fix 0x0234
 0x4d8e DD=0: 15 0f               MOVB R5, #0x0f
 0x4d90 DD=0: b5 58 74            MOVB R4, off 0x0658
 0x4d93 DD=0: 45 d6               ACAL label_11d6
 0x4d95 DD=0: 6c 87 58            MOVB off 0x0658, R4
 0x4d98 DD=0: 35 54               STB A, off 0x0654
 0x4d9a DD=0: 22 1c 8d            MOV DP, #0x8d1c
-0x4d9d DD=1: 84 34               L A, 0x0234
+0x4d9d DD=1: 84 34               L A, fix 0x0234
 0x4d9f DD=1: 44 70               ACAL label_1070
 0x4da1 DD=1: 35 62               ST A, off 0x0662
 0x4da3 DD=1: 22 44 ed            MOV DP, #0xed44
@@ -8632,7 +8632,7 @@ label_4d76:
 0x4db5 DD=0: 35 5a               STB A, off 0x065a
 0x4db7 DD=0: 3c                  STB A, R4
 0x4db8 DD=0: 22 7a 8d            MOV DP, #0x8d7a
-0x4dbb DD=0: 94 70               LB A, 0x0270
+0x4dbb DD=0: 94 70               LB A, fix 0x0270
 0x4dbd DD=0: 44 04               ACAL label_1004
 0x4dbf DD=0: 35 5c               STB A, off 0x065c
 0x4dc1 DD=0: 1c                  CMPB A, R4
@@ -8645,7 +8645,7 @@ label_4dc5:
 label_4dcb:
 0x4dcb DD=0: 35 60               STB A, off 0x0660
 0x4dcd DD=0: 22 4b 8d            MOV DP, #0x8d4b
-0x4dd0 DD=1: 84 34               L A, 0x0234
+0x4dd0 DD=1: 84 34               L A, fix 0x0234
 0x4dd2 DD=1: 44 70               ACAL label_1070
 0x4dd4 DD=1: 35 63               ST A, off 0x0663
 0x4dd6 DD=1: 22 da ed            MOV DP, #0xedda
@@ -8658,7 +8658,7 @@ label_4dcb:
 0x4de8 DD=0: 35 5b               STB A, off 0x065b
 0x4dea DD=0: 3c                  STB A, R4
 0x4deb DD=0: 22 89 8d            MOV DP, #0x8d89
-0x4dee DD=0: 94 70               LB A, 0x0270
+0x4dee DD=0: 94 70               LB A, fix 0x0270
 0x4df0 DD=0: 44 04               ACAL label_1004
 0x4df2 DD=0: 35 5d               STB A, off 0x065d
 0x4df4 DD=0: 1c                  CMPB A, R4
@@ -8674,7 +8674,7 @@ label_4dfe:
 0x4e01 DD=0: b5 60 73            MOVB R3, off 0x0660
 0x4e04 DD=0: 10 a0               MOVB R0, #0xa0
 0x4e06 DD=0: 11 d8               MOVB R1, #0xd8
-0x4e08 DD=0: 94 71               LB A, 0x0271
+0x4e08 DD=0: 94 71               LB A, fix 0x0271
 0x4e0a DD=0: 44 cf               ACAL label_10cf
 0x4e0c DD=0: 5b e4 05            JBR sbafix 0x02e4.3, label_4e14
 0x4e0f DD=0: 8d 47               SUBB A, off 0x0647
@@ -8750,11 +8750,11 @@ label_4e88:
 0x4e8b DD=0: b5 c3 10            MB C, off 0x06c3.0
 0x4e8e DD=0: b5 c3 19            MB off 0x06c3.1, C
 0x4e91 DD=0: 22 98 8d            MOV DP, #0x8d98
-0x4e94 DD=1: 84 34               L A, 0x0234
+0x4e94 DD=1: 84 34               L A, fix 0x0234
 0x4e96 DD=1: 44 a3               ACAL label_10a3
 0x4e98 DD=1: 9d 48               CMP A, off 0x0648
 0x4e9a DD=1: f0 23               JGT label_4ebf
-0x4e9c DD=1: c4 44 29 00         CMP 0x0244, #0x0029
+0x4e9c DD=1: c4 44 29 00         CMP fix 0x0029, #0x0029
 0x4ea0 DD=1: f2 03               JLT label_4ea5
 0x4ea2 DD=1: b5 a5 c7            CLRB off 0x06a5
 label_4ea5:
@@ -8779,14 +8779,14 @@ label_4ec5:
 0x4ec5 DD=0: b5 c3 12            MB C, off 0x06c3.2
 0x4ec8 DD=0: b5 c3 1b            MB off 0x06c3.3, C
 0x4ecb DD=0: 95 53               LB A, off 0x0653
-0x4ecd DD=0: 8c 63               SUBB A, 0x0263
+0x4ecd DD=0: 8c 63               SUBB A, fix 0x0263
 0x4ecf DD=0: b5 c3 1a            MB off 0x06c3.2, C
 0x4ed2 DD=0: f5 01               JGE label_4ed5
 0x4ed4 DD=0: cf                  NEGB A
 label_4ed5:
 0x4ed5 DD=0: 35 67               STB A, off 0x0667
 0x4ed7 DD=0: 22 b0 8d            MOV DP, #0x8db0
-0x4eda DD=1: 84 34               L A, 0x0234
+0x4eda DD=1: 84 34               L A, fix 0x0234
 0x4edc DD=1: 44 70               ACAL label_1070
 0x4ede DD=1: 35 69               ST A, off 0x0669
 0x4ee0 DD=1: 39                  ST A, ER1
@@ -8981,7 +8981,7 @@ label_5029:
 0x503d DD=0: 22 c7 8d            MOV DP, #0x8dc7
 0x5040 DD=0: 44 30               ACAL label_1030
 0x5042 DD=0: 35 7c               STB A, off 0x067c
-0x5044 DD=0: 94 72               LB A, 0x0272
+0x5044 DD=0: 94 72               LB A, fix 0x0272
 0x5046 DD=0: b7 ed 8d 70         MOVB R0, 0x8ded
 0x504a DD=0: 68 94               CMPB R0, A
 0x504c DD=0: 8a 1b               MB PSWL.3, C
@@ -9042,10 +9042,10 @@ label_5087:
 0x50af DD=1: 14 01               MOVB R4, #0x01
 0x50b1 DD=1: 22 bb 08            MOV DP, #0x08bb
 0x50b4 DD=1: 47 ff               ACAL label_13ff
-0x50b6 DD=0: 94 a1               LB A, 0x02a1
+0x50b6 DD=0: 94 a1               LB A, fix 0x02a1
 0x50b8 DD=0: cc                  INCB A
 0x50b9 DD=0: f1 02               JEQ label_50bd
-0x50bb DD=0: 34 a1               STB A, 0x02a1
+0x50bb DD=0: 34 a1               STB A, fix 0x02a1
 label_50bd:
 0x50bd DD=0: 5b f9 06            JBR sbafix 0x02f9.3, label_50c6
 0x50c0 DD=0: b6 10 09            SB P0.1
@@ -9130,8 +9130,8 @@ label_5168:
 0x5168 DD=0: 22 d4 02            MOV DP, #0x02d4
 0x516b DD=0: 20 87 8e            MOV X1, #0x8e87
 0x516e DD=0: 55 62               ACAL label_1562
-0x5170 DD=0: a4 d8 c7            CLR 0x02d8
-0x5173 DD=0: a4 da c7            CLR 0x02da
+0x5170 DD=0: a4 d8 c7            CLR fix 0x02d8
+0x5173 DD=0: a4 da c7            CLR fix 0x02da
 0x5176 DD=0: a7 a0 0c c7         CLR 0x0ca0
 0x517a DD=0: a7 a2 0c c7         CLR 0x0ca2
 0x517e DD=0: a7 a4 0c c7         CLR 0x0ca4
@@ -9154,10 +9154,10 @@ label_518a:
 0x519f DD=1: 14 01               MOVB R4, #0x01
 0x51a1 DD=1: 22 bd 06            MOV DP, #0x06bd
 0x51a4 DD=1: 47 ff               ACAL label_13ff
-0x51a6 DD=0: 94 a2               LB A, 0x02a2
+0x51a6 DD=0: 94 a2               LB A, fix 0x02a2
 0x51a8 DD=0: cc                  INCB A
 0x51a9 DD=0: f1 02               JEQ label_51ad
-0x51ab DD=0: 34 a2               STB A, 0x02a2
+0x51ab DD=0: 34 a2               STB A, fix 0x02a2
 label_51ad:
 0x51ad DD=0: 95 b0               LB A, off 0x06b0
 0x51af DD=0: f6 25               JNE label_51d6
@@ -11324,5 +11324,3 @@ org 0xef24
 org 0xff10
 0xff10:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 7d 00 00
 0xff20:                          db 00 00 00 00 00 ff ff ff ff ff ff ff ff ff ff ff
-
-org 0x0000

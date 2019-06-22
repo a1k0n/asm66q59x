@@ -51,6 +51,16 @@ class DasmnX8 {
     return get_code_label(addr, "loop");
   }
 
+  const char *get_data_label(uint16_t addr) {
+    static char databuf[32];
+    if (0) {  // (addr > 0x8000) {
+      // also add exceptions for certain values?
+      return get_code_label(addr, "tbl");
+    }
+    snprintf(databuf, sizeof(databuf)-1, "0x%04x", addr);
+    return databuf;
+  }
+
   const char *parsebytesuffix(uint16_t addr, const char *byteop) {
 #include "bytesuffix.i"
       return "???";
@@ -215,6 +225,10 @@ class DasmnX8 {
     }
   }
 
+  bool HasLabel(uint16_t addr) {
+    return labels_.find(addr) == labels_.end();
+  }
+
   bool IsCode(uint16_t addr) { return code_mask_[addr]; }
   void SetRegsFromAddress(uint16_t addr) {
     dd_ = dd_value_[addr];
@@ -258,6 +272,9 @@ int main(int argc, char **argv) {
       if (run > 7) {
         // at least 3 FFs in a row; skip to next occupied address
         addr += run;
+        if (addr == 0) {
+          break;
+        }
         printf("\norg 0x%04x\n", addr);
         continue;
       }
