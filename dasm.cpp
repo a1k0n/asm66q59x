@@ -32,6 +32,7 @@ class DasmnX8 {
   uint8_t lrbh_;
 
   std::multimap<uint16_t, std::string> labels_;
+  std::map<uint16_t, std::string> data_labels_;
   std::deque<DasmQueueEntry> dasm_queue_;
 
   const char *get_code_label(uint16_t addr, const char *prefix="label") {
@@ -53,9 +54,17 @@ class DasmnX8 {
 
   const char *get_data_label(uint16_t addr) {
     static char databuf[32];
-    if (0) {  // (addr > 0x8000) {
-      // also add exceptions for certain values?
-      return get_code_label(addr, "tbl");
+
+    std::map<uint16_t, std::string>::iterator l = data_labels_.find(addr);
+    if (l != data_labels_.end()) {
+      return l->second.c_str();
+    }
+
+    // also add exceptions for certain values
+    if (addr > 0x8000 && addr != 0xaaaa) {
+      snprintf(databuf, sizeof(databuf), "tbl_%04x", addr);
+      std::string label(databuf);
+      data_labels_.insert(std::make_pair(addr, label));
     }
     snprintf(databuf, sizeof(databuf)-1, "0x%04x", addr);
     return databuf;
@@ -223,10 +232,13 @@ class DasmnX8 {
     for (i = labels_.find(addr); i != labels_.end() && i->first == addr; i++) {
       printf("%s:\n", i->second.c_str());
     }
+    for (i = data_labels_.find(addr); i != data_labels_.end() && i->first == addr; i++) {
+      printf("%s:\n", i->second.c_str());
+    }
   }
 
-  bool HasLabel(uint16_t addr) {
-    return labels_.find(addr) == labels_.end();
+  bool HasDataLabel(uint16_t addr) {
+    return data_labels_.find(addr) != data_labels_.end();
   }
 
   bool IsCode(uint16_t addr) { return code_mask_[addr]; }
@@ -292,6 +304,9 @@ int main(int argc, char **argv) {
           printf("\n");
         }
         if (rom[addr] == 0xff && (addr & 0x0f) == 0) {
+          break;
+        }
+        if (dasm.HasDataLabel(addr)) {
           break;
         }
       }

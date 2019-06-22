@@ -159,7 +159,7 @@ label_00f9:
 0x00fd DD=0: 56 92               ACAL label_1692
 0x00ff DD=1: fa                  CLR A
 0x0100 DD=0: 7f                  LB A, R7
-0x0101 DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x0101 DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x0105 DD=0: 6a b3 1f            ANDB R2, #0x1f
 0x0108 DD=0: 57 13               ACAL label_1713
 0x010a DD=0: b6 14 07            RB P4.7
@@ -180,7 +180,7 @@ label_0127:
 0x012a DD=0: b6 14 0f            SB P4.7
 0x012d DD=1: fa                  CLR A
 0x012e DD=0: 7f                  LB A, R7
-0x012f DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x012f DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x0133 DD=0: 57 13               ACAL label_1713
 label_0135:
 0x0135 DD=0: 04 fe               SJ label_0135
@@ -298,7 +298,7 @@ label_01da:
 0x025a DD=1: d6 d3 0f            MOVB TM0L, #0x0f
 0x025d DD=1: c6 d4 00 00         MOV TM0, #0x0000
 0x0261 DD=1: c6 d6 00 00         MOV TM1, #0x0000
-0x0265 DD=1: c6 c2 ff ff         MOV TMSEL, #0xffff
+0x0265 DD=1: c6 c2 ff ff         MOV TMSEL, #tbl_ffff
 0x0269 DD=1: d6 c4 ff            MOVB TMSEL2, #0xff
 0x026c DD=1: a7 7c 01 ab 0c 00   MOV 0x017c, #0x000c
 0x0272 DD=1: d6 de 88            MOVB EVNTCONL, #0x88
@@ -341,14 +341,14 @@ loop_02e3:
 0x02e7 DD=1: 9e 01 00            CMP A, #0x0001
 0x02ea DD=1: f2 21               JLT label_030d
 0x02ec DD=1: b6 40 02            RB IRQ0L.2
-0x02ef DD=1: c6 d6 f0 ff         MOV TM1, #0xfff0
+0x02ef DD=1: c6 d6 f0 ff         MOV TM1, #tbl_fff0
 0x02f3 DD=1: b6 dc 0f            SB TMCON.7
 0x02f6 DD=1: 14 02               MOVB R4, #0x02
 loop_02f8:
 0x02f8 DD=1: 05 7e               DJNZ R4, loop_02f8
 0x02fa DD=1: 86 d6               L A, TM1
 0x02fc DD=1: b6 40 2a 0d         JBS IRQ0L.2, label_030d
-0x0300 DD=1: 9e f3 ff            CMP A, #0xfff3
+0x0300 DD=1: 9e f3 ff            CMP A, #tbl_fff3
 0x0303 DD=1: f5 08               JGE label_030d
 0x0305 DD=1: 14 27               MOVB R4, #0x27
 loop_0307:
@@ -359,11 +359,11 @@ label_030d:
 0x0311 DD=0: ff                  BRK
 label_0312:
 0x0312 DD=1: b7 60 01 ab 0b      MOVB 0x0160, #0x0b
-0x0317 DD=1: c6 82 00 f0         MOV PWINTQ0, #0xf000
-0x031b DD=1: c6 84 00 f0         MOV PWINTQ1, #0xf000
-0x031f DD=1: c6 86 00 f0         MOV PWINTE0, #0xf000
-0x0323 DD=1: c6 88 00 f0         MOV PWINTE1, #0xf000
-0x0327 DD=1: c6 50 3f 9c         MOV PWC0, #0x9c3f
+0x0317 DD=1: c6 82 00 f0         MOV PWINTQ0, #tbl_f000
+0x031b DD=1: c6 84 00 f0         MOV PWINTQ1, #tbl_f000
+0x031f DD=1: c6 86 00 f0         MOV PWINTE0, #tbl_f000
+0x0323 DD=1: c6 88 00 f0         MOV PWINTE1, #tbl_f000
+0x0327 DD=1: c6 50 3f 9c         MOV PWC0, #tbl_9c3f
 0x032b DD=1: c6 68 00 00         MOV PWR0, #0x0000
 0x032f DD=1: b6 80 08            SB PWRUNL.0
 0x0332 DD=1: d6 ee c0            MOVB ADINTCON0, #0xc0
@@ -439,7 +439,7 @@ loop_03f7:
 0x0404 DD=0: 05 f1               DJNZ R5, loop_03f7
 0x0406 DD=0: 78                  LB A, R0
 0x0407 DD=0: f1 0a               JEQ label_0413
-0x0409 DD=0: b7 14 a0 2f 05      JBS 0xa014.7, label_0413
+0x0409 DD=0: b7 14 a0 2f 05      JBS tbl_a014.7, label_0413
 0x040e DD=0: b4 2a ab c2         MOVB fix 0x022a, #0xc2
 0x0412 DD=0: ff                  BRK
 label_0413:
@@ -505,7 +505,7 @@ label_0458:
 0x04ab DD=1: 35 48               ST A, off 0x0648
 0x04ad DD=1: 35 4a               ST A, off 0x064a
 0x04af DD=1: 14 10               MOVB R4, #0x10
-0x04b1 DD=1: 20 ca 8f            MOV X1, #0x8fca
+0x04b1 DD=1: 20 ca 8f            MOV X1, #tbl_8fca
 0x04b4 DD=1: 22 8e 02            MOV DP, #0x028e
 loop_04b7:
 0x04b7 DD=1: b0 8a               MOVB [DP], [X1]
@@ -521,7 +521,7 @@ loop_04b7:
 0x04d3 DD=1: b7 ed 05 02         RB 0x05ed.2
 0x04d7 DD=1: b7 ef 05 03         RB 0x05ef.3
 0x04db DD=1: b7 59 05 ab 03      MOVB 0x0559, #0x03
-0x04e0 DD=0: 97 83 8e            LB A, 0x8e83
+0x04e0 DD=0: 97 83 8e            LB A, tbl_8e83
 0x04e3 DD=0: ce 40               ORB A, #0x40
 0x04e5 DD=0: 38                  STB A, R0
 0x04e6 DD=0: bc 9f               SRLB A, 4
@@ -529,19 +529,19 @@ loop_04b7:
 0x04ea DD=0: 36 d2               STB A, RTO4CON
 label_04ec:
 0x04ec DD=0: 47 f1               ACAL label_13f1
-0x04ee DD=0: b7 0d 90 72         MOVB R2, 0x900d
+0x04ee DD=0: b7 0d 90 72         MOVB R2, tbl_900d
 0x04f2 DD=0: 57 58               ACAL label_1758
 0x04f4 DD=0: f2 16               JLT label_050c
 0x04f6 DD=0: 37 a0 0c            STB A, 0x0ca0
-0x04f9 DD=0: b7 0e 90 72         MOVB R2, 0x900e
+0x04f9 DD=0: b7 0e 90 72         MOVB R2, tbl_900e
 0x04fd DD=0: 57 58               ACAL label_1758
 0x04ff DD=0: f2 0b               JLT label_050c
 0x0501 DD=0: 37 a2 0c            STB A, 0x0ca2
-0x0504 DD=0: b7 0f 90 72         MOVB R2, 0x900f
+0x0504 DD=0: b7 0f 90 72         MOVB R2, tbl_900f
 0x0508 DD=0: 57 58               ACAL label_1758
 0x050a DD=0: f5 0d               JGE label_0519
 label_050c:
-0x050c DD=0: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x050c DD=0: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x0510 DD=0: 54 2a               ACAL label_142a
 0x0512 DD=1: fa                  CLR A
 0x0513 DD=1: 37 a0 0c            ST A, 0x0ca0
@@ -555,7 +555,7 @@ label_052b:
 0x052b DD=1: 5c 35               SB sbafix 0x02f5.4
 label_052d:
 0x052d DD=1: 10 00               MOVB R0, #0x00
-0x052f DD=1: 20 94 92            MOV X1, #0x9294
+0x052f DD=1: 20 94 92            MOV X1, #tbl_9294
 label_0532:
 0x0532 DD=0: 78                  LB A, R0
 0x0533 DD=0: b7 a0 0c ca         TBR 0x0ca0.(AL)
@@ -571,9 +571,9 @@ label_0542:
 0x054a DD=0: 47 f1               ACAL label_13f1
 0x054c DD=0: 5f a6 28            JBS sbafix 0x02e6.7, label_0577
 0x054f DD=0: 61 c7               CLR X2
-0x0551 DD=0: 20 00 90            MOV X1, #0x9000
+0x0551 DD=0: 20 00 90            MOV X1, #tbl_9000
 0x0554 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_055a
-0x0557 DD=0: 20 09 90            MOV X1, #0x9009
+0x0557 DD=0: 20 09 90            MOV X1, #tbl_9009
 label_055a:
 0x055a DD=0: b0 72               MOVB R2, [X1]
 0x055c DD=0: 57 42               ACAL label_1742
@@ -585,7 +585,7 @@ label_055a:
 0x056d DD=0: f2 eb               JLT label_055a
 0x056f DD=0: 04 13               SJ label_0584
 label_0571:
-0x0571 DD=0: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x0571 DD=0: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x0575 DD=0: 54 2a               ACAL label_142a
 label_0577:
 0x0577 DD=1: fa                  CLR A
@@ -595,12 +595,12 @@ label_0577:
 0x0581 DD=1: 37 24 03            ST A, 0x0324
 label_0584:
 0x0584 DD=1: 47 f1               ACAL label_13f1
-0x0586 DD=1: b7 10 90 72         MOVB R2, 0x9010
+0x0586 DD=1: b7 10 90 72         MOVB R2, tbl_9010
 0x058a DD=1: 57 54               ACAL label_1754
 0x058c DD=1: f2 29               JLT label_05b7
 0x058e DD=1: b7 96 0c aa         MOVB 0x0c96, A
 0x0592 DD=1: b6 06 a7 27         TJZB ACCL, label_05bd
-0x0596 DD=1: b7 11 90 72         MOVB R2, 0x9011
+0x0596 DD=1: b7 11 90 72         MOVB R2, tbl_9011
 0x059a DD=1: 61 c7               CLR X2
 label_059c:
 0x059c DD=1: 57 54               ACAL label_1754
@@ -613,7 +613,7 @@ label_059c:
 0x05b1 DD=1: b7 b2 08 0c         SB 0x08b2.4
 0x05b5 DD=1: 04 13               SJ label_05ca
 label_05b7:
-0x05b7 DD=1: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x05b7 DD=1: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x05bb DD=1: 54 2a               ACAL label_142a
 label_05bd:
 0x05bd DD=1: 14 0b               MOVB R4, #0x0b
@@ -625,36 +625,36 @@ loop_05c3:
 0x05c6 DD=1: b7 96 0c aa         MOVB 0x0c96, A
 label_05ca:
 0x05ca DD=1: 47 f1               ACAL label_13f1
-0x05cc DD=1: b7 04 90 72         MOVB R2, 0x9004
+0x05cc DD=1: b7 04 90 72         MOVB R2, tbl_9004
 0x05d0 DD=1: 57 58               ACAL label_1758
 0x05d2 DD=1: f5 08               JGE label_05dc
-0x05d4 DD=1: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x05d4 DD=1: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x05d8 DD=1: 54 2a               ACAL label_142a
 0x05da DD=0: f9 67               LB A, #0x67
 label_05dc:
 0x05dc DD=0: d8                  RDD
 0x05dd DD=0: 34 42               STB A, fix 0x0242
-0x05df DD=0: 97 05 90            LB A, 0x9005
+0x05df DD=0: 97 05 90            LB A, tbl_9005
 0x05e2 DD=0: 56 c6               ACAL label_16c6
 0x05e4 DD=0: 35 94               STB A, off 0x0694
 0x05e6 DD=0: 5f a6 3f            JBS sbafix 0x02e6.7, label_0628
-0x05e9 DD=0: b7 fd 8f 72         MOVB R2, 0x8ffd
+0x05e9 DD=0: b7 fd 8f 72         MOVB R2, tbl_8ffd
 0x05ed DD=0: 5a f1 04            JBR sbafix 0x02f1.2, label_05f4
-0x05f0 DD=0: b7 06 90 72         MOVB R2, 0x9006
+0x05f0 DD=0: b7 06 90 72         MOVB R2, tbl_9006
 label_05f4:
 0x05f4 DD=0: 57 42               ACAL label_1742
 0x05f6 DD=0: f2 2a               JLT label_0622
 0x05f8 DD=0: 35 14               STB A, off 0x0614
-0x05fa DD=0: b7 fe 8f 72         MOVB R2, 0x8ffe
+0x05fa DD=0: b7 fe 8f 72         MOVB R2, tbl_8ffe
 0x05fe DD=0: 5a f1 04            JBR sbafix 0x02f1.2, label_0605
-0x0601 DD=0: b7 07 90 72         MOVB R2, 0x9007
+0x0601 DD=0: b7 07 90 72         MOVB R2, tbl_9007
 label_0605:
 0x0605 DD=0: 57 42               ACAL label_1742
 0x0607 DD=0: f2 19               JLT label_0622
 0x0609 DD=0: 35 12               STB A, off 0x0612
-0x060b DD=0: b7 ff 8f 72         MOVB R2, 0x8fff
+0x060b DD=0: b7 ff 8f 72         MOVB R2, tbl_8fff
 0x060f DD=0: 5a f1 04            JBR sbafix 0x02f1.2, label_0616
-0x0612 DD=0: b7 08 90 72         MOVB R2, 0x9008
+0x0612 DD=0: b7 08 90 72         MOVB R2, tbl_9008
 label_0616:
 0x0616 DD=0: 57 42               ACAL label_1742
 0x0618 DD=0: f2 08               JLT label_0622
@@ -664,7 +664,7 @@ label_0616:
 0x061e DD=0: 35 17               STB A, off 0x0617
 0x0620 DD=0: 04 12               SJ label_0634
 label_0622:
-0x0622 DD=0: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x0622 DD=0: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x0626 DD=0: 54 2a               ACAL label_142a
 label_0628:
 0x0628 DD=0: a5 14 c7            CLR off 0x0614
@@ -679,7 +679,7 @@ label_0634:
 0x063b DD=0: 56 92               ACAL label_1692
 0x063d DD=1: fa                  CLR A
 0x063e DD=0: 7f                  LB A, R7
-0x063f DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x063f DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x0643 DD=0: 6a b3 1f            ANDB R2, #0x1f
 0x0646 DD=0: 57 13               ACAL label_1713
 0x0648 DD=0: f9 05               LB A, #0x05
@@ -699,7 +699,7 @@ label_0662:
 0x0665 DD=0: 47 f1               ACAL label_13f1
 0x0667 DD=1: fa                  CLR A
 0x0668 DD=0: 7f                  LB A, R7
-0x0669 DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x0669 DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x066d DD=0: 57 13               ACAL label_1713
 0x066f DD=0: f9 05               LB A, #0x05
 label_0671:
@@ -718,7 +718,7 @@ label_0689:
 0x068c DD=0: 47 f1               ACAL label_13f1
 label_068e:
 0x068e DD=0: 56 99               ACAL label_1699
-0x0690 DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x0690 DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x0694 DD=0: 57 42               ACAL label_1742
 0x0696 DD=0: f5 02               JGE label_069a
 0x0698 DD=0: f9 d1               LB A, #0xd1
@@ -732,7 +732,7 @@ label_069a:
 0x06a3 DD=0: f1 04               JEQ label_06a9
 0x06a5 DD=0: b4 2b ab d1         MOVB fix 0x022b, #0xd1
 label_06a9:
-0x06a9 DD=0: b7 fb 8f 72         MOVB R2, 0x8ffb
+0x06a9 DD=0: b7 fb 8f 72         MOVB R2, tbl_8ffb
 0x06ad DD=0: 57 42               ACAL label_1742
 0x06af DD=0: f5 03               JGE label_06b4
 0x06b1 DD=1: f8 00 80            L A, #0x8000
@@ -771,7 +771,7 @@ loop_06f3:
 0x06f7 DD=1: 05 7a               DJNZ R4, loop_06f3
 label_06f9:
 0x06f9 DD=1: d6 c6 ff            MOVB RTOCON4, #0xff
-0x06fc DD=1: b7 f2 8f 76         MOVB R6, 0x8ff2
+0x06fc DD=1: b7 f2 8f 76         MOVB R6, tbl_8ff2
 0x0700 DD=1: 54 2a               ACAL label_142a
 label_0702:
 0x0702 DD=1: d6 c6 ff            MOVB RTOCON4, #0xff
@@ -786,7 +786,7 @@ loop_0713:
 0x0717 DD=1: 05 7a               DJNZ R4, loop_0713
 label_0719:
 0x0719 DD=1: d6 c7 ff            MOVB RTOCON5, #0xff
-0x071c DD=1: b7 f3 8f 76         MOVB R6, 0x8ff3
+0x071c DD=1: b7 f3 8f 76         MOVB R6, tbl_8ff3
 0x0720 DD=1: 54 2a               ACAL label_142a
 label_0722:
 0x0722 DD=1: d6 c7 ff            MOVB RTOCON5, #0xff
@@ -801,7 +801,7 @@ loop_0733:
 0x0737 DD=1: 05 7a               DJNZ R4, loop_0733
 label_0739:
 0x0739 DD=1: d6 c8 ff            MOVB RTOCON6, #0xff
-0x073c DD=1: b7 f4 8f 76         MOVB R6, 0x8ff4
+0x073c DD=1: b7 f4 8f 76         MOVB R6, tbl_8ff4
 0x0740 DD=1: 54 2a               ACAL label_142a
 label_0742:
 0x0742 DD=1: d6 c8 ff            MOVB RTOCON6, #0xff
@@ -816,7 +816,7 @@ loop_0753:
 0x0757 DD=1: 05 7a               DJNZ R4, loop_0753
 label_0759:
 0x0759 DD=1: d6 c9 ff            MOVB RTOCON7, #0xff
-0x075c DD=1: b7 f5 8f 76         MOVB R6, 0x8ff5
+0x075c DD=1: b7 f5 8f 76         MOVB R6, tbl_8ff5
 0x0760 DD=1: 54 2a               ACAL label_142a
 label_0762:
 0x0762 DD=1: d6 c9 ff            MOVB RTOCON7, #0xff
@@ -1125,7 +1125,7 @@ label_11ba:
 0x11ba DD=0: 78                  LB A, R0
 0x11bb DD=0: 62 d9               CMPCB A, [DP]
 0x11bd DD=0: f2 04               JLT label_11c3
-0x11bf DD=1: f8 ff ff            L A, #0xffff
+0x11bf DD=1: f8 ff ff            L A, #tbl_ffff
 0x11c2 DD=1: 01                  RT
 label_11c3:
 0x11c3 DD=0: 52                  DEC DP
@@ -1325,9 +1325,9 @@ label_1310:
 0x1310 DD=0: b2 a5               ADDB A, [DP]
 0x1312 DD=0: 01                  RT
 label_1313:
-0x1313 DD=0: 22 16 a0            MOV DP, #0xa016
+0x1313 DD=0: 22 16 a0            MOV DP, #tbl_a016
 0x1316 DD=0: 5a b1 03            JBS sbafix 0x02f1.2, label_131c
-0x1319 DD=0: 22 10 a0            MOV DP, #0xa010
+0x1319 DD=0: 22 10 a0            MOV DP, #tbl_a010
 label_131c:
 0x131c DD=0: 93                  LB A, [DP+]
 0x131d DD=0: be 3f               ANDB A, #0x3f
@@ -1338,30 +1338,30 @@ label_131c:
 0x1326 DD=0: 93                  LB A, [DP+]
 0x1327 DD=0: be 7f               ANDB A, #0x7f
 0x1329 DD=0: 34 e4               STB A, fix 0x02e4
-0x132b DD=0: 97 13 a0            LB A, 0xa013
+0x132b DD=0: 97 13 a0            LB A, tbl_a013
 0x132e DD=0: be bf               ANDB A, #0xbf
 0x1330 DD=0: 34 e5               STB A, fix 0x02e5
-0x1332 DD=0: 97 14 a0            LB A, 0xa014
+0x1332 DD=0: 97 14 a0            LB A, tbl_a014
 0x1335 DD=0: be bc               ANDB A, #0xbc
 0x1337 DD=0: 34 e6               STB A, fix 0x02e6
-0x1339 DD=0: 97 15 a0            LB A, 0xa015
+0x1339 DD=0: 97 15 a0            LB A, tbl_a015
 0x133c DD=0: be bf               ANDB A, #0xbf
 0x133e DD=0: 34 e7               STB A, fix 0x02e7
 0x1340 DD=0: 14 08               MOVB R4, #0x08
 0x1342 DD=0: 22 04 06            MOV DP, #0x0604
-0x1345 DD=0: 20 00 a0            MOV X1, #0xa000
+0x1345 DD=0: 20 00 a0            MOV X1, #tbl_a000
 loop_1348:
 0x1348 DD=0: b0 8b               MOVB [DP+], [X1]
 0x134a DD=0: 40                  INC X1
 0x134b DD=0: 05 7b               DJNZ R4, loop_1348
 0x134d DD=0: 14 05               MOVB R4, #0x05
 0x134f DD=0: 22 00 0c            MOV DP, #0x0c00
-0x1352 DD=0: 20 12 90            MOV X1, #0x9012
+0x1352 DD=0: 20 12 90            MOV X1, #tbl_9012
 loop_1355:
 0x1355 DD=0: b0 8b               MOVB [DP+], [X1]
 0x1357 DD=0: 40                  INC X1
 0x1358 DD=0: 05 7b               DJNZ R4, loop_1355
-0x135a DD=0: a7 08 a0 9b 02 06   MOV 0x0602, 0xa008
+0x135a DD=0: a7 08 a0 9b 02 06   MOV 0x0602, tbl_a008
 0x1360 DD=0: 01                  RT
 label_1361:
 0x1361 DD=0: 96 19               LB A, P9
@@ -1452,7 +1452,7 @@ label_1405:
 0x1407 DD=0: 05 76               DJNZ R4, label_13ff
 0x1409 DD=0: 01                  RT
 label_140a:
-0x140a DD=0: b7 d6 8e a5         ADDB A, 0x8ed6
+0x140a DD=0: b7 d6 8e a5         ADDB A, tbl_8ed6
 0x140e DD=0: f5 02               JGE label_1412
 0x1410 DD=0: bc d7               FILLB A
 label_1412:
@@ -1461,7 +1461,7 @@ label_1412:
 0x1418 DD=0: b7 19 06 95         CMPB A, 0x0619
 0x141c DD=0: f5 0b               JGE label_1429
 label_141e:
-0x141e DD=0: b7 d5 8e 70         MOVB R0, 0x8ed5
+0x141e DD=0: b7 d5 8e 70         MOVB R0, tbl_8ed5
 0x1422 DD=0: 18                  CMPB A, R0
 0x1423 DD=0: f5 01               JGE label_1426
 0x1425 DD=0: 78                  LB A, R0
@@ -1493,7 +1493,7 @@ label_1438:
 0x1455 DD=0: dc                  DECB A
 0x1456 DD=1: d9                  SDD
 0x1457 DD=1: 8f                  SLL A
-0x1458 DD=1: ae 54 92            ADD A, #0x9254
+0x1458 DD=1: ae 54 92            ADD A, #tbl_9254
 0x145b DD=1: a6 06 da            LC A, [ACC]
 0x145e DD=1: a6 06 c9            J [ACC]
 case_0:
@@ -1755,7 +1755,7 @@ label_168d:
 label_1691:
 0x1691 DD=1: 01                  RT
 label_1692:
-0x1692 DD=1: f8 00 98            L A, #0x9800
+0x1692 DD=1: f8 00 98            L A, #tbl_9800
 0x1695 DD=1: 58 35               SB sbafix 0x02f5.0
 0x1697 DD=1: 04 05               SJ label_169e
 label_1699:
@@ -1914,30 +1914,30 @@ label_1780:
 0x1780 DD=0: b7 b6 08 00         RB 0x08b6.0
 0x1784 DD=0: 97 67 08            LB A, 0x0867
 0x1787 DD=0: 6f c7               CLRB R7
-0x1789 DD=0: 21 2f 91            MOV X2, #0x912f
+0x1789 DD=0: 21 2f 91            MOV X2, #tbl_912f
 0x178c DD=0: f1 38               JEQ label_17c6
-0x178e DD=0: 21 44 91            MOV X2, #0x9144
+0x178e DD=0: 21 44 91            MOV X2, #tbl_9144
 0x1791 DD=0: 9e 10               CMPB A, #0x10
 0x1793 DD=0: f1 31               JEQ label_17c6
-0x1795 DD=0: 21 67 91            MOV X2, #0x9167
+0x1795 DD=0: 21 67 91            MOV X2, #tbl_9167
 0x1798 DD=0: 9e 11               CMPB A, #0x11
 0x179a DD=0: f1 2a               JEQ label_17c6
-0x179c DD=0: 21 90 91            MOV X2, #0x9190
+0x179c DD=0: 21 90 91            MOV X2, #tbl_9190
 0x179f DD=0: 9e 12               CMPB A, #0x12
 0x17a1 DD=0: f1 23               JEQ label_17c6
-0x17a3 DD=0: 21 36 92            MOV X2, #0x9236
+0x17a3 DD=0: 21 36 92            MOV X2, #tbl_9236
 0x17a6 DD=0: 9e d0               CMPB A, #0xd0
 0x17a8 DD=0: f1 1c               JEQ label_17c6
-0x17aa DD=0: 21 41 92            MOV X2, #0x9241
+0x17aa DD=0: 21 41 92            MOV X2, #tbl_9241
 0x17ad DD=0: 9e d1               CMPB A, #0xd1
 0x17af DD=0: f1 15               JEQ label_17c6
-0x17b1 DD=0: 21 bd 91            MOV X2, #0x91bd
+0x17b1 DD=0: 21 bd 91            MOV X2, #tbl_91bd
 0x17b4 DD=0: 9e 60               CMPB A, #0x60
 0x17b6 DD=0: f1 0e               JEQ label_17c6
-0x17b8 DD=0: 21 e0 91            MOV X2, #0x91e0
+0x17b8 DD=0: 21 e0 91            MOV X2, #tbl_91e0
 0x17bb DD=0: 9e 61               CMPB A, #0x61
 0x17bd DD=0: f1 07               JEQ label_17c6
-0x17bf DD=0: 21 09 92            MOV X2, #0x9209
+0x17bf DD=0: 21 09 92            MOV X2, #tbl_9209
 0x17c2 DD=0: 9e 62               CMPB A, #0x62
 0x17c4 DD=0: f6 04               JNE label_17ca
 label_17c6:
@@ -1975,7 +1975,7 @@ int0_vector:
 0x17ee DD=0: 5f ef 02            JBR sbafix 0x02ef.7, label_17f3
 0x17f1 DD=0: 59 12               SB sbafix 0x02d2.1
 label_17f3:
-0x17f3 DD=0: b7 ca 8f 86 8e      MOVB fix 0x028e, 0x8fca
+0x17f3 DD=0: b7 ca 8f 86 8e      MOVB fix 0x028e, tbl_8fca
 0x17f8 DD=0: 5f 2f               SB sbafix 0x02ef.7
 0x17fa DD=0: 02                  RTI
 cap0_vector:
@@ -2138,7 +2138,7 @@ label_1907:
 0x1913 DD=1: 36 be               ST A, TMR12BF
 0x1915 DD=1: d6 ce fd            MOVB RTOCON12, #0xfd
 label_1918:
-0x1918 DD=1: b7 cb 8f 86 8f      MOVB fix 0x028f, 0x8fcb
+0x1918 DD=1: b7 cb 8f 86 8f      MOVB fix 0x028f, tbl_8fcb
 0x191d DD=0: 94 2c               LB A, fix 0x022c
 0x191f DD=0: b4 ef 17            MB C, fix 0x02ef.7
 0x1922 DD=0: 5f 6f               RB sbafix 0x02ef.7
@@ -2191,10 +2191,10 @@ label_1978:
 0x197c DD=1: fc                  EXTND
 0x197d DD=1: bc 8d               SLL A, 2
 0x197f DD=1: 3c                  ST A, X1
-0x1980 DD=1: a8 fa 8e 87 02      MOV off 0x0402, 0x8efa[X1]
-0x1985 DD=1: a8 fc 8e 87 04      MOV off 0x0404, 0x8efc[X1]
-0x198a DD=1: a8 5a 8f 87 06      MOV off 0x0406, 0x8f5a[X1]
-0x198f DD=1: a8 5c 8f 87 08      MOV off 0x0408, 0x8f5c[X1]
+0x1980 DD=1: a8 fa 8e 87 02      MOV off 0x0402, tbl_8efa[X1]
+0x1985 DD=1: a8 fc 8e 87 04      MOV off 0x0404, tbl_8efc[X1]
+0x198a DD=1: a8 5a 8f 87 06      MOV off 0x0406, tbl_8f5a[X1]
+0x198f DD=1: a8 5c 8f 87 08      MOV off 0x0408, tbl_8f5c[X1]
 0x1994 DD=1: 86 e0               L A, ADCR0
 0x1996 DD=1: bc 9f               SRL A, 4
 0x1998 DD=1: bc 9d               SRL A, 2
@@ -2306,7 +2306,7 @@ label_1a4d:
 label_1a58:
 0x1a58 DD=1: 8a 43               BAND C, PSWL.3
 0x1a5a DD=1: 8a 1e               MB PSWL.6, C
-0x1a5c DD=1: a7 86 80 70         MOV ER0, 0x8086
+0x1a5c DD=1: a7 86 80 70         MOV ER0, tbl_8086
 0x1a60 DD=1: 18                  CMP A, ER0
 0x1a61 DD=1: f5 05               JGE label_1a68
 0x1a63 DD=1: 8a 06               RB PSWL.6
@@ -2361,9 +2361,9 @@ label_1ab8:
 0x1ab8 DD=1: b5 18 c6            INCB off 0x0418
 0x1abb DD=1: 5c 94 23            JBS sbafix 0x02d4.4, label_1ae1
 0x1abe DD=1: 5c 90 28            JBS sbafix 0x02d0.4, label_1ae9
-0x1ac1 DD=1: 22 7e 80            MOV DP, #0x807e
+0x1ac1 DD=1: 22 7e 80            MOV DP, #tbl_807e
 0x1ac4 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_1aca
-0x1ac7 DD=1: 22 0e 84            MOV DP, #0x840e
+0x1ac7 DD=1: 22 0e 84            MOV DP, #tbl_840e
 label_1aca:
 0x1aca DD=1: 83                  L A, [DP+]
 0x1acb DD=1: 58 a9 0f            JBS sbafix 0x02e9.0, label_1add
@@ -2418,7 +2418,7 @@ label_1b1d:
 0x1b38 DD=1: b4 32 f3 00         ADCB fix 0x0232, #0x00
 label_1b3c:
 0x1b3c DD=1: 58 ef 0b            JBR sbafix 0x02ef.0, label_1b4a
-0x1b3f DD=1: 9e 50 c3            CMP A, #0xc350
+0x1b3f DD=1: 9e 50 c3            CMP A, #tbl_c350
 0x1b42 DD=1: f0 13               JGT label_1b57
 0x1b44 DD=1: 59 28               SB sbafix 0x02e8.1
 0x1b46 DD=1: 58 6f               RB sbafix 0x02ef.0
@@ -2435,12 +2435,12 @@ label_1b57:
 0x1b5f DD=1: 58 e3 28            JBR sbafix 0x02e3.0, label_1b8a
 0x1b62 DD=1: 58 e8 25            JBR sbafix 0x02e8.0, label_1b8a
 0x1b65 DD=0: 94 2c               LB A, fix 0x022c
-0x1b67 DD=0: b7 00 8e ca         TBR 0x8e00.(AL)
+0x1b67 DD=0: b7 00 8e ca         TBR tbl_8e00.(AL)
 0x1b6b DD=0: f1 06               JEQ label_1b73
 0x1b6d DD=0: a6 f1 87 58         MOV off 0x0458, ADCR13
 0x1b71 DD=0: 04 06               SJ label_1b79
 label_1b73:
-0x1b73 DD=0: b7 03 8e ca         TBR 0x8e03.(AL)
+0x1b73 DD=0: b7 03 8e ca         TBR tbl_8e03.(AL)
 0x1b77 DD=0: f6 05               JNE label_1b7e
 label_1b79:
 0x1b79 DD=0: b6 11 04            RB P1.4
@@ -2708,7 +2708,7 @@ label_1da3:
 0x1da8 DD=0: f6 2e               JNE label_1dd8
 label_1daa:
 0x1daa DD=0: 5b e9 0c            JBR sbafix 0x02e9.3, label_1db9
-0x1dad DD=0: a7 86 80 90 44      CMP 0x8086, fix 0x0244
+0x1dad DD=0: a7 86 80 90 44      CMP tbl_8086, fix 0x0244
 0x1db2 DD=0: f0 05               JGT label_1db9
 0x1db4 DD=0: b7 d2 03 29 03      JBS 0x03d2.1, label_1dbc
 label_1db9:
@@ -2753,9 +2753,9 @@ label_1e09:
 label_1e12:
 0x1e12 DD=1: 39                  ST A, ER1
 0x1e13 DD=0: 94 2c               LB A, fix 0x022c
-0x1e15 DD=0: 20 ae 80            MOV X1, #0x80ae
+0x1e15 DD=0: 20 ae 80            MOV X1, #tbl_80ae
 0x1e18 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_1e1e
-0x1e1b DD=0: 20 34 84            MOV X1, #0x8434
+0x1e1b DD=0: 20 34 84            MOV X1, #tbl_8434
 label_1e1e:
 0x1e1e DD=0: ba 70               MOVB R0, [X1+A]
 0x1e20 DD=0: 68 b1 c5            ANDB R0, off 0x04c5
@@ -2832,13 +2832,13 @@ label_1eaf:
 0x1eaf DD=1: b7 df 03 03         RB 0x03df.3
 label_1eb3:
 0x1eb3 DD=0: 94 2c               LB A, fix 0x022c
-0x1eb5 DD=0: b7 19 8d ba         MBR C, 0x8d19.(AL)
+0x1eb5 DD=0: b7 19 8d ba         MBR C, tbl_8d19.(AL)
 0x1eb9 DD=0: b6 10 1a            MB P0.2, C
 0x1ebc DD=0: 58 a3 03            JBS sbafix 0x02e3.0, label_1ec2
 0x1ebf DD=0: 03 73 1f            J label_1f73
 label_1ec2:
 0x1ec2 DD=0: 94 2c               LB A, fix 0x022c
-0x1ec4 DD=0: b7 06 8e ca         TBR 0x8e06.(AL)
+0x1ec4 DD=0: b7 06 8e ca         TBR tbl_8e06.(AL)
 0x1ec8 DD=0: f1 43               JEQ label_1f0d
 0x1eca DD=0: 48 86 13            JBS sbaoff 0x04c6.0, label_1ee0
 0x1ecd DD=1: 85 58               L A, off 0x0458
@@ -2848,7 +2848,7 @@ label_1ec2:
 label_1ed4:
 0x1ed4 DD=0: d8                  RDD
 0x1ed5 DD=0: df                  SWAP
-0x1ed6 DD=0: b7 12 8e 70         MOVB R0, 0x8e12
+0x1ed6 DD=0: b7 12 8e 70         MOVB R0, tbl_8e12
 0x1eda DD=0: 18                  CMPB A, R0
 0x1edb DD=0: f5 01               JGE label_1ede
 0x1edd DD=0: 78                  LB A, R0
@@ -2869,7 +2869,7 @@ label_1eec:
 0x1ef6 DD=0: 9d 54               CMPB A, off 0x0454
 0x1ef8 DD=0: f0 07               JGT label_1f01
 0x1efa DD=0: 59 2c               SB sbafix 0x02ec.1
-0x1efc DD=0: 97 13 8e            LB A, 0x8e13
+0x1efc DD=0: 97 13 8e            LB A, tbl_8e13
 0x1eff DD=0: 35 57               STB A, off 0x0457
 label_1f01:
 0x1f01 DD=0: ca                  RC
@@ -2886,11 +2886,11 @@ label_1f0d:
 0x1f12 DD=0: f2 01               JLT label_1f15
 0x1f14 DD=0: fb                  CLRB A
 label_1f15:
-0x1f15 DD=0: b7 14 8e ca         TBR 0x8e14.(AL)
+0x1f15 DD=0: b7 14 8e ca         TBR tbl_8e14.(AL)
 0x1f19 DD=0: f1 58               JEQ label_1f73
 0x1f1b DD=0: 66 c7               CLR ER2
 0x1f1d DD=0: b7 25 05 74         MOVB R4, 0x0525
-0x1f21 DD=1: 87 17 8e            L A, 0x8e17
+0x1f21 DD=1: 87 17 8e            L A, tbl_8e17
 0x1f24 DD=1: 0a                  SUB A, ER2
 0x1f25 DD=1: f5 01               JGE label_1f28
 0x1f27 DD=1: fa                  CLR A
@@ -2912,7 +2912,7 @@ label_1f39:
 label_1f43:
 0x1f43 DD=1: 37 5a 04            ST A, 0x045a
 0x1f46 DD=1: 39                  ST A, ER1
-0x1f47 DD=1: 87 19 8e            L A, 0x8e19
+0x1f47 DD=1: 87 19 8e            L A, tbl_8e19
 0x1f4a DD=1: 0a                  SUB A, ER2
 0x1f4b DD=1: f5 01               JGE label_1f4e
 0x1f4d DD=1: fa                  CLR A
@@ -2960,7 +2960,7 @@ label_1f90:
 0x1f90 DD=1: fa                  CLR A
 0x1f91 DD=0: 98 06 04            LB A, 0x0406[X1]
 0x1f94 DD=0: f6 66               JNE label_1ffc
-0x1f96 DD=0: 22 32 8a            MOV DP, #0x8a32
+0x1f96 DD=0: 22 32 8a            MOV DP, #tbl_8a32
 0x1f99 DD=0: 95 43               LB A, off 0x0443
 0x1f9b DD=0: bc 8d               SLLB A, 2
 0x1f9d DD=0: 62 a4               ADD DP, A
@@ -2971,7 +2971,7 @@ label_1f9f:
 0x1fa8 DD=0: ae 04               ADDB A, #0x04
 0x1faa DD=0: 04 f3               SJ label_1f9f
 label_1fac:
-0x1fac DD=0: 22 2c 8a            MOV DP, #0x8a2c
+0x1fac DD=0: 22 2c 8a            MOV DP, #tbl_8a2c
 0x1faf DD=0: 62 a4               ADD DP, A
 label_1fb1:
 0x1fb1 DD=0: a2 90 3c            CMP [DP], fix 0x023c
@@ -2989,13 +2989,13 @@ label_1fc6:
 0x1fc8 DD=0: f9 05               LB A, #0x05
 0x1fca DD=0: b5 42 a9            MULB off 0x0442
 0x1fcd DD=0: ad 43               ADDB A, off 0x0443
-0x1fcf DD=0: 22 45 8a            MOV DP, #0x8a45
+0x1fcf DD=0: 22 45 8a            MOV DP, #tbl_8a45
 0x1fd2 DD=0: 62 a4               ADD DP, A
 0x1fd4 DD=0: b2 87 44            MOVB off 0x0444, [DP]
 0x1fd7 DD=0: 95 44               LB A, off 0x0444
 0x1fd9 DD=0: b8 46 04 95         CMPB A, 0x0446[X1]
 0x1fdd DD=0: f6 05               JNE label_1fe4
-0x1fdf DD=0: 97 44 8a            LB A, 0x8a44
+0x1fdf DD=0: 97 44 8a            LB A, tbl_8a44
 0x1fe2 DD=0: 04 15               SJ label_1ff9
 label_1fe4:
 0x1fe4 DD=0: 98 4a 04            LB A, 0x044a[X1]
@@ -3006,7 +3006,7 @@ label_1fe4:
 label_1ff1:
 0x1ff1 DD=0: b8 46 04 d6         DECB 0x0446[X1]
 label_1ff5:
-0x1ff5 DD=0: 97 44 8a            LB A, 0x8a44
+0x1ff5 DD=0: 97 44 8a            LB A, tbl_8a44
 label_1ff8:
 0x1ff8 DD=0: dc                  DECB A
 label_1ff9:
@@ -3025,7 +3025,7 @@ label_2013:
 0x2016 DD=0: 61 c7               CLR X2
 label_2018:
 0x2018 DD=1: fa                  CLR A
-0x2019 DD=1: b9 fc 89 97         MOVB A, 0x89fc[X2]
+0x2019 DD=1: b9 fc 89 97         MOVB A, tbl_89fc[X2]
 0x201d DD=1: 3c                  ST A, X1
 0x201e DD=1: 6c aa               MOVB R4, A
 0x2020 DD=0: 98 05 04            LB A, 0x0405[X1]
@@ -3044,7 +3044,7 @@ label_2036:
 0x203b DD=0: 34 79               STB A, fix 0x0279
 0x203d DD=0: b6 42 0b            SB IRQ1L.3
 label_2040:
-0x2040 DD=0: 98 14 8d            LB A, 0x8d14[X1]
+0x2040 DD=0: 98 14 8d            LB A, tbl_8d14[X1]
 0x2043 DD=0: 9c 2c               CMPB A, fix 0x022c
 0x2045 DD=0: f6 17               JNE label_205e
 0x2047 DD=0: 22 80 02            MOV DP, #0x0280
@@ -3163,7 +3163,7 @@ label_211a:
 0x2123 DD=1: b5 56 c7            CLRB off 0x0556
 0x2126 DD=1: 04 1e               SJ label_2146
 label_2128:
-0x2128 DD=1: f8 dc dd            L A, #0xdddc
+0x2128 DD=1: f8 dc dd            L A, #tbl_dddc
 0x212b DD=1: 48 ae 01            JBS sbaoff 0x05ee.0, label_212f
 0x212e DD=1: df                  SWAP
 label_212f:
@@ -3333,7 +3333,7 @@ label_227a:
 label_2280:
 0x2280 DD=0: 68 87 55            MOVB off 0x0555, R0
 label_2283:
-0x2283 DD=1: f8 dc dd            L A, #0xdddc
+0x2283 DD=1: f8 dc dd            L A, #tbl_dddc
 0x2286 DD=0: d8                  RDD
 0x2287 DD=0: 48 ae 01            JBS sbaoff 0x05ee.0, label_228b
 0x228a DD=0: df                  SWAP
@@ -3347,7 +3347,7 @@ label_2291:
 0x2293 DD=0: 4a ad 02            JBS sbaoff 0x05ed.2, label_2298
 0x2296 DD=0: ae 02               ADDB A, #0x02
 label_2298:
-0x2298 DD=0: 20 81 8e            MOV X1, #0x8e81
+0x2298 DD=0: 20 81 8e            MOV X1, #tbl_8e81
 0x229b DD=0: ba 97               MOVB A, [X1+A]
 0x229d DD=0: b6 d2 b3 cf         ANDB RTO4CON, #0xcf
 0x22a1 DD=0: b6 d2 c4            OR RTO4CON, A
@@ -3397,7 +3397,7 @@ label_22f1:
 0x22fb DD=0: b5 b2 06            RB off 0x08b2.6
 0x22fe DD=0: 04 15               SJ label_2315
 label_2300:
-0x2300 DD=0: b7 6e 90 87 bb      MOVB off 0x08bb, 0x906e
+0x2300 DD=0: b7 6e 90 87 bb      MOVB off 0x08bb, tbl_906e
 0x2305 DD=0: b5 b5 21 06         JBR off 0x08b5.1, label_230f
 0x2309 DD=0: b5 b5 08            SB off 0x08b5.0
 0x230c DD=0: b5 b5 0c            SB off 0x08b5.4
@@ -3412,7 +3412,7 @@ label_2316:
 0x231c DD=0: f1 08               JEQ label_2326
 0x231e DD=0: b5 b1 04            RB off 0x08b1.4
 label_2321:
-0x2321 DD=0: b7 17 90 87 b8      MOVB off 0x08b8, 0x9017
+0x2321 DD=0: b7 17 90 87 b8      MOVB off 0x08b8, tbl_9017
 label_2326:
 0x2326 DD=0: 02                  RTI
 label_2327:
@@ -3425,7 +3425,7 @@ label_2333:
 0x2337 DD=0: d7 78 01            MOVB off 0x0878, #0x01
 0x233a DD=0: 6f 87 64            MOVB off 0x0864, R7
 0x233d DD=0: b5 b1 0c            SB off 0x08b1.4
-0x2340 DD=0: b7 18 90 87 7a      MOVB off 0x087a, 0x9018
+0x2340 DD=0: b7 18 90 87 7a      MOVB off 0x087a, tbl_9018
 0x2345 DD=0: 04 30               SJ label_2377
 label_2347:
 0x2347 DD=0: b5 b1 24 2c         JBR off 0x08b1.4, label_2377
@@ -3442,7 +3442,7 @@ label_2361:
 0x2361 DD=0: f6 14               JNE label_2377
 0x2363 DD=0: 7f                  LB A, R7
 0x2364 DD=0: 35 7a               STB A, off 0x087a
-0x2366 DD=0: 8a b6 18 90         CMPCB A, 0x9018
+0x2366 DD=0: 8a b6 18 90         CMPCB A, tbl_9018
 0x236a DD=0: f7 0b               JLE label_2377
 0x236c DD=0: 04 06               SJ label_2374
 label_236e:
@@ -3451,7 +3451,7 @@ label_236e:
 label_2374:
 0x2374 DD=0: b5 b1 04            RB off 0x08b1.4
 label_2377:
-0x2377 DD=0: b7 17 90 87 b8      MOVB off 0x08b8, 0x9017
+0x2377 DD=0: b7 17 90 87 b8      MOVB off 0x08b8, tbl_9017
 label_237c:
 0x237c DD=0: 02                  RTI
 sci0_vector:
@@ -3631,13 +3631,13 @@ label_24ab:
 label_24b2:
 0x24b2 DD=1: 34 34               ST A, fix 0x0234
 0x24b4 DD=1: 38                  ST A, ER0
-0x24b5 DD=1: 22 68 a0            MOV DP, #0xa068
+0x24b5 DD=1: 22 68 a0            MOV DP, #tbl_a068
 0x24b8 DD=1: b4 38 74            MOVB R4, fix 0x0238
 0x24bb DD=1: 15 1a               MOVB R5, #0x1a
 0x24bd DD=1: 45 d6               ACAL label_11d6
 0x24bf DD=1: 6c 86 38            MOVB fix 0x0238, R4
 0x24c2 DD=1: 34 36               ST A, fix 0x0236
-0x24c4 DD=1: 22 06 8a            MOV DP, #0x8a06
+0x24c4 DD=1: 22 06 8a            MOV DP, #tbl_8a06
 0x24c7 DD=1: fa                  CLR A
 0x24c8 DD=0: 97 42 04            LB A, 0x0442
 0x24cb DD=0: bc 8d               SLLB A, 2
@@ -3649,7 +3649,7 @@ label_24cf:
 0x24d8 DD=0: ae 04               ADDB A, #0x04
 0x24da DD=0: 04 f3               SJ label_24cf
 label_24dc:
-0x24dc DD=0: 22 00 8a            MOV DP, #0x8a00
+0x24dc DD=0: 22 00 8a            MOV DP, #tbl_8a00
 0x24df DD=0: 62 a4               ADD DP, A
 label_24e1:
 0x24e1 DD=0: a2 90 34            CMP [DP], fix 0x0234
@@ -3689,7 +3689,7 @@ label_24f6:
 0x2532 DD=1: fa                  CLR A
 0x2533 DD=1: b4 78 97            MOVB A, fix 0x0278
 0x2536 DD=1: 3c                  ST A, X1
-0x2537 DD=0: 98 5f 80            LB A, 0x805f[X1]
+0x2537 DD=0: 98 5f 80            LB A, tbl_805f[X1]
 0x253a DD=0: b8 46 04 85         SUBB A, 0x0446[X1]
 0x253e DD=0: f5 01               JGE label_2541
 0x2540 DD=0: fb                  CLRB A
@@ -3711,7 +3711,7 @@ label_255d:
 label_2560:
 0x2560 DD=1: 34 50               ST A, fix 0x0250
 0x2562 DD=1: 38                  ST A, ER0
-0x2563 DD=1: 22 20 a0            MOV DP, #0xa020
+0x2563 DD=1: 22 20 a0            MOV DP, #tbl_a020
 0x2566 DD=1: b4 53 74            MOVB R4, fix 0x0253
 0x2569 DD=1: 15 12               MOVB R5, #0x12
 0x256b DD=1: 45 d6               ACAL label_11d6
@@ -3741,7 +3741,7 @@ label_2598:
 label_259c:
 0x259c DD=1: c8 58 02            ST A, 0x0258[X1]
 0x259f DD=1: 38                  ST A, ER0
-0x25a0 DD=1: 22 44 a0            MOV DP, #0xa044
+0x25a0 DD=1: 22 44 a0            MOV DP, #tbl_a044
 0x25a3 DD=1: b4 62 74            MOVB R4, fix 0x0262
 0x25a6 DD=1: 15 12               MOVB R5, #0x12
 0x25a8 DD=1: 45 d6               ACAL label_11d6
@@ -3779,11 +3779,11 @@ label_25e8:
 0x25e8 DD=0: a4 4c 70            MOV ER0, fix 0x024c
 0x25eb DD=0: b4 6c 74            MOVB R4, fix 0x026c
 0x25ee DD=0: 15 08               MOVB R5, #0x08
-0x25f0 DD=0: 22 a4 eb            MOV DP, #0xeba4
+0x25f0 DD=0: 22 a4 eb            MOV DP, #tbl_eba4
 0x25f3 DD=0: 45 d6               ACAL label_11d6
 0x25f5 DD=0: 34 68               STB A, fix 0x0268
 0x25f7 DD=0: 6c 86 6c            MOVB fix 0x026c, R4
-0x25fa DD=0: 22 90 eb            MOV DP, #0xeb90
+0x25fa DD=0: 22 90 eb            MOV DP, #tbl_eb90
 0x25fd DD=0: a4 34 70            MOV ER0, fix 0x0234
 0x2600 DD=0: b4 6d 74            MOVB R4, fix 0x026d
 0x2603 DD=0: 15 0a               MOVB R5, #0x0a
@@ -3795,7 +3795,7 @@ label_25e8:
 0x260e DD=0: b4 6c 71            MOVB R1, fix 0x026c
 0x2611 DD=0: 16 08               MOVB R6, #0x08
 0x2613 DD=0: a4 68 72            MOV ER2, fix 0x0268
-0x2616 DD=0: 22 b4 eb            MOV DP, #0xebb4
+0x2616 DD=0: 22 b4 eb            MOV DP, #tbl_ebb4
 0x2619 DD=0: 46 56               ACAL label_1256
 0x261b DD=0: 34 66               STB A, fix 0x0266
 0x261d DD=0: 4f 18               SB sbaoff 0x03d8.7
@@ -3857,9 +3857,9 @@ label_2683:
 0x2683 DD=1: fd                  CPL C
 0x2684 DD=1: b4 f0 19            MB fix 0x02f0.1, C
 0x2687 DD=1: 5b e2 38            JBR sbafix 0x02e2.3, label_26c2
-0x268a DD=1: 22 aa 80            MOV DP, #0x80aa
+0x268a DD=1: 22 aa 80            MOV DP, #tbl_80aa
 0x268d DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2693
-0x2690 DD=1: 22 30 84            MOV DP, #0x8430
+0x2690 DD=1: 22 30 84            MOV DP, #tbl_8430
 label_2693:
 0x2693 DD=1: 84 34               L A, fix 0x0234
 0x2695 DD=1: 14 07               MOVB R4, #0x07
@@ -3871,7 +3871,7 @@ label_269d:
 0x269d DD=1: 6c 87 76            MOVB off 0x0376, R4
 0x26a0 DD=1: 6c 70               MOVB R0, R4
 0x26a2 DD=1: 68 8c               SLLB R0, 1
-0x26a4 DD=1: 20 c6 80            MOV X1, #0x80c6
+0x26a4 DD=1: 20 c6 80            MOV X1, #tbl_80c6
 0x26a7 DD=1: ab 97               MOV A, [X1+R0]
 0x26a9 DD=1: 9c 64               CMP A, fix 0x0264
 0x26ab DD=1: 9a 56               BOR C, PSWH.6
@@ -3887,9 +3887,9 @@ label_269d:
 label_26c2:
 0x26c2 DD=0: 03 35 27            J label_2735
 label_26c5:
-0x26c5 DD=0: 22 88 80            MOV DP, #0x8088
+0x26c5 DD=0: 22 88 80            MOV DP, #tbl_8088
 0x26c8 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_26ce
-0x26cb DD=0: 22 12 84            MOV DP, #0x8412
+0x26cb DD=0: 22 12 84            MOV DP, #tbl_8412
 label_26ce:
 0x26ce DD=0: 6f c7               CLRB R7
 0x26d0 DD=0: a5 68 74            MOV X1, off 0x0368
@@ -3897,9 +3897,9 @@ label_26ce:
 0x26d7 DD=0: f0 18               JGT label_26f1
 0x26d9 DD=0: 8b 06 90 34         CMP 6[DP], fix 0x0234
 0x26dd DD=0: f2 12               JLT label_26f1
-0x26df DD=0: 20 1e 83            MOV X1, #0x831e
+0x26df DD=0: 20 1e 83            MOV X1, #tbl_831e
 0x26e2 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_26e8
-0x26e5 DD=0: 20 84 86            MOV X1, #0x8684
+0x26e5 DD=0: 20 84 86            MOV X1, #tbl_8684
 label_26e8:
 0x26e8 DD=0: f9 1e               LB A, #0x1e
 0x26ea DD=0: b5 76 a9            MULB off 0x0376
@@ -3911,15 +3911,15 @@ label_26f1:
 0x26f7 DD=0: f0 26               JGT label_271f
 0x26f9 DD=0: 8b 02 90 34         CMP 2[DP], fix 0x0234
 0x26fd DD=0: f2 20               JLT label_271f
-0x26ff DD=0: 21 ae 81            MOV X2, #0x81ae
+0x26ff DD=0: 21 ae 81            MOV X2, #tbl_81ae
 0x2702 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_2708
-0x2705 DD=0: 21 24 85            MOV X2, #0x8524
+0x2705 DD=0: 21 24 85            MOV X2, #tbl_8524
 label_2708:
 0x2708 DD=0: f9 2e               LB A, #0x2e
 0x270a DD=0: b5 76 a9            MULB off 0x0376
 0x270d DD=0: 61 a4               ADD X2, A
 0x270f DD=0: 6f 08               SB R7.0
-0x2711 DD=0: 24 59 8c            MOV ER0, #0x8c59
+0x2711 DD=0: 24 59 8c            MOV ER0, #tbl_8c59
 0x2714 DD=0: f9 05               LB A, #0x05
 0x2716 DD=0: b5 76 a9            MULB off 0x0376
 0x2719 DD=0: 64 a4               ADD ER0, A
@@ -3963,7 +3963,7 @@ label_275a:
 0x2761 DD=1: 33                  ST A, [DP+]
 0x2762 DD=1: 32                  ST A, [DP]
 0x2763 DD=1: 4a 11               SB sbaoff 0x03d1.2
-0x2765 DD=1: 22 27 80            MOV DP, #0x8027
+0x2765 DD=1: 22 27 80            MOV DP, #tbl_8027
 0x2768 DD=1: 44 2c               ACAL label_102c
 0x276a DD=1: 35 06               ST A, off 0x0306
 0x276c DD=1: b5 05 c7            CLRB off 0x0305
@@ -4022,7 +4022,7 @@ label_27d2:
 0x27d2 DD=0: 94 d4               LB A, fix 0x02d4
 0x27d4 DD=0: be 03               ANDB A, #0x03
 0x27d6 DD=0: f6 17               JNE label_27ef
-0x27d8 DD=0: 22 3d 80            MOV DP, #0x803d
+0x27d8 DD=0: 22 3d 80            MOV DP, #tbl_803d
 0x27db DD=1: 84 34               L A, fix 0x0234
 0x27dd DD=1: 44 a3               ACAL label_10a3
 0x27df DD=1: 58 b0 11            JBS sbafix 0x02f0.0, label_27f3
@@ -4049,13 +4049,13 @@ label_27fb:
 0x2803 DD=1: 61 a9               MUL X2
 0x2805 DD=1: 74                  L A, ER0
 0x2806 DD=1: 58 b0 0d            JBS sbafix 0x02f0.0, label_2816
-0x2809 DD=1: 22 10 b1            MOV DP, #0xb110
+0x2809 DD=1: 22 10 b1            MOV DP, #tbl_b110
 0x280c DD=1: 62 a4               ADD DP, A
 0x280e DD=1: b4 62 71            MOVB R1, fix 0x0262
 0x2811 DD=1: a4 60 72            MOV ER2, fix 0x0260
 0x2814 DD=1: 04 0b               SJ label_2821
 label_2816:
-0x2816 DD=1: 22 50 ce            MOV DP, #0xce50
+0x2816 DD=1: 22 50 ce            MOV DP, #tbl_ce50
 0x2819 DD=1: 62 a4               ADD DP, A
 0x281b DD=1: b4 3f 71            MOVB R1, fix 0x023f
 0x281e DD=1: a4 40 72            MOV ER2, fix 0x0240
@@ -4119,11 +4119,11 @@ label_2886:
 0x2893 DD=1: bc d7               FILL A
 label_2895:
 0x2895 DD=1: c8 2a 03            ST A, 0x032a[X1]
-0x2898 DD=1: 22 10 b1            MOV DP, #0xb110
+0x2898 DD=1: 22 10 b1            MOV DP, #tbl_b110
 0x289b DD=1: b4 62 71            MOVB R1, fix 0x0262
 0x289e DD=1: a4 60 72            MOV ER2, fix 0x0260
 0x28a1 DD=1: 58 f0 09            JBR sbafix 0x02f0.0, label_28ad
-0x28a4 DD=1: 22 50 ce            MOV DP, #0xce50
+0x28a4 DD=1: 22 50 ce            MOV DP, #tbl_ce50
 0x28a7 DD=1: b4 3f 71            MOVB R1, fix 0x023f
 0x28aa DD=1: a4 40 72            MOV ER2, fix 0x0240
 label_28ad:
@@ -4146,7 +4146,7 @@ label_28cc:
 0x28d3 DD=0: 03 dc 2a            J label_2adc
 label_28d6:
 0x28d6 DD=0: 68 c7               CLRB R0
-0x28d8 DD=0: 22 82 80            MOV DP, #0x8082
+0x28d8 DD=0: 22 82 80            MOV DP, #tbl_8082
 0x28db DD=0: 5c e9 14            JBR sbafix 0x02e9.4, label_28f2
 0x28de DD=1: 84 4e               L A, fix 0x024e
 0x28e0 DD=1: a3 95               CMP A, [DP+]
@@ -4206,17 +4206,17 @@ label_2950:
 label_2957:
 0x2957 DD=1: 84 4e               L A, fix 0x024e
 0x2959 DD=1: 5c a9 09            JBS sbafix 0x02e9.4, label_2965
-0x295c DD=1: a7 9a 80 95         CMP A, 0x809a
+0x295c DD=1: a7 9a 80 95         CMP A, tbl_809a
 0x2960 DD=1: f7 1c               JLE label_297e
 0x2962 DD=1: 03 dc 2a            J label_2adc
 label_2965:
 0x2965 DD=1: 5e a9 16            JBS sbafix 0x02e9.6, label_297e
 0x2968 DD=1: 4b d2 13            JBR sbaoff 0x03d2.3, label_297e
-0x296b DD=1: a7 82 80 95         CMP A, 0x8082
+0x296b DD=1: a7 82 80 95         CMP A, tbl_8082
 0x296f DD=1: f2 0d               JLT label_297e
-0x2971 DD=1: 87 96 80            L A, 0x8096
+0x2971 DD=1: 87 96 80            L A, tbl_8096
 0x2974 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_297a
-0x2977 DD=1: 87 20 84            L A, 0x8420
+0x2977 DD=1: 87 20 84            L A, tbl_8420
 label_297a:
 0x297a DD=1: 9c 34               CMP A, fix 0x0234
 0x297c DD=1: f5 07               JGE label_2985
@@ -4272,7 +4272,7 @@ label_29b9:
 0x29e3 DD=0: 5c e9 16            JBR sbafix 0x02e9.4, label_29fc
 0x29e6 DD=0: 4b d2 13            JBR sbaoff 0x03d2.3, label_29fc
 0x29e9 DD=1: 84 4e               L A, fix 0x024e
-0x29eb DD=1: a7 9c 80 95         CMP A, 0x809c
+0x29eb DD=1: a7 9c 80 95         CMP A, tbl_809c
 0x29ef DD=1: f2 0b               JLT label_29fc
 0x29f1 DD=1: a5 6c 76            MOV DP, off 0x036c
 0x29f4 DD=1: 62 a3 10 00         ADD DP, #0x0010
@@ -4289,18 +4289,18 @@ label_2a00:
 label_2a0d:
 0x2a0d DD=1: 84 4e               L A, fix 0x024e
 0x2a0f DD=1: 5c a9 0c            JBS sbafix 0x02e9.4, label_2a1e
-0x2a12 DD=1: a7 9a 80 95         CMP A, 0x809a
+0x2a12 DD=1: a7 9a 80 95         CMP A, tbl_809a
 0x2a16 DD=1: f7 1f               JLE label_2a37
 0x2a18 DD=1: b5 8d c7            CLRB off 0x038d
 0x2a1b DD=1: 03 dc 2a            J label_2adc
 label_2a1e:
 0x2a1e DD=1: 5e a9 16            JBS sbafix 0x02e9.6, label_2a37
 0x2a21 DD=1: 4b d2 13            JBR sbaoff 0x03d2.3, label_2a37
-0x2a24 DD=1: a7 82 80 95         CMP A, 0x8082
+0x2a24 DD=1: a7 82 80 95         CMP A, tbl_8082
 0x2a28 DD=1: f2 0d               JLT label_2a37
-0x2a2a DD=1: 87 94 80            L A, 0x8094
+0x2a2a DD=1: 87 94 80            L A, tbl_8094
 0x2a2d DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2a33
-0x2a30 DD=1: 87 1e 84            L A, 0x841e
+0x2a30 DD=1: 87 1e 84            L A, tbl_841e
 label_2a33:
 0x2a33 DD=1: 9c 34               CMP A, fix 0x0234
 0x2a35 DD=1: f5 07               JGE label_2a3e
@@ -4403,11 +4403,11 @@ label_2aef:
 0x2af6 DD=0: 9e 58               CMPB A, #0x58
 0x2af8 DD=0: b5 d8 1b            MB off 0x03d8.3, C
 0x2afb DD=0: 58 a2 21            JBS sbafix 0x02e2.0, label_2b1f
-0x2afe DD=0: 20 64 87            MOV X1, #0x8764
+0x2afe DD=0: 20 64 87            MOV X1, #tbl_8764
 0x2b01 DD=0: 4b 98 09            JBS sbaoff 0x03d8.3, label_2b0d
-0x2b04 DD=0: 20 6c 87            MOV X1, #0x876c
+0x2b04 DD=0: 20 6c 87            MOV X1, #tbl_876c
 0x2b07 DD=0: 4a 98 03            JBS sbaoff 0x03d8.2, label_2b0d
-0x2b0a DD=0: 20 74 87            MOV X1, #0x8774
+0x2b0a DD=0: 20 74 87            MOV X1, #tbl_8774
 label_2b0d:
 0x2b0d DD=1: 80                  L A, [X1]
 0x2b0e DD=1: 49 90 03            JBS sbaoff 0x03d0.1, label_2b14
@@ -4417,11 +4417,11 @@ label_2b14:
 0x2b18 DD=1: 60 9b 08 05         MOV 0x0508, X1
 0x2b1c DD=1: 03 43 2b            J label_2b43
 label_2b1f:
-0x2b1f DD=0: 20 7c 87            MOV X1, #0x877c
+0x2b1f DD=0: 20 7c 87            MOV X1, #tbl_877c
 0x2b22 DD=0: 4b 98 09            JBS sbaoff 0x03d8.3, label_2b2e
-0x2b25 DD=0: 20 84 87            MOV X1, #0x8784
+0x2b25 DD=0: 20 84 87            MOV X1, #tbl_8784
 0x2b28 DD=0: 4a 98 03            JBS sbaoff 0x03d8.2, label_2b2e
-0x2b2b DD=0: 20 8c 87            MOV X1, #0x878c
+0x2b2b DD=0: 20 8c 87            MOV X1, #tbl_878c
 label_2b2e:
 0x2b2e DD=1: 84 34               L A, fix 0x0234
 0x2b30 DD=1: 38                  ST A, ER0
@@ -4439,7 +4439,7 @@ label_2b43:
 0x2b49 DD=1: 9c 34               CMP A, fix 0x0234
 0x2b4b DD=1: b5 d0 19            MB off 0x03d0.1, C
 0x2b4e DD=1: f2 07               JLT label_2b57
-0x2b50 DD=1: a7 94 87 90 34      CMP 0x8794, fix 0x0234
+0x2b50 DD=1: a7 94 87 90 34      CMP tbl_8794, fix 0x0234
 0x2b55 DD=1: f7 11               JLE label_2b68
 label_2b57:
 0x2b57 DD=1: fd                  CPL C
@@ -4454,11 +4454,11 @@ label_2b62:
 0x2b66 DD=1: 04 24               SJ label_2b8c
 label_2b68:
 0x2b68 DD=1: 4a 90 1c            JBS sbaoff 0x03d0.2, label_2b87
-0x2b6b DD=1: 87 96 87            L A, 0x8796
+0x2b6b DD=1: 87 96 87            L A, tbl_8796
 0x2b6e DD=1: 6d c7               CLRB R5
 0x2b70 DD=1: b4 78 74            MOVB R4, fix 0x0278
 0x2b73 DD=1: 66 74               MOV X1, ER2
-0x2b75 DD=1: b8 98 87 74         MOVB R4, 0x8798[X1]
+0x2b75 DD=1: b8 98 87 74         MOVB R4, tbl_8798[X1]
 0x2b79 DD=1: 6c 93 04            CMPB R4, #0x04
 0x2b7c DD=1: f5 05               JGE label_2b83
 loop_2b7e:
@@ -4482,9 +4482,9 @@ label_2b8c:
 0x2b9b DD=1: 5c 94 13            JBS sbafix 0x02d4.4, label_2bb1
 0x2b9e DD=1: 59 a9 10            JBS sbafix 0x02e9.1, label_2bb1
 0x2ba1 DD=1: 84 34               L A, fix 0x0234
-0x2ba3 DD=1: 9e ff ff            CMP A, #0xffff
+0x2ba3 DD=1: 9e ff ff            CMP A, #tbl_ffff
 0x2ba6 DD=1: f0 09               JGT label_2bb1
-0x2ba8 DD=1: 9e ff ff            CMP A, #0xffff
+0x2ba8 DD=1: 9e ff ff            CMP A, #tbl_ffff
 0x2bab DD=1: f2 04               JLT label_2bb1
 0x2bad DD=1: 4b 10               SB sbaoff 0x03d0.3
 0x2baf DD=1: 04 02               SJ label_2bb3
@@ -4516,7 +4516,7 @@ label_2bdd:
 0x2bdd DD=0: 58 e4 31            JBR sbafix 0x02e4.0, label_2c11
 0x2be0 DD=0: cb                  SC
 0x2be1 DD=0: 5f 96 27            JBS sbafix 0x02d6.7, label_2c0b
-0x2be4 DD=0: 22 a8 87            MOV DP, #0x87a8
+0x2be4 DD=0: 22 a8 87            MOV DP, #tbl_87a8
 0x2be7 DD=1: 84 34               L A, fix 0x0234
 0x2be9 DD=1: 44 a3               ACAL label_10a3
 0x2beb DD=1: 64 c7               CLR ER0
@@ -4623,18 +4623,18 @@ label_2cbf:
 label_2cc2:
 0x2cc2 DD=1: cb                  SC
 0x2cc3 DD=1: b5 92 a7 08         TJZB off 0x0392, label_2ccf
-0x2cc7 DD=1: 22 d2 87            MOV DP, #0x87d2
+0x2cc7 DD=1: 22 d2 87            MOV DP, #tbl_87d2
 0x2cca DD=1: d7 91 28            MOVB off 0x0391, #0x28
 0x2ccd DD=1: 04 16               SJ label_2ce5
 label_2ccf:
 0x2ccf DD=1: b5 91 a7 08         TJZB off 0x0391, label_2cdb
-0x2cd3 DD=1: 22 d6 87            MOV DP, #0x87d6
+0x2cd3 DD=1: 22 d6 87            MOV DP, #tbl_87d6
 0x2cd6 DD=1: d7 90 28            MOVB off 0x0390, #0x28
 0x2cd9 DD=1: 04 0a               SJ label_2ce5
 label_2cdb:
-0x2cdb DD=1: 22 de 87            MOV DP, #0x87de
+0x2cdb DD=1: 22 de 87            MOV DP, #tbl_87de
 0x2cde DD=1: b5 90 a7 03         TJZB off 0x0390, label_2ce5
-0x2ce2 DD=1: 22 da 87            MOV DP, #0x87da
+0x2ce2 DD=1: 22 da 87            MOV DP, #tbl_87da
 label_2ce5:
 0x2ce5 DD=1: a3 87 5c            MOV off 0x035c, [DP+]
 0x2ce8 DD=1: a2 87 5e            MOV off 0x035e, [DP]
@@ -4671,9 +4671,9 @@ label_2d1e:
 label_2d25:
 0x2d25 DD=1: 4a 94 18            JBS sbaoff 0x03d4.2, label_2d40
 0x2d28 DD=0: 94 78               LB A, fix 0x0278
-0x2d2a DD=0: 20 a4 87            MOV X1, #0x87a4
+0x2d2a DD=0: 20 a4 87            MOV X1, #tbl_87a4
 0x2d2d DD=0: ba 74               MOVB R4, [X1+A]
-0x2d2f DD=1: f8 ff ff            L A, #0xffff
+0x2d2f DD=1: f8 ff ff            L A, #tbl_ffff
 loop_2d32:
 0x2d32 DD=1: 6c 93 04            CMPB R4, #0x04
 0x2d35 DD=1: f5 05               JGE label_2d3c
@@ -4692,7 +4692,7 @@ label_2d47:
 0x2d47 DD=1: fd                  CPL C
 0x2d48 DD=1: b5 d4 18            MB off 0x03d4.0, C
 0x2d4b DD=1: 5c dc 46            JBR sbafix 0x02dc.4, label_2d94
-0x2d4e DD=1: 22 e2 87            MOV DP, #0x87e2
+0x2d4e DD=1: 22 e2 87            MOV DP, #tbl_87e2
 0x2d51 DD=1: 82                  L A, [DP]
 0x2d52 DD=1: 4e 90 02            JBS sbaoff 0x03d0.6, label_2d57
 0x2d55 DD=1: 89 02               L A, 2[DP]
@@ -4713,7 +4713,7 @@ label_2d6b:
 0x2d70 DD=1: 6d c7               CLRB R5
 0x2d72 DD=1: b4 78 74            MOVB R4, fix 0x0278
 0x2d75 DD=1: 66 74               MOV X1, ER2
-0x2d77 DD=1: b8 ea 87 74         MOVB R4, 0x87ea[X1]
+0x2d77 DD=1: b8 ea 87 74         MOVB R4, tbl_87ea[X1]
 0x2d7b DD=1: 6c 93 04            CMPB R4, #0x04
 0x2d7e DD=1: f5 05               JGE label_2d85
 loop_2d80:
@@ -4789,9 +4789,9 @@ label_2dfd:
 0x2e02 DD=0: 14 40               MOVB R4, #0x40
 0x2e04 DD=0: 03 85 2e            J label_2e85
 label_2e07:
-0x2e07 DD=0: 20 50 88            MOV X1, #0x8850
+0x2e07 DD=0: 20 50 88            MOV X1, #tbl_8850
 0x2e0a DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_2e10
-0x2e0d DD=0: 20 e7 88            MOV X1, #0x88e7
+0x2e0d DD=0: 20 e7 88            MOV X1, #tbl_88e7
 label_2e10:
 0x2e10 DD=1: 84 34               L A, fix 0x0234
 0x2e12 DD=1: 60 76               MOV DP, X1
@@ -4849,9 +4849,9 @@ label_2e85:
 0x2e85 DD=1: 6c 87 46            MOVB off 0x0346, R4
 0x2e88 DD=1: c4 4c 04 00         CMP fix 0x0004, #0x0004
 0x2e8c DD=1: f2 46               JLT label_2ed4
-0x2e8e DD=1: 20 69 89            MOV X1, #0x8969
+0x2e8e DD=1: 20 69 89            MOV X1, #tbl_8969
 0x2e91 DD=1: 5a f1 03            JBR sbafix 0x02f1.2, label_2e97
-0x2e94 DD=1: 20 6c 89            MOV X1, #0x896c
+0x2e94 DD=1: 20 6c 89            MOV X1, #tbl_896c
 label_2e97:
 0x2e97 DD=1: b7 e8 05 20 10      JBR 0x05e8.0, label_2eac
 0x2e9c DD=1: 4b 56               RB sbaoff 0x03d6.3
@@ -4886,7 +4886,7 @@ label_2ede:
 0x2ede DD=0: f9 40               LB A, #0x40
 0x2ee0 DD=0: 58 e4 2b            JBR sbafix 0x02e4.0, label_2f0e
 0x2ee3 DD=0: 5b a7 28            JBS sbafix 0x02e7.3, label_2f0e
-0x2ee6 DD=0: 22 c3 89            MOV DP, #0x89c3
+0x2ee6 DD=0: 22 c3 89            MOV DP, #tbl_89c3
 0x2ee9 DD=0: 94 6e               LB A, fix 0x026e
 0x2eeb DD=0: 44 04               ACAL label_1004
 0x2eed DD=0: 58 f0 1e            JBR sbafix 0x02f0.0, label_2f0e
@@ -4921,7 +4921,7 @@ label_2f0e:
 label_2f29:
 0x2f29 DD=1: ae 00 01            ADD A, #0x0100
 label_2f2c:
-0x2f2c DD=1: 22 d2 89            MOV DP, #0x89d2
+0x2f2c DD=1: 22 d2 89            MOV DP, #tbl_89d2
 0x2f2f DD=1: 44 70               ACAL label_1070
 label_2f31:
 0x2f31 DD=1: 35 53               ST A, off 0x0353
@@ -4994,7 +4994,7 @@ label_2fac:
 label_2fb4:
 0x2fb4 DD=1: 5d e6 4b            JBR sbafix 0x02e6.5, label_3002
 0x2fb7 DD=1: 37 24 06            ST A, 0x0624
-0x2fba DD=1: 22 77 8a            MOV DP, #0x8a77
+0x2fba DD=1: 22 77 8a            MOV DP, #tbl_8a77
 0x2fbd DD=1: 44 70               ACAL label_1070
 0x2fbf DD=1: 37 23 06            ST A, 0x0623
 0x2fc2 DD=1: 5a a8 3d            JBS sbafix 0x02e8.2, label_3002
@@ -5123,7 +5123,7 @@ label_30b7:
 label_30be:
 0x30be DD=1: 35 00               ST A, off 0x0500
 0x30c0 DD=1: 38                  ST A, ER0
-0x30c1 DD=1: 22 68 a0            MOV DP, #0xa068
+0x30c1 DD=1: 22 68 a0            MOV DP, #tbl_a068
 0x30c4 DD=1: b5 04 74            MOVB R4, off 0x0504
 0x30c7 DD=1: 15 1a               MOVB R5, #0x1a
 0x30c9 DD=1: 45 d6               ACAL label_11d6
@@ -5138,7 +5138,7 @@ label_30be:
 0x30e2 DD=1: b4 e9 19            MB fix 0x02e9.1, C
 0x30e5 DD=1: db                  EI
 0x30e6 DD=1: a4 4c 70            MOV ER0, fix 0x024c
-0x30e9 DD=1: 22 20 a0            MOV DP, #0xa020
+0x30e9 DD=1: 22 20 a0            MOV DP, #tbl_a020
 0x30ec DD=1: b4 3f 74            MOVB R4, fix 0x023f
 0x30ef DD=1: 15 12               MOVB R5, #0x12
 0x30f1 DD=1: 45 d6               ACAL label_11d6
@@ -5168,7 +5168,7 @@ label_311d:
 0x3122 DD=0: 5c 94 03            JBS sbafix 0x02d4.4, label_3128
 0x3125 DD=0: 5c d7 0f            JBR sbafix 0x02d7.4, label_3137
 label_3128:
-0x3128 DD=0: 20 9f 8a            MOV X1, #0x8a9f
+0x3128 DD=0: 20 9f 8a            MOV X1, #tbl_8a9f
 0x312b DD=0: 95 04               LB A, off 0x0504
 0x312d DD=0: aa 71               MOV ER1, [X1+A]
 0x312f DD=0: a5 02 72            MOV ER2, off 0x0502
@@ -5178,7 +5178,7 @@ label_3137:
 0x3137 DD=1: f8 d4 01            L A, #0x01d4
 0x313a DD=1: 61 a9               MUL X2
 0x313c DD=1: 74                  L A, ER0
-0x313d DD=1: 22 9c a0            MOV DP, #0xa09c
+0x313d DD=1: 22 9c a0            MOV DP, #tbl_a09c
 0x3140 DD=1: 62 a4               ADD DP, A
 0x3142 DD=0: 95 04               LB A, off 0x0504
 0x3144 DD=0: a5 02 74            MOV X1, off 0x0502
@@ -5196,9 +5196,9 @@ label_3160:
 0x3162 DD=0: fb                  CLRB A
 label_3163:
 0x3163 DD=0: bc 99 0a 05         STB A, 0x050a[X2]
-0x3167 DD=0: 20 ca 8a            MOV X1, #0x8aca
+0x3167 DD=0: 20 ca 8a            MOV X1, #tbl_8aca
 0x316a DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3170
-0x316d DD=0: 20 03 8b            MOV X1, #0x8b03
+0x316d DD=0: 20 03 8b            MOV X1, #tbl_8b03
 label_3170:
 0x3170 DD=1: 85 00               L A, off 0x0500
 0x3172 DD=1: 60 76               MOV DP, X1
@@ -5290,9 +5290,9 @@ label_3223:
 label_322b:
 0x322b DD=0: 6c a3 80            ADDB R4, #0x80
 0x322e DD=0: 6c 87 12            MOVB off 0x0512, R4
-0x3231 DD=0: 20 46 8b            MOV X1, #0x8b46
+0x3231 DD=0: 20 46 8b            MOV X1, #tbl_8b46
 0x3234 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_323a
-0x3237 DD=0: 20 a2 8b            MOV X1, #0x8ba2
+0x3237 DD=0: 20 a2 8b            MOV X1, #tbl_8ba2
 label_323a:
 0x323a DD=1: 85 00               L A, off 0x0500
 0x323c DD=1: 60 76               MOV DP, X1
@@ -5364,7 +5364,7 @@ label_32c0:
 0x32d7 DD=1: 49 25               SB sbaoff 0x05e5.1
 0x32d9 DD=1: 4a 25               SB sbaoff 0x05e5.2
 label_32db:
-0x32db DD=1: 22 81 8c            MOV DP, #0x8c81
+0x32db DD=1: 22 81 8c            MOV DP, #tbl_8c81
 0x32de DD=1: 44 00               ACAL label_1000
 0x32e0 DD=1: 35 45               ST A, off 0x0545
 0x32e2 DD=1: 49 e5 22            JBR sbaoff 0x05e5.1, label_3307
@@ -5405,7 +5405,7 @@ label_3324:
 0x3327 DD=0: 9a 16               MB C, PSWH.6
 0x3329 DD=0: fd                  CPL C
 0x332a DD=0: 8a 1b               MB PSWL.3, C
-0x332c DD=0: 20 fa 8d            MOV X1, #0x8dfa
+0x332c DD=0: 20 fa 8d            MOV X1, #tbl_8dfa
 0x332f DD=0: 5c 97 13            JBS sbafix 0x02d7.4, label_3345
 0x3332 DD=0: 90                  LB A, [X1]
 0x3333 DD=0: 9c 70               CMPB A, fix 0x0270
@@ -5434,7 +5434,7 @@ label_335f:
 label_3360:
 0x3360 DD=0: 35 5f               STB A, off 0x055f
 label_3362:
-0x3362 DD=0: 20 09 8e            MOV X1, #0x8e09
+0x3362 DD=0: 20 09 8e            MOV X1, #tbl_8e09
 0x3365 DD=1: 80                  L A, [X1]
 0x3366 DD=1: 4b a5 03            JBS sbaoff 0x05e5.3, label_336c
 0x3369 DD=1: 88 02 00            L A, 0x0002[X1]
@@ -5458,7 +5458,7 @@ label_337a:
 0x3393 DD=0: b8 08 00 95         CMPB A, 0x0008[X1]
 label_3397:
 0x3397 DD=0: b4 ec 18            MB fix 0x02ec.0, C
-0x339a DD=0: 22 70 ee            MOV DP, #0xee70
+0x339a DD=0: 22 70 ee            MOV DP, #tbl_ee70
 0x339d DD=0: 95 04               LB A, off 0x0504
 0x339f DD=0: a5 02 74            MOV X1, off 0x0502
 0x33a2 DD=0: b4 3f 71            MOVB R1, fix 0x023f
@@ -5506,8 +5506,8 @@ label_33ee:
 label_3400:
 0x3400 DD=0: d5 64 20            CMPB off 0x0564, #0x20
 0x3403 DD=0: f2 2e               JLT label_3433
-0x3405 DD=0: 20 36 8e            MOV X1, #0x8e36
-0x3408 DD=0: 22 1d 8e            MOV DP, #0x8e1d
+0x3405 DD=0: 20 36 8e            MOV X1, #tbl_8e36
+0x3408 DD=0: 22 1d 8e            MOV DP, #tbl_8e1d
 0x340b DD=0: 14 02               MOVB R4, #0x02
 0x340d DD=1: 84 4c               L A, fix 0x024c
 loop_340f:
@@ -5518,7 +5518,7 @@ loop_340f:
 0x3416 DD=1: 50                  DEC X1
 label_3417:
 0x3417 DD=1: 60 a3 03 00         ADD X1, #0x0003
-0x341b DD=1: 22 25 8e            MOV DP, #0x8e25
+0x341b DD=1: 22 25 8e            MOV DP, #tbl_8e25
 0x341e DD=1: 14 04               MOVB R4, #0x04
 loop_3420:
 0x3420 DD=1: 60 83 03 00         SUB X1, #0x0003
@@ -5534,7 +5534,7 @@ label_3433:
 label_3436:
 0x3436 DD=0: 35 62               STB A, off 0x0562
 label_3438:
-0x3438 DD=0: 20 36 8e            MOV X1, #0x8e36
+0x3438 DD=0: 20 36 8e            MOV X1, #tbl_8e36
 0x343b DD=0: 95 04               LB A, off 0x0504
 0x343d DD=0: aa 71               MOV ER1, [X1+A]
 0x343f DD=0: a5 02 72            MOV ER2, off 0x0502
@@ -5634,11 +5634,11 @@ label_34f1:
 0x34f9 DD=1: d1                  DEC R1
 0x34fa DD=1: 04 31               SJ label_352d
 label_34fc:
-0x34fc DD=1: 22 8b 8c            MOV DP, #0x8c8b
+0x34fc DD=1: 22 8b 8c            MOV DP, #tbl_8c8b
 0x34ff DD=1: 9e ff 00            CMP A, #0x00ff
 0x3502 DD=1: f5 05               JGE label_3509
 0x3504 DD=1: 11 05               MOVB R1, #0x05
-0x3506 DD=1: 22 8a 8c            MOV DP, #0x8c8a
+0x3506 DD=1: 22 8a 8c            MOV DP, #tbl_8c8a
 label_3509:
 0x3509 DD=1: b2 70               MOVB R0, [DP]
 0x350b DD=0: 95 4d               LB A, off 0x054d
@@ -5676,7 +5676,7 @@ label_352d:
 label_3548:
 0x3548 DD=1: ae 00 01            ADD A, #0x0100
 label_354b:
-0x354b DD=1: 22 8c 8c            MOV DP, #0x8c8c
+0x354b DD=1: 22 8c 8c            MOV DP, #tbl_8c8c
 0x354e DD=1: 44 70               ACAL label_1070
 0x3550 DD=1: ae 80 35            ADD A, #0x3580
 0x3553 DD=1: 19                  CMP A, ER1
@@ -5693,7 +5693,7 @@ label_3568:
 0x356b DD=1: f5 0a               JGE label_3577
 0x356d DD=1: b5 4f c6            INCB off 0x054f
 label_3570:
-0x3570 DD=1: 22 a3 8c            MOV DP, #0x8ca3
+0x3570 DD=1: 22 a3 8c            MOV DP, #tbl_8ca3
 0x3573 DD=1: 44 70               ACAL label_1070
 0x3575 DD=1: 04 0c               SJ label_3583
 label_3577:
@@ -5769,7 +5769,7 @@ label_35eb:
 0x35f4 DD=0: 48 a7 15            JBS sbaoff 0x05e7.0, label_360c
 0x35f7 DD=0: b5 1e c7            CLRB off 0x051e
 0x35fa DD=0: 8a 2b 40            JBS PSWL.3, label_363d
-0x35fd DD=0: c5 00 ff ff         CMP off 0xffff, #0xffff
+0x35fd DD=0: c5 00 ff ff         CMP off 0x0500, #tbl_ffff
 0x3601 DD=0: f7 3a               JLE label_363d
 0x3603 DD=0: b5 6e a7 36         TJZB off 0x056e, label_363d
 0x3607 DD=0: d7 6a 00            MOVB off 0x056a, #0x00
@@ -5780,7 +5780,7 @@ label_360c:
 0x3612 DD=0: 48 67               RB sbaoff 0x05e7.0
 0x3614 DD=0: d7 6b c8            MOVB off 0x056b, #0xc8
 label_3617:
-0x3617 DD=0: 20 e3 8b            MOV X1, #0x8be3
+0x3617 DD=0: 20 e3 8b            MOV X1, #tbl_8be3
 0x361a DD=0: 95 04               LB A, off 0x0504
 0x361c DD=0: aa 71               MOV ER1, [X1+A]
 0x361e DD=0: a5 02 72            MOV ER2, off 0x0502
@@ -5796,9 +5796,9 @@ label_3632:
 0x3639 DD=0: b5 1e a3 01         ADDB off 0x051e, #0x01
 label_363d:
 0x363d DD=0: 5c e4 4d            JBR sbafix 0x02e4.4, label_368d
-0x3640 DD=0: 20 fd 8b            MOV X1, #0x8bfd
+0x3640 DD=0: 20 fd 8b            MOV X1, #tbl_8bfd
 0x3643 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3649
-0x3646 DD=0: 20 ff 8b            MOV X1, #0x8bff
+0x3646 DD=0: 20 ff 8b            MOV X1, #tbl_8bff
 label_3649:
 0x3649 DD=1: 84 4c               L A, fix 0x024c
 0x364b DD=1: a0 95               CMP A, [X1]
@@ -5867,7 +5867,7 @@ label_36db:
 0x36db DD=0: 69 87 e8            MOVB off 0x05e8, R1
 0x36de DD=0: 35 1f               STB A, off 0x051f
 0x36e0 DD=0: 68 87 69            MOVB off 0x0569, R0
-0x36e3 DD=0: 20 ba 8c            MOV X1, #0x8cba
+0x36e3 DD=0: 20 ba 8c            MOV X1, #tbl_8cba
 0x36e6 DD=0: 95 04               LB A, off 0x0504
 0x36e8 DD=0: aa 71               MOV ER1, [X1+A]
 0x36ea DD=0: a5 02 72            MOV ER2, off 0x0502
@@ -5908,7 +5908,7 @@ label_3730:
 0x3735 DD=0: b5 20 71            MOVB R1, off 0x0520
 label_3738:
 0x3738 DD=0: 69 99 21 05         MOVB 0x0521[X2], R1
-0x373c DD=0: 22 d4 8c            MOV DP, #0x8cd4
+0x373c DD=0: 22 d4 8c            MOV DP, #tbl_8cd4
 0x373f DD=1: 85 00               L A, off 0x0500
 0x3741 DD=1: 44 70               ACAL label_1070
 0x3743 DD=1: 35 25               ST A, off 0x0525
@@ -5924,7 +5924,7 @@ label_3756:
 0x3756 DD=0: f9 ff               LB A, #0xff
 label_3758:
 0x3758 DD=0: 37 26 05            STB A, 0x0526
-0x375b DD=0: 22 ee 8c            MOV DP, #0x8cee
+0x375b DD=0: 22 ee 8c            MOV DP, #tbl_8cee
 0x375e DD=1: 85 00               L A, off 0x0500
 0x3760 DD=1: 44 a3               ACAL label_10a3
 0x3762 DD=1: 68 c7               CLRB R0
@@ -5932,7 +5932,7 @@ label_3758:
 0x3767 DD=1: 64 a9               MUL ER0
 0x3769 DD=1: 10 02               MOVB R0, #0x02
 0x376b DD=1: 46 c5               ACAL label_12c5
-0x376d DD=1: 24 ff ff            MOV ER0, #0xffff
+0x376d DD=1: 24 ff ff            MOV ER0, #tbl_ffff
 0x3770 DD=1: 18                  CMP A, ER0
 0x3771 DD=1: f5 06               JGE label_3779
 0x3773 DD=1: 24 01 00            MOV ER0, #0x0001
@@ -5946,7 +5946,7 @@ label_377a:
 0x377e DD=0: 26 09 00            MOV ER2, #0x0009
 0x3781 DD=0: 9e 9c               CMPB A, #0x9c
 0x3783 DD=0: f5 0a               JGE label_378f
-0x3785 DD=0: 26 0a aa            MOV ER2, #0xaa0a
+0x3785 DD=0: 26 0a aa            MOV ER2, #tbl_aa0a
 0x3788 DD=0: 9e 47               CMPB A, #0x47
 0x378a DD=0: f5 03               JGE label_378f
 0x378c DD=0: 26 0b 55            MOV ER2, #0x550b
@@ -5995,14 +5995,14 @@ label_37f0:
 label_37f4:
 0x37f4 DD=1: 03 91 38            J label_3891
 label_37f7:
-0x37f7 DD=1: 22 6e 8e            MOV DP, #0x8e6e
+0x37f7 DD=1: 22 6e 8e            MOV DP, #tbl_8e6e
 0x37fa DD=1: 44 00               ACAL label_1000
 0x37fc DD=1: 35 89               ST A, off 0x0689
-0x37fe DD=1: 22 5f 8e            MOV DP, #0x8e5f
+0x37fe DD=1: 22 5f 8e            MOV DP, #tbl_8e5f
 0x3801 DD=1: 44 00               ACAL label_1000
 0x3803 DD=1: 35 8a               ST A, off 0x068a
 0x3805 DD=0: 94 71               LB A, fix 0x0271
-0x3807 DD=0: 22 7d 8e            MOV DP, #0x8e7d
+0x3807 DD=0: 22 7d 8e            MOV DP, #tbl_8e7d
 0x380a DD=0: 45 33               ACAL label_1133
 0x380c DD=0: 35 8b               STB A, off 0x068b
 0x380e DD=0: b7 ee 05 2c 3f      JBS 0x05ee.4, label_3852
@@ -6057,7 +6057,7 @@ label_387d:
 label_387f:
 0x387f DD=0: 68 87 90            MOVB off 0x0690, R0
 label_3882:
-0x3882 DD=0: 22 50 8e            MOV DP, #0x8e50
+0x3882 DD=0: 22 50 8e            MOV DP, #tbl_8e50
 0x3885 DD=0: 44 00               ACAL label_1000
 0x3887 DD=0: 35 8f               STB A, off 0x068f
 0x3889 DD=0: 9d 8d               CMPB A, off 0x068d
@@ -6173,7 +6173,7 @@ label_393b:
 0x3963 DD=1: 72                  L A, DP
 0x3964 DD=1: 35 0e               ST A, off 0x060e
 0x3966 DD=1: f6 11               JNE label_3979
-0x3968 DD=1: b7 14 a0 2f 0c      JBS 0xa014.7, label_3979
+0x3968 DD=1: b7 14 a0 2f 0c      JBS tbl_a014.7, label_3979
 0x396d DD=0: 95 10               LB A, off 0x0610
 0x396f DD=0: f1 08               JEQ label_3979
 0x3971 DD=0: b5 10 c7            CLRB off 0x0610
@@ -6185,9 +6185,9 @@ label_3979:
 0x397e DD=1: f6 48               JNE label_39c8
 0x3980 DD=1: a6 00 93 fe 09      CMP SSP, #0x09fe
 0x3985 DD=1: f6 41               JNE label_39c8
-0x3987 DD=1: a6 46 93 0d 80      CMP IE0, #0x800d
+0x3987 DD=1: a6 46 93 0d 80      CMP IE0, #tbl_800d
 0x398c DD=1: f6 3a               JNE label_39c8
-0x398e DD=1: a6 48 93 4e 80      CMP IE1, #0x804e
+0x398e DD=1: a6 48 93 4e 80      CMP IE1, #tbl_804e
 0x3993 DD=1: f6 33               JNE label_39c8
 0x3995 DD=1: b6 4a 93 c0         CMPB IE2L, #0xc0
 0x3999 DD=1: f6 2d               JNE label_39c8
@@ -6258,7 +6258,7 @@ label_3a27:
 0x3a2a DD=0: b5 b0 02            RB off 0x08b0.2
 label_3a2d:
 0x3a2d DD=0: b5 b3 20 05         JBR off 0x08b3.0, label_3a36
-0x3a31 DD=0: b7 6e 90 87 bb      MOVB off 0x08bb, 0x906e
+0x3a31 DD=0: b7 6e 90 87 bb      MOVB off 0x08bb, tbl_906e
 label_3a36:
 0x3a36 DD=0: b5 b9 a6 07         TJNZB off 0x08b9, label_3a41
 0x3a3a DD=0: b5 bb a6 03         TJNZB off 0x08bb, label_3a41
@@ -6416,7 +6416,7 @@ label_3b4c:
 label_3b58:
 0x3b58 DD=0: 69 87 16            MOVB off 0x0616, R1
 label_3b5b:
-0x3b5b DD=1: f8 18 fc            L A, #0xfc18
+0x3b5b DD=1: f8 18 fc            L A, #tbl_fc18
 0x3b5e DD=1: 24 e8 03            MOV ER0, #0x03e8
 0x3b61 DD=1: c5 14 00 80         CMP off 0x8000, #0x8000
 0x3b65 DD=1: f5 09               JGE label_3b70
@@ -6483,7 +6483,7 @@ loop_3bd9:
 0x3bd9 DD=1: 33                  ST A, [DP+]
 0x3bda DD=1: 05 7d               DJNZ R4, loop_3bd9
 0x3bdc DD=1: b4 32 ab 17         MOVB fix 0x0232, #0x17
-0x3be0 DD=1: a4 2e ab e8 ff      MOV fix 0x022e, #0xffe8
+0x3be0 DD=1: a4 2e ab e8 ff      MOV fix 0x022e, #tbl_ffe8
 0x3be5 DD=0: fb                  CLRB A
 0x3be6 DD=0: 37 d0 03            STB A, 0x03d0
 0x3be9 DD=0: 37 d1 03            STB A, 0x03d1
@@ -6500,7 +6500,7 @@ loop_3bd9:
 0x3c0a DD=0: 37 4b 04            STB A, 0x044b
 0x3c0d DD=0: 37 4c 04            STB A, 0x044c
 0x3c10 DD=0: 37 4d 04            STB A, 0x044d
-0x3c13 DD=0: 97 45 8a            LB A, 0x8a45
+0x3c13 DD=0: 97 45 8a            LB A, tbl_8a45
 0x3c16 DD=0: 37 44 04            STB A, 0x0444
 0x3c19 DD=0: 37 46 04            STB A, 0x0446
 0x3c1c DD=0: 37 47 04            STB A, 0x0447
@@ -6580,9 +6580,9 @@ label_3cc1:
 0x3cc5 DD=1: 11 6e               MOVB R1, #0x6e
 0x3cc7 DD=1: a6 eb 97            MOV A, ADCR11
 0x3cca DD=0: 96 07               LB A, ACCH
-0x3ccc DD=0: b7 c8 8e 94         CMPB 0x8ec8, A
+0x3ccc DD=0: b7 c8 8e 94         CMPB tbl_8ec8, A
 0x3cd0 DD=0: f2 07               JLT label_3cd9
-0x3cd2 DD=0: b7 c7 8e 95         CMPB A, 0x8ec7
+0x3cd2 DD=0: b7 c7 8e 95         CMPB A, tbl_8ec7
 0x3cd6 DD=0: f2 01               JLT label_3cd9
 0x3cd8 DD=0: 39                  STB A, R1
 label_3cd9:
@@ -6593,9 +6593,9 @@ label_3cdc:
 0x3ce1 DD=0: 5a 94 37            JBS sbafix 0x02d4.2, label_3d1b
 0x3ce4 DD=0: a6 f2 97            MOV A, ADCR14
 0x3ce7 DD=0: 96 07               LB A, ACCH
-0x3ce9 DD=0: b7 d3 8e 94         CMPB 0x8ed3, A
+0x3ce9 DD=0: b7 d3 8e 94         CMPB tbl_8ed3, A
 0x3ced DD=0: f2 04               JLT label_3cf3
-0x3cef DD=0: b7 d2 8e 95         CMPB A, 0x8ed2
+0x3cef DD=0: b7 d2 8e 95         CMPB A, tbl_8ed2
 label_3cf3:
 0x3cf3 DD=0: b4 d0 1f            MB fix 0x02d0.7, C
 0x3cf6 DD=0: f2 3c               JLT label_3d34
@@ -6625,22 +6625,22 @@ label_3d1b:
 0x3d1d DD=0: 5b ef 14            JBR sbafix 0x02ef.3, label_3d34
 0x3d20 DD=1: fa                  CLR A
 0x3d21 DD=0: 95 ab               LB A, off 0x06ab
-0x3d23 DD=0: b7 d7 8e 70         MOVB R0, 0x8ed7
+0x3d23 DD=0: b7 d7 8e 70         MOVB R0, tbl_8ed7
 0x3d27 DD=0: 68 a8               DIVB R0
 0x3d29 DD=0: 9e 05               CMPB A, #0x05
 0x3d2b DD=0: f2 02               JLT label_3d2f
 0x3d2d DD=0: f9 04               LB A, #0x04
 label_3d2f:
-0x3d2f DD=0: 20 d8 8e            MOV X1, #0x8ed8
+0x3d2f DD=0: 20 d8 8e            MOV X1, #tbl_8ed8
 0x3d32 DD=0: ba 71               MOVB R1, [X1+A]
 label_3d34:
 0x3d34 DD=0: 69 86 70            MOVB fix 0x0270, R1
 label_3d37:
-0x3d37 DD=0: b7 d4 8e 87 ac      MOVB off 0x06ac, 0x8ed4
+0x3d37 DD=0: b7 d4 8e 87 ac      MOVB off 0x06ac, tbl_8ed4
 label_3d3c:
-0x3d3c DD=0: 22 11 88            MOV DP, #0x8811
+0x3d3c DD=0: 22 11 88            MOV DP, #tbl_8811
 0x3d3f DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3d45
-0x3d42 DD=0: 22 a8 88            MOV DP, #0x88a8
+0x3d42 DD=0: 22 a8 88            MOV DP, #tbl_88a8
 label_3d45:
 0x3d45 DD=0: 62 74               MOV X1, DP
 0x3d47 DD=0: 44 00               ACAL label_1000
@@ -6657,9 +6657,9 @@ label_3d45:
 0x3d60 DD=0: 6f 9b 48 03         MOVB 0x0348, R7
 0x3d64 DD=0: 37 49 03            STB A, 0x0349
 0x3d67 DD=0: db                  EI
-0x3d68 DD=0: 22 2b 8b            MOV DP, #0x8b2b
+0x3d68 DD=0: 22 2b 8b            MOV DP, #tbl_8b2b
 0x3d6b DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3d71
-0x3d6e DD=0: 22 87 8b            MOV DP, #0x8b87
+0x3d6e DD=0: 22 87 8b            MOV DP, #tbl_8b87
 label_3d71:
 0x3d71 DD=0: 62 74               MOV X1, DP
 0x3d73 DD=0: 44 00               ACAL label_1000
@@ -6675,14 +6675,14 @@ label_3d71:
 0x3d8a DD=0: 44 00               ACAL label_1000
 0x3d8c DD=0: 37 18 05            STB A, 0x0518
 0x3d8f DD=0: e0                  VCAL 0x0
-0x3d90 DD=0: 22 84 89            MOV DP, #0x8984
+0x3d90 DD=0: 22 84 89            MOV DP, #tbl_8984
 0x3d93 DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3d99
-0x3d96 DD=0: 22 ae 89            MOV DP, #0x89ae
+0x3d96 DD=0: 22 ae 89            MOV DP, #tbl_89ae
 label_3d99:
 0x3d99 DD=0: 44 00               ACAL label_1000
 0x3d9b DD=0: 37 77 03            STB A, 0x0377
 0x3d9e DD=0: 4c 84 0b            JBS sbaoff 0x06c4.4, label_3dac
-0x3da1 DD=0: 22 6e 8e            MOV DP, #0x8e6e
+0x3da1 DD=0: 22 6e 8e            MOV DP, #tbl_8e6e
 0x3da4 DD=0: 44 00               ACAL label_1000
 0x3da6 DD=0: 35 89               STB A, off 0x0689
 0x3da8 DD=0: 35 8e               STB A, off 0x068e
@@ -6707,7 +6707,7 @@ label_3dc8:
 0x3dc8 DD=0: b4 d0 1d            MB fix 0x02d0.5, C
 0x3dcb DD=0: f9 80               LB A, #0x80
 0x3dcd DD=0: 59 a7 25            JBS sbafix 0x02e7.1, label_3df5
-0x3dd0 DD=0: 22 3f 89            MOV DP, #0x893f
+0x3dd0 DD=0: 22 3f 89            MOV DP, #tbl_893f
 0x3dd3 DD=1: 84 34               L A, fix 0x0234
 0x3dd5 DD=1: 9e 06 1b            CMP A, #0x1b06
 0x3dd8 DD=1: b7 d1 03 2b 03      JBS 0x03d1.3, label_3de0
@@ -6725,9 +6725,9 @@ label_3df1:
 0x3df3 DD=0: 44 04               ACAL label_1004
 label_3df5:
 0x3df5 DD=0: 37 4a 03            STB A, 0x034a
-0x3df8 DD=0: 22 b9 8a            MOV DP, #0x8ab9
+0x3df8 DD=0: 22 b9 8a            MOV DP, #tbl_8ab9
 0x3dfb DD=0: 5a f1 03            JBR sbafix 0x02f1.2, label_3e01
-0x3dfe DD=0: 22 f2 8a            MOV DP, #0x8af2
+0x3dfe DD=0: 22 f2 8a            MOV DP, #tbl_8af2
 label_3e01:
 0x3e01 DD=0: 94 6e               LB A, fix 0x026e
 0x3e03 DD=0: 44 04               ACAL label_1004
@@ -6805,15 +6805,15 @@ label_3e82:
 0x3e82 DD=0: 95 1b               LB A, off 0x061b
 label_3e84:
 0x3e84 DD=0: 34 71               STB A, fix 0x0271
-0x3e86 DD=0: 22 ee 87            MOV DP, #0x87ee
+0x3e86 DD=0: 22 ee 87            MOV DP, #tbl_87ee
 0x3e89 DD=0: 94 71               LB A, fix 0x0271
 0x3e8b DD=0: 44 04               ACAL label_1004
 0x3e8d DD=0: 37 4f 03            STB A, 0x034f
-0x3e90 DD=0: 22 fb 87            MOV DP, #0x87fb
+0x3e90 DD=0: 22 fb 87            MOV DP, #tbl_87fb
 0x3e93 DD=0: 94 71               LB A, fix 0x0271
 0x3e95 DD=0: 44 04               ACAL label_1004
 0x3e97 DD=0: 37 50 03            STB A, 0x0350
-0x3e9a DD=0: 22 08 88            MOV DP, #0x8808
+0x3e9a DD=0: 22 08 88            MOV DP, #tbl_8808
 0x3e9d DD=0: 94 71               LB A, fix 0x0271
 0x3e9f DD=0: 44 04               ACAL label_1004
 0x3ea1 DD=0: 37 4e 03            STB A, 0x034e
@@ -6851,13 +6851,13 @@ label_3ec9:
 0x3eea DD=0: 5f e6 23            JBR sbafix 0x02e6.7, label_3f10
 0x3eed DD=0: 5c e6 20            JBR sbafix 0x02e6.4, label_3f10
 0x3ef0 DD=0: fb                  CLRB A
-0x3ef1 DD=0: a7 e8 8e a9         MUL 0x8ee8
+0x3ef1 DD=0: a7 e8 8e a9         MUL tbl_8ee8
 0x3ef5 DD=0: a6 06 9c            SRL ACC, 1
 0x3ef8 DD=0: 24 00 02            MOV ER0, #0x0200
 0x3efb DD=0: 64 a3 00 08         ADD ER0, #0x0800
 0x3eff DD=0: f2 0d               JLT label_3f0e
 0x3f01 DD=0: 64 a9               MUL ER0
-0x3f03 DD=0: a7 ea 8e fb         DIVQ 0x8eea
+0x3f03 DD=0: a7 ea 8e fb         DIVQ tbl_8eea
 0x3f07 DD=0: 9a 29 04            JBS PSWH.1, label_3f0e
 0x3f0a DD=0: b6 07 a7 02         TJZB ACCH, label_3f10
 label_3f0e:
@@ -6865,11 +6865,11 @@ label_3f0e:
 label_3f10:
 0x3f10 DD=0: 34 73               STB A, fix 0x0273
 0x3f12 DD=0: 94 73               LB A, fix 0x0273
-0x3f14 DD=0: 22 e9 89            MOV DP, #0x89e9
+0x3f14 DD=0: 22 e9 89            MOV DP, #tbl_89e9
 0x3f17 DD=0: 44 30               ACAL label_1030
 0x3f19 DD=0: 37 3c 03            STB A, 0x033c
 0x3f1c DD=0: 94 73               LB A, fix 0x0273
-0x3f1e DD=0: 22 0c 8d            MOV DP, #0x8d0c
+0x3f1e DD=0: 22 0c 8d            MOV DP, #tbl_8d0c
 0x3f21 DD=0: 44 04               ACAL label_1004
 0x3f23 DD=0: 37 2b 05            STB A, 0x052b
 0x3f26 DD=0: e0                  VCAL 0x0
@@ -7064,7 +7064,7 @@ label_408b:
 label_40a0:
 0x40a0 DD=1: 66 93 33 00         CMP ER2, #0x0033
 0x40a4 DD=1: f7 0c               JLE label_40b2
-0x40a6 DD=1: 22 ec 8e            MOV DP, #0x8eec
+0x40a6 DD=1: 22 ec 8e            MOV DP, #tbl_8eec
 0x40a9 DD=1: 85 36               L A, off 0x0636
 0x40ab DD=1: 44 70               ACAL label_1070
 0x40ad DD=1: 35 b4               ST A, off 0x06b4
@@ -7161,7 +7161,7 @@ label_4154:
 label_4159:
 0x4159 DD=0: 7f                  LB A, R7
 0x415a DD=0: 35 9e               STB A, off 0x069e
-0x415c DD=0: 20 b9 8f            MOV X1, #0x8fb9
+0x415c DD=0: 20 b9 8f            MOV X1, #tbl_8fb9
 0x415f DD=0: ba 8a               MOVB [DP], [X1+A]
 label_4161:
 0x4161 DD=1: fa                  CLR A
@@ -7175,7 +7175,7 @@ label_416b:
 0x416f DD=0: 7f                  LB A, R7
 0x4170 DD=0: 9d 9f               CMPB A, off 0x069f
 0x4172 DD=0: f6 14               JNE label_4188
-0x4174 DD=0: 20 ca 8f            MOV X1, #0x8fca
+0x4174 DD=0: 20 ca 8f            MOV X1, #tbl_8fca
 0x4177 DD=0: 8e 11               SUBB A, #0x11
 0x4179 DD=0: ba 97               MOVB A, [X1+A]
 0x417b DD=0: b2 85               SUBB A, [DP]
@@ -7204,7 +7204,7 @@ label_419e:
 0x419f DD=0: f6 0e               JNE label_41af
 0x41a1 DD=0: 35 9f               STB A, off 0x069f
 0x41a3 DD=0: 7f                  LB A, R7
-0x41a4 DD=0: 20 d9 8f            MOV X1, #0x8fd9
+0x41a4 DD=0: 20 d9 8f            MOV X1, #tbl_8fd9
 0x41a7 DD=0: ba 97               MOVB A, [X1+A]
 0x41a9 DD=0: f1 04               JEQ label_41af
 0x41ab DD=0: 6e aa               MOVB R6, A
@@ -7236,7 +7236,7 @@ label_41cc:
 0x41dc DD=0: 35 ad               STB A, off 0x06ad
 label_41de:
 0x41de DD=0: d6 03 0c            MOVB LRBH, #0x0c
-0x41e1 DD=1: 87 19 90            L A, 0x9019
+0x41e1 DD=1: 87 19 90            L A, tbl_9019
 0x41e4 DD=1: a4 34 a9            MUL fix 0x0234
 0x41e7 DD=1: 37 06 0c            ST A, 0x0c06
 0x41ea DD=1: 86 e0               L A, ADCR0
@@ -7249,7 +7249,7 @@ label_41de:
 0x41fa DD=1: f5 01               JGE label_41fd
 0x41fc DD=1: fa                  CLR A
 label_41fd:
-0x41fd DD=1: a7 1b 90 70         MOV ER0, 0x901b
+0x41fd DD=1: a7 1b 90 70         MOV ER0, tbl_901b
 0x4201 DD=1: 64 a9               MUL ER0
 0x4203 DD=0: d8                  RDD
 0x4204 DD=0: b6 07 a7 02         TJZB ACCH, label_420a
@@ -7259,39 +7259,39 @@ label_420a:
 0x420c DD=1: 86 eb               L A, ADCR11
 0x420e DD=0: 96 07               LB A, ACCH
 0x4210 DD=0: 35 0a               STB A, off 0x0c0a
-0x4212 DD=0: 22 1d 90            MOV DP, #0x901d
+0x4212 DD=0: 22 1d 90            MOV DP, #tbl_901d
 0x4215 DD=0: 44 04               ACAL label_1004
 0x4217 DD=0: 35 0b               STB A, off 0x0c0b
 0x4219 DD=1: 86 ea               L A, ADCR10
 0x421b DD=0: 96 07               LB A, ACCH
 0x421d DD=0: 35 0c               STB A, off 0x0c0c
-0x421f DD=0: 22 32 90            MOV DP, #0x9032
+0x421f DD=0: 22 32 90            MOV DP, #tbl_9032
 0x4222 DD=0: 44 04               ACAL label_1004
 0x4224 DD=0: 35 0d               STB A, off 0x0c0d
 0x4226 DD=1: 86 e1               L A, ADCR1
 0x4228 DD=1: b6 07 87 0e         MOVB off 0x0c0e, ACCH
 0x422c DD=1: bc 9f               SRL A, 4
 0x422e DD=1: bc 9d               SRL A, 2
-0x4230 DD=1: a7 47 90 85         SUB A, 0x9047
+0x4230 DD=1: a7 47 90 85         SUB A, tbl_9047
 0x4234 DD=1: f5 01               JGE label_4237
 0x4236 DD=1: fa                  CLR A
 label_4237:
-0x4237 DD=1: a7 49 90 70         MOV ER0, 0x9049
+0x4237 DD=1: a7 49 90 70         MOV ER0, tbl_9049
 0x423b DD=1: 64 a9               MUL ER0
 0x423d DD=0: d8                  RDD
 0x423e DD=0: b6 07 a7 02         TJZB ACCH, label_4244
 0x4242 DD=0: bc d7               FILLB A
 label_4244:
 0x4244 DD=0: 35 0f               STB A, off 0x0c0f
-0x4246 DD=1: f8 ff ff            L A, #0xffff
+0x4246 DD=1: f8 ff ff            L A, #tbl_ffff
 0x4249 DD=1: b6 07 87 10         MOVB off 0x0c10, ACCH
 0x424d DD=1: bc 9f               SRL A, 4
 0x424f DD=1: bc 9d               SRL A, 2
-0x4251 DD=1: a7 4b 90 85         SUB A, 0x904b
+0x4251 DD=1: a7 4b 90 85         SUB A, tbl_904b
 0x4255 DD=1: f5 01               JGE label_4258
 0x4257 DD=1: fa                  CLR A
 label_4258:
-0x4258 DD=1: a7 4d 90 70         MOV ER0, 0x904d
+0x4258 DD=1: a7 4d 90 70         MOV ER0, tbl_904d
 0x425c DD=1: 64 a9               MUL ER0
 0x425e DD=0: d8                  RDD
 0x425f DD=0: b6 07 a7 02         TJZB ACCH, label_4265
@@ -7301,7 +7301,7 @@ label_4265:
 0x4268 DD=1: 86 e6               L A, ADCR6
 0x426a DD=1: bc 9f               SRL A, 4
 0x426c DD=1: bc 9d               SRL A, 2
-0x426e DD=1: a7 4f 90 70         MOV ER0, 0x904f
+0x426e DD=1: a7 4f 90 70         MOV ER0, tbl_904f
 0x4272 DD=1: 64 a9               MUL ER0
 0x4274 DD=0: d8                  RDD
 0x4275 DD=0: b6 07 a7 02         TJZB ACCH, label_427b
@@ -7317,13 +7317,13 @@ label_4286:
 0x4288 DD=0: f9 80               LB A, #0x80
 0x428a DD=0: 58 af 1f            JBS sbafix 0x02ef.0, label_42ac
 0x428d DD=0: b7 e1 05 29 1a      JBS 0x05e1.1, label_42ac
-0x4292 DD=0: 97 51 90            LB A, 0x9051
+0x4292 DD=0: 97 51 90            LB A, tbl_9051
 0x4295 DD=0: b7 e1 05 20 12      JBR 0x05e1.0, label_42ac
 0x429a DD=1: fa                  CLR A
 0x429b DD=0: 97 21 05            LB A, 0x0521
-0x429e DD=0: a7 52 90 70         MOV ER0, 0x9052
+0x429e DD=0: a7 52 90 70         MOV ER0, tbl_9052
 0x42a2 DD=0: 64 a9               MUL ER0
-0x42a4 DD=0: b7 54 90 a5         ADDB A, 0x9054
+0x42a4 DD=0: b7 54 90 a5         ADDB A, tbl_9054
 0x42a8 DD=0: f5 02               JGE label_42ac
 0x42aa DD=0: bc d7               FILLB A
 label_42ac:
@@ -7332,18 +7332,18 @@ label_42ac:
 0x42b3 DD=1: 86 f2               L A, ADCR14
 0x42b5 DD=0: 96 07               LB A, ACCH
 0x42b7 DD=0: 35 18               STB A, off 0x0c18
-0x42b9 DD=0: 22 55 90            MOV DP, #0x9055
+0x42b9 DD=0: 22 55 90            MOV DP, #tbl_9055
 0x42bc DD=0: 44 04               ACAL label_1004
 0x42be DD=0: 35 19               STB A, off 0x0c19
 0x42c0 DD=1: 86 e2               L A, ADCR2
 0x42c2 DD=1: b6 07 87 1a         MOVB off 0x0c1a, ACCH
 0x42c6 DD=1: bc 9f               SRL A, 4
 0x42c8 DD=1: bc 9d               SRL A, 2
-0x42ca DD=1: a7 6a 90 85         SUB A, 0x906a
+0x42ca DD=1: a7 6a 90 85         SUB A, tbl_906a
 0x42ce DD=1: f5 01               JGE label_42d1
 0x42d0 DD=1: fa                  CLR A
 label_42d1:
-0x42d1 DD=1: a7 6c 90 70         MOV ER0, 0x906c
+0x42d1 DD=1: a7 6c 90 70         MOV ER0, tbl_906c
 0x42d5 DD=1: 64 a9               MUL ER0
 0x42d7 DD=0: d8                  RDD
 0x42d8 DD=0: b6 07 a7 02         TJZB ACCH, label_42de
@@ -7495,11 +7495,11 @@ label_442b:
 0x4431 DD=1: f6 5e               JNE label_4491
 0x4433 DD=1: 47 f1               ACAL label_13f1
 0x4435 DD=1: b7 6a 01 0b         SB 0x016a.3
-0x4439 DD=1: a7 20 01 ab fe fe   MOV 0x0120, #0xfefe
+0x4439 DD=1: a7 20 01 ab fe fe   MOV 0x0120, #tbl_fefe
 0x443f DD=1: b7 38 01 ab e0      MOVB 0x0138, #0xe0
 0x4444 DD=1: b7 30 01 ab ea      MOVB 0x0130, #0xea
 0x4449 DD=1: d6 38 10            MOVB S0STAT0, #0x10
-0x444c DD=1: a7 22 01 ab f3 f3   MOV 0x0122, #0xf3f3
+0x444c DD=1: a7 22 01 ab f3 f3   MOV 0x0122, #tbl_f3f3
 0x4452 DD=1: b7 39 01 ab 88      MOVB 0x0139, #0x88
 0x4457 DD=1: b7 31 01 ab 98      MOVB 0x0131, #0x98
 0x445c DD=1: d6 27 10            MOVB S1STAT, #0x10
@@ -7508,15 +7508,15 @@ label_442b:
 0x4469 DD=1: 86 d6               L A, TM1
 0x446b DD=1: ae 14 00            ADD A, #0x0014
 0x446e DD=1: 36 ac               ST A, TMR17
-0x4470 DD=1: c6 82 00 f0         MOV PWINTQ0, #0xf000
-0x4474 DD=1: c6 84 00 f0         MOV PWINTQ1, #0xf000
+0x4470 DD=1: c6 82 00 f0         MOV PWINTQ0, #tbl_f000
+0x4474 DD=1: c6 84 00 f0         MOV PWINTQ1, #tbl_f000
 0x4478 DD=1: b6 4f c7            CLRB TRNSIT
 0x447b DD=1: a6 40 c7            CLR IRQ0
 0x447e DD=1: a6 42 c7            CLR IRQ1
 0x4481 DD=1: d6 44 c0            MOVB IRQ2L, #0xc0
 0x4484 DD=1: da                  DI
-0x4485 DD=1: c6 46 0d 80         MOV IE0, #0x800d
-0x4489 DD=1: c6 48 4e 80         MOV IE1, #0x804e
+0x4485 DD=1: c6 46 0d 80         MOV IE0, #tbl_800d
+0x4489 DD=1: c6 48 4e 80         MOV IE1, #tbl_804e
 0x448d DD=1: d6 4a c0            MOVB IE2L, #0xc0
 0x4490 DD=1: db                  EI
 label_4491:
@@ -7712,7 +7712,7 @@ label_45db:
 0x45f2 DD=0: b6 07 c7            CLRB ACCH
 0x45f5 DD=1: d9                  SDD
 0x45f6 DD=1: 8f                  SLL A
-0x45f7 DD=1: 20 75 90            MOV X1, #0x9075
+0x45f7 DD=1: 20 75 90            MOV X1, #tbl_9075
 0x45fa DD=1: 60 a4               ADD X1, A
 0x45fc DD=1: 80                  L A, [X1]
 0x45fd DD=0: d8                  RDD
@@ -7756,7 +7756,7 @@ label_4638:
 0x463e DD=0: b6 07 c7            CLRB ACCH
 0x4641 DD=1: d9                  SDD
 0x4642 DD=1: 8f                  SLL A
-0x4643 DD=1: 20 75 90            MOV X1, #0x9075
+0x4643 DD=1: 20 75 90            MOV X1, #tbl_9075
 0x4646 DD=1: 60 a4               ADD X1, A
 0x4648 DD=1: 80                  L A, [X1]
 0x4649 DD=0: d8                  RDD
@@ -7886,17 +7886,17 @@ label_4759:
 0x475b DD=0: 33                  STB A, [DP+]
 0x475c DD=0: 95 68               LB A, off 0x0868
 0x475e DD=0: f6 1b               JNE label_477b
-0x4760 DD=0: 97 4e 92            LB A, 0x924e
+0x4760 DD=0: 97 4e 92            LB A, tbl_924e
 0x4763 DD=0: 33                  STB A, [DP+]
-0x4764 DD=0: 97 4f 92            LB A, 0x924f
+0x4764 DD=0: 97 4f 92            LB A, tbl_924f
 0x4767 DD=0: 33                  STB A, [DP+]
-0x4768 DD=0: 97 50 92            LB A, 0x9250
+0x4768 DD=0: 97 50 92            LB A, tbl_9250
 0x476b DD=0: 33                  STB A, [DP+]
-0x476c DD=0: 97 51 92            LB A, 0x9251
+0x476c DD=0: 97 51 92            LB A, tbl_9251
 0x476f DD=0: 33                  STB A, [DP+]
-0x4770 DD=0: 97 52 92            LB A, 0x9252
+0x4770 DD=0: 97 52 92            LB A, tbl_9252
 0x4773 DD=0: 33                  STB A, [DP+]
-0x4774 DD=0: 97 53 92            LB A, 0x9253
+0x4774 DD=0: 97 53 92            LB A, tbl_9253
 0x4777 DD=0: 33                  STB A, [DP+]
 0x4778 DD=0: 03 a9 47            J label_47a9
 label_477b:
@@ -8079,16 +8079,16 @@ label_48fd:
 0x48fd DD=0: 95 a6               LB A, off 0x08a6
 0x48ff DD=0: cc                  INCB A
 0x4900 DD=0: 35 a6               STB A, off 0x08a6
-0x4902 DD=0: b7 72 90 95         CMPB A, 0x9072
+0x4902 DD=0: b7 72 90 95         CMPB A, tbl_9072
 0x4906 DD=0: f5 21               JGE label_4929
-0x4908 DD=0: b7 6f 90 95         CMPB A, 0x906f
+0x4908 DD=0: b7 6f 90 95         CMPB A, tbl_906f
 0x490c DD=0: f0 06               JGT label_4914
 0x490e DD=0: b5 b3 2c 12         JBS off 0x08b3.4, label_4924
 0x4912 DD=0: 04 36               SJ label_494a
 label_4914:
-0x4914 DD=0: b7 70 90 95         CMPB A, 0x9070
+0x4914 DD=0: b7 70 90 95         CMPB A, tbl_9070
 0x4918 DD=0: f0 30               JGT label_494a
-0x491a DD=0: b7 71 90 95         CMPB A, 0x9071
+0x491a DD=0: b7 71 90 95         CMPB A, tbl_9071
 0x491e DD=0: f2 2a               JLT label_494a
 0x4920 DD=0: b5 b3 2c 26         JBS off 0x08b3.4, label_494a
 label_4924:
@@ -8097,12 +8097,12 @@ label_4924:
 label_4929:
 0x4929 DD=0: da                  DI
 0x492a DD=0: b7 39 01 07         RB 0x0139.7
-0x492e DD=0: a7 22 01 ab f4 f4   MOV 0x0122, #0xf4f4
+0x492e DD=0: a7 22 01 ab f4 f4   MOV 0x0122, #tbl_f4f4
 0x4934 DD=0: b6 27 b3 fc         ANDB S1STAT, #0xfc
 0x4938 DD=0: 96 26               LB A, S1BUF
 0x493a DD=0: b7 39 01 0f         SB 0x0139.7
 0x493e DD=0: b5 b3 02            RB off 0x08b3.2
-0x4941 DD=0: b7 73 90 87 b9      MOVB off 0x08b9, 0x9073
+0x4941 DD=0: b7 73 90 87 b9      MOVB off 0x08b9, tbl_9073
 0x4946 DD=0: b5 b1 0a            SB off 0x08b1.2
 0x4949 DD=0: db                  EI
 label_494a:
@@ -8181,7 +8181,7 @@ label_49e8:
 0x49ec DD=1: b7 b2 08 2b 03      JBS 0x08b2.3, label_49f4
 0x49f1 DD=1: 59 f9 12            JBR sbafix 0x02f9.1, label_4a06
 label_49f4:
-0x49f4 DD=1: b7 10 90 87 9a      MOVB off 0x069a, 0x9010
+0x49f4 DD=1: b7 10 90 87 9a      MOVB off 0x069a, tbl_9010
 0x49f9 DD=1: a5 98 c7            CLR off 0x0698
 0x49fc DD=1: c7 9c 80 0c         MOV off 0x0c80, #0x0c80
 0x4a00 DD=1: 5c 37               SB sbafix 0x02f7.4
@@ -8191,14 +8191,14 @@ label_4a06:
 0x4a06 DD=1: 59 76               RB sbafix 0x02f6.1
 0x4a08 DD=1: f1 11               JEQ label_4a1b
 0x4a0a DD=1: 59 f9 0e            JBR sbafix 0x02f9.1, label_4a1b
-0x4a0d DD=1: b7 0d 90 87 9a      MOVB off 0x069a, 0x900d
+0x4a0d DD=1: b7 0d 90 87 9a      MOVB off 0x069a, tbl_900d
 0x4a12 DD=1: a7 a0 0c 87 98      MOV off 0x0698, 0x0ca0
 0x4a17 DD=1: 59 37               SB sbafix 0x02f7.1
 0x4a19 DD=1: 04 24               SJ label_4a3f
 label_4a1b:
 0x4a1b DD=1: 5a 76               RB sbafix 0x02f6.2
 0x4a1d DD=1: f1 0c               JEQ label_4a2b
-0x4a1f DD=1: b7 0d 90 87 9a      MOVB off 0x069a, 0x900d
+0x4a1f DD=1: b7 0d 90 87 9a      MOVB off 0x069a, tbl_900d
 0x4a24 DD=1: a5 98 c7            CLR off 0x0698
 0x4a27 DD=1: 5a 37               SB sbafix 0x02f7.2
 0x4a29 DD=1: 04 14               SJ label_4a3f
@@ -8207,7 +8207,7 @@ label_4a2b:
 0x4a2d DD=1: f6 03               JNE label_4a32
 0x4a2f DD=1: 03 ee 4b            J label_4bee
 label_4a32:
-0x4a32 DD=1: b7 04 90 87 9a      MOVB off 0x069a, 0x9004
+0x4a32 DD=1: b7 04 90 87 9a      MOVB off 0x069a, tbl_9004
 0x4a37 DD=1: fa                  CLR A
 0x4a38 DD=1: b5 91 97            MOVB A, off 0x0691
 0x4a3b DD=1: 35 98               ST A, off 0x0698
@@ -8228,7 +8228,7 @@ label_4a4a:
 0x4a5a DD=0: 9d 98               CMPB A, off 0x0698
 0x4a5c DD=0: f1 06               JEQ label_4a64
 label_4a5e:
-0x4a5e DD=0: b7 fa 8f 76         MOVB R6, 0x8ffa
+0x4a5e DD=0: b7 fa 8f 76         MOVB R6, tbl_8ffa
 0x4a62 DD=0: 54 2a               ACAL label_142a
 label_4a64:
 0x4a64 DD=0: 4c 47               RB sbaoff 0x06c7.4
@@ -8250,13 +8250,13 @@ label_4a8d:
 0x4a8d DD=1: 5b 77               RB sbafix 0x02f7.3
 0x4a8f DD=1: 4d 47               RB sbaoff 0x06c7.5
 0x4a91 DD=1: 56 92               ACAL label_1692
-0x4a93 DD=1: b7 05 90 72         MOVB R2, 0x9005
+0x4a93 DD=1: b7 05 90 72         MOVB R2, tbl_9005
 0x4a97 DD=1: 85 96               L A, off 0x0696
 0x4a99 DD=1: 03 ec 4b            J label_4bec
 label_4a9c:
 0x4a9c DD=1: 5c f7 3c            JBR sbafix 0x02f7.4, label_4adb
 0x4a9f DD=1: 87 96 0c            L A, 0x0c96
-0x4aa2 DD=1: b7 10 90 72         MOVB R2, 0x9010
+0x4aa2 DD=1: b7 10 90 72         MOVB R2, tbl_9010
 0x4aa6 DD=1: a5 9c 76            MOV DP, off 0x069c
 0x4aa9 DD=1: 62 93 96 0c         CMP DP, #0x0c96
 0x4aad DD=1: f1 1d               JEQ label_4acc
@@ -8283,7 +8283,7 @@ label_4acc:
 0x4ad8 DD=1: 03 d9 4b            J label_4bd9
 label_4adb:
 0x4adb DD=1: 59 f7 28            JBR sbafix 0x02f7.1, label_4b06
-0x4ade DD=0: 97 0f 90            LB A, 0x900f
+0x4ade DD=0: 97 0f 90            LB A, tbl_900f
 0x4ae1 DD=0: 9d 9a               CMPB A, off 0x069a
 0x4ae3 DD=0: f6 09               JNE label_4aee
 0x4ae5 DD=0: 59 38               SB sbafix 0x02f8.1
@@ -8292,7 +8292,7 @@ label_4adb:
 0x4aeb DD=0: 03 ee 4b            J label_4bee
 label_4aee:
 0x4aee DD=0: a7 a4 0c 70         MOV ER0, 0x0ca4
-0x4af2 DD=0: b7 0e 90 72         MOVB R2, 0x900e
+0x4af2 DD=0: b7 0e 90 72         MOVB R2, tbl_900e
 0x4af6 DD=0: 6a 91 9a            CMPB R2, off 0x069a
 0x4af9 DD=0: f1 05               JEQ label_4b00
 0x4afb DD=0: a7 a2 0c 70         MOV ER0, 0x0ca2
@@ -8301,7 +8301,7 @@ label_4b00:
 0x4b00 DD=0: 64 87 98            MOV off 0x0698, ER0
 0x4b03 DD=0: 03 d3 4b            J label_4bd3
 label_4b06:
-0x4b06 DD=0: 97 0f 90            LB A, 0x900f
+0x4b06 DD=0: 97 0f 90            LB A, tbl_900f
 0x4b09 DD=0: 9d 9a               CMPB A, off 0x069a
 0x4b0b DD=0: f1 03               JEQ label_4b10
 0x4b0d DD=0: 03 c6 4b            J label_4bc6
@@ -8311,7 +8311,7 @@ label_4b10:
 label_4b18:
 0x4b18 DD=0: b7 b3 08 2e 1f      JBS 0x08b3.6, label_4b3c
 0x4b1d DD=0: 56 92               ACAL label_1692
-0x4b1f DD=0: b7 fc 8f 72         MOVB R2, 0x8ffc
+0x4b1f DD=0: b7 fc 8f 72         MOVB R2, tbl_8ffc
 0x4b23 DD=0: b7 b3 08 17         MB C, 0x08b3.7
 0x4b27 DD=0: b7 b3 08 1e         MB 0x08b3.6, C
 0x4b2b DD=0: b7 b3 08 07         RB 0x08b3.7
@@ -8333,7 +8333,7 @@ label_4b3c:
 0x4b4c DD=1: 37 a2 0c            ST A, 0x0ca2
 0x4b4f DD=1: 37 a4 0c            ST A, 0x0ca4
 0x4b52 DD=1: 14 10               MOVB R4, #0x10
-0x4b54 DD=1: 20 ca 8f            MOV X1, #0x8fca
+0x4b54 DD=1: 20 ca 8f            MOV X1, #tbl_8fca
 0x4b57 DD=1: 22 8e 02            MOV DP, #0x028e
 loop_4b5a:
 0x4b5a DD=1: b0 8a               MOVB [DP], [X1]
@@ -8382,7 +8382,7 @@ label_4bbe:
 0x4bc2 DD=0: 4d 47               RB sbaoff 0x06c7.5
 0x4bc4 DD=0: 04 28               SJ label_4bee
 label_4bc6:
-0x4bc6 DD=0: b7 0e 90 72         MOVB R2, 0x900e
+0x4bc6 DD=0: b7 0e 90 72         MOVB R2, tbl_900e
 0x4bca DD=0: 6a 91 9a            CMPB R2, off 0x069a
 0x4bcd DD=0: f1 01               JEQ label_4bd0
 0x4bcf DD=0: 7a                  LB A, R2
@@ -8574,21 +8574,21 @@ label_4d2b:
 0x4d2c DD=1: f2 03               JLT label_4d31
 0x4d2e DD=1: 65 87 48            MOV off 0x0648, ER1
 label_4d31:
-0x4d31 DD=1: 22 72 ec            MOV DP, #0xec72
+0x4d31 DD=1: 22 72 ec            MOV DP, #tbl_ec72
 0x4d34 DD=1: 15 0a               MOVB R5, #0x0a
 0x4d36 DD=1: a5 48 70            MOV ER0, off 0x0648
 0x4d39 DD=1: b5 51 74            MOVB R4, off 0x0651
 0x4d3c DD=1: 45 d6               ACAL label_11d6
 0x4d3e DD=1: 6c 87 51            MOVB off 0x0651, R4
 0x4d41 DD=1: 35 4e               ST A, off 0x064e
-0x4d43 DD=1: 22 54 ec            MOV DP, #0xec54
+0x4d43 DD=1: 22 54 ec            MOV DP, #tbl_ec54
 0x4d46 DD=1: 15 0f               MOVB R5, #0x0f
 0x4d48 DD=1: a4 34 70            MOV ER0, fix 0x0234
 0x4d4b DD=1: b5 50 74            MOVB R4, off 0x0650
 0x4d4e DD=1: 45 d6               ACAL label_11d6
 0x4d50 DD=1: 6c 87 50            MOVB off 0x0650, R4
 0x4d53 DD=1: 35 4c               ST A, off 0x064c
-0x4d55 DD=1: 22 86 ec            MOV DP, #0xec86
+0x4d55 DD=1: 22 86 ec            MOV DP, #tbl_ec86
 0x4d58 DD=1: 3c                  ST A, X1
 0x4d59 DD=0: 7c                  LB A, R4
 0x4d5a DD=0: a5 4e 72            MOV ER2, off 0x064e
@@ -8604,25 +8604,25 @@ label_4d31:
 0x4d71 DD=0: 48 03               SB sbaoff 0x06c3.0
 0x4d73 DD=0: 03 c5 4e            J label_4ec5
 label_4d76:
-0x4d76 DD=0: 22 3a ed            MOV DP, #0xed3a
+0x4d76 DD=0: 22 3a ed            MOV DP, #tbl_ed3a
 0x4d79 DD=0: b4 6e 70            MOVB R0, fix 0x026e
 0x4d7c DD=0: 15 0a               MOVB R5, #0x0a
 0x4d7e DD=0: b5 59 74            MOVB R4, off 0x0659
 0x4d81 DD=0: 45 8d               ACAL label_118d
 0x4d83 DD=0: 6c 87 59            MOVB off 0x0659, R4
 0x4d86 DD=0: 35 56               STB A, off 0x0656
-0x4d88 DD=0: 22 1c ed            MOV DP, #0xed1c
+0x4d88 DD=0: 22 1c ed            MOV DP, #tbl_ed1c
 0x4d8b DD=0: a4 34 70            MOV ER0, fix 0x0234
 0x4d8e DD=0: 15 0f               MOVB R5, #0x0f
 0x4d90 DD=0: b5 58 74            MOVB R4, off 0x0658
 0x4d93 DD=0: 45 d6               ACAL label_11d6
 0x4d95 DD=0: 6c 87 58            MOVB off 0x0658, R4
 0x4d98 DD=0: 35 54               STB A, off 0x0654
-0x4d9a DD=0: 22 1c 8d            MOV DP, #0x8d1c
+0x4d9a DD=0: 22 1c 8d            MOV DP, #tbl_8d1c
 0x4d9d DD=1: 84 34               L A, fix 0x0234
 0x4d9f DD=1: 44 70               ACAL label_1070
 0x4da1 DD=1: 35 62               ST A, off 0x0662
-0x4da3 DD=1: 22 44 ed            MOV DP, #0xed44
+0x4da3 DD=1: 22 44 ed            MOV DP, #tbl_ed44
 0x4da6 DD=1: a5 54 74            MOV X1, off 0x0654
 0x4da9 DD=0: 95 58               LB A, off 0x0658
 0x4dab DD=0: a5 56 72            MOV ER2, off 0x0656
@@ -8631,7 +8631,7 @@ label_4d76:
 0x4db3 DD=0: 46 1d               ACAL label_121d
 0x4db5 DD=0: 35 5a               STB A, off 0x065a
 0x4db7 DD=0: 3c                  STB A, R4
-0x4db8 DD=0: 22 7a 8d            MOV DP, #0x8d7a
+0x4db8 DD=0: 22 7a 8d            MOV DP, #tbl_8d7a
 0x4dbb DD=0: 94 70               LB A, fix 0x0270
 0x4dbd DD=0: 44 04               ACAL label_1004
 0x4dbf DD=0: 35 5c               STB A, off 0x065c
@@ -8644,11 +8644,11 @@ label_4dc5:
 0x4dc9 DD=0: 95 62               LB A, off 0x0662
 label_4dcb:
 0x4dcb DD=0: 35 60               STB A, off 0x0660
-0x4dcd DD=0: 22 4b 8d            MOV DP, #0x8d4b
+0x4dcd DD=0: 22 4b 8d            MOV DP, #tbl_8d4b
 0x4dd0 DD=1: 84 34               L A, fix 0x0234
 0x4dd2 DD=1: 44 70               ACAL label_1070
 0x4dd4 DD=1: 35 63               ST A, off 0x0663
-0x4dd6 DD=1: 22 da ed            MOV DP, #0xedda
+0x4dd6 DD=1: 22 da ed            MOV DP, #tbl_edda
 0x4dd9 DD=1: a5 54 74            MOV X1, off 0x0654
 0x4ddc DD=0: 95 58               LB A, off 0x0658
 0x4dde DD=0: a5 56 72            MOV ER2, off 0x0656
@@ -8657,7 +8657,7 @@ label_4dcb:
 0x4de6 DD=0: 46 1d               ACAL label_121d
 0x4de8 DD=0: 35 5b               STB A, off 0x065b
 0x4dea DD=0: 3c                  STB A, R4
-0x4deb DD=0: 22 89 8d            MOV DP, #0x8d89
+0x4deb DD=0: 22 89 8d            MOV DP, #tbl_8d89
 0x4dee DD=0: 94 70               LB A, fix 0x0270
 0x4df0 DD=0: 44 04               ACAL label_1004
 0x4df2 DD=0: 35 5d               STB A, off 0x065d
@@ -8749,7 +8749,7 @@ label_4e88:
 0x4e88 DD=0: 48 87 34            JBS sbaoff 0x06c7.0, label_4ebf
 0x4e8b DD=0: b5 c3 10            MB C, off 0x06c3.0
 0x4e8e DD=0: b5 c3 19            MB off 0x06c3.1, C
-0x4e91 DD=0: 22 98 8d            MOV DP, #0x8d98
+0x4e91 DD=0: 22 98 8d            MOV DP, #tbl_8d98
 0x4e94 DD=1: 84 34               L A, fix 0x0234
 0x4e96 DD=1: 44 a3               ACAL label_10a3
 0x4e98 DD=1: 9d 48               CMP A, off 0x0648
@@ -8785,14 +8785,14 @@ label_4ec5:
 0x4ed4 DD=0: cf                  NEGB A
 label_4ed5:
 0x4ed5 DD=0: 35 67               STB A, off 0x0667
-0x4ed7 DD=0: 22 b0 8d            MOV DP, #0x8db0
+0x4ed7 DD=0: 22 b0 8d            MOV DP, #tbl_8db0
 0x4eda DD=1: 84 34               L A, fix 0x0234
 0x4edc DD=1: 44 70               ACAL label_1070
 0x4ede DD=1: 35 69               ST A, off 0x0669
 0x4ee0 DD=1: 39                  ST A, ER1
-0x4ee1 DD=1: 22 ad 8d            MOV DP, #0x8dad
+0x4ee1 DD=1: 22 ad 8d            MOV DP, #tbl_8dad
 0x4ee4 DD=1: 4a 83 03            JBS sbaoff 0x06c3.2, label_4eea
-0x4ee7 DD=1: 22 aa 8d            MOV DP, #0x8daa
+0x4ee7 DD=1: 22 aa 8d            MOV DP, #tbl_8daa
 label_4eea:
 0x4eea DD=0: 93                  LB A, [DP+]
 0x4eeb DD=0: 69 a9               MULB R1
@@ -8978,16 +8978,16 @@ label_5029:
 0x5035 DD=1: 4b 82 43            JBS sbaoff 0x06c2.3, label_507b
 0x5038 DD=1: 5c 9c 40            JBS sbafix 0x02dc.4, label_507b
 0x503b DD=0: 95 78               LB A, off 0x0678
-0x503d DD=0: 22 c7 8d            MOV DP, #0x8dc7
+0x503d DD=0: 22 c7 8d            MOV DP, #tbl_8dc7
 0x5040 DD=0: 44 30               ACAL label_1030
 0x5042 DD=0: 35 7c               STB A, off 0x067c
 0x5044 DD=0: 94 72               LB A, fix 0x0272
-0x5046 DD=0: b7 ed 8d 70         MOVB R0, 0x8ded
+0x5046 DD=0: b7 ed 8d 70         MOVB R0, tbl_8ded
 0x504a DD=0: 68 94               CMPB R0, A
 0x504c DD=0: 8a 1b               MB PSWL.3, C
-0x504e DD=0: 22 e6 8d            MOV DP, #0x8de6
+0x504e DD=0: 22 e6 8d            MOV DP, #tbl_8de6
 0x5051 DD=0: f2 03               JLT label_5056
-0x5053 DD=0: 22 ed 8d            MOV DP, #0x8ded
+0x5053 DD=0: 22 ed 8d            MOV DP, #tbl_8ded
 label_5056:
 0x5056 DD=0: 44 30               ACAL label_1030
 0x5058 DD=0: 8a 23 01            JBR PSWL.3, label_505c
@@ -9004,7 +9004,7 @@ label_5068:
 0x506a DD=0: bc d7               FILLB A
 label_506c:
 0x506c DD=0: 38                  STB A, R0
-0x506d DD=1: f8 58 98            L A, #0x9858
+0x506d DD=1: f8 58 98            L A, #tbl_9858
 0x5070 DD=1: 18                  CMP A, ER0
 0x5071 DD=1: f2 08               JLT label_507b
 0x5073 DD=1: f8 e8 03            L A, #0x03e8
@@ -9075,7 +9075,7 @@ label_50f0:
 label_50f5:
 0x50f5 DD=0: 58 74               RB sbafix 0x02f4.0
 0x50f7 DD=0: 22 d4 02            MOV DP, #0x02d4
-0x50fa DD=0: 20 87 8e            MOV X1, #0x8e87
+0x50fa DD=0: 20 87 8e            MOV X1, #tbl_8e87
 0x50fd DD=0: 55 62               ACAL label_1562
 label_50ff:
 0x50ff DD=0: 5a f9 4c            JBR sbafix 0x02f9.2, label_514e
@@ -9119,7 +9119,7 @@ label_5152:
 0x5155 DD=0: 04 2b               SJ label_5182
 label_5157:
 0x5157 DD=0: 22 d8 02            MOV DP, #0x02d8
-0x515a DD=0: 20 a7 8e            MOV X1, #0x8ea7
+0x515a DD=0: 20 a7 8e            MOV X1, #tbl_8ea7
 0x515d DD=0: 55 62               ACAL label_1562
 0x515f DD=0: 04 21               SJ label_5182
 label_5161:
@@ -9128,7 +9128,7 @@ label_5161:
 0x5166 DD=0: 04 1a               SJ label_5182
 label_5168:
 0x5168 DD=0: 22 d4 02            MOV DP, #0x02d4
-0x516b DD=0: 20 87 8e            MOV X1, #0x8e87
+0x516b DD=0: 20 87 8e            MOV X1, #tbl_8e87
 0x516e DD=0: 55 62               ACAL label_1562
 0x5170 DD=0: a4 d8 c7            CLR fix 0x02d8
 0x5173 DD=0: a4 da c7            CLR fix 0x02da
@@ -9164,7 +9164,7 @@ label_51ad:
 0x51b1 DD=0: d7 b0 28            MOVB off 0x06b0, #0x28
 0x51b4 DD=0: 17 19               MOVB R7, #0x19
 0x51b6 DD=0: 22 96 02            MOV DP, #0x0296
-0x51b9 DD=0: 20 d2 8f            MOV X1, #0x8fd2
+0x51b9 DD=0: 20 d2 8f            MOV X1, #tbl_8fd2
 label_51bc:
 0x51bc DD=0: da                  DI
 0x51bd DD=0: 92                  LB A, [DP]
@@ -9268,7 +9268,7 @@ loop_5262:
 0x5264 DD=1: 88 48 08            L A, 0x0848[X1]
 0x5267 DD=1: f1 21               JEQ label_528a
 0x5269 DD=1: 15 f8               MOVB R5, #0xf8
-0x526b DD=1: 9e ff ff            CMP A, #0xffff
+0x526b DD=1: 9e ff ff            CMP A, #tbl_ffff
 0x526e DD=1: f1 1a               JEQ label_528a
 0x5270 DD=1: 3b                  ST A, ER3
 0x5271 DD=1: 88 3a 08            L A, 0x083a[X1]
@@ -9301,7 +9301,7 @@ loop_5299:
 0x529b DD=1: 88 50 08            L A, 0x0850[X1]
 0x529e DD=1: f1 21               JEQ label_52c1
 0x52a0 DD=1: 15 f8               MOVB R5, #0xf8
-0x52a2 DD=1: 9e ff ff            CMP A, #0xffff
+0x52a2 DD=1: 9e ff ff            CMP A, #tbl_ffff
 0x52a5 DD=1: f1 1a               JEQ label_52c1
 0x52a7 DD=1: 3b                  ST A, ER3
 0x52a8 DD=1: 88 42 08            L A, 0x0842[X1]
@@ -9344,7 +9344,7 @@ loop_52e0:
 0x52e4 DD=0: f6 0a               JNE label_52f0
 0x52e6 DD=0: 22 7c 08            MOV DP, #0x087c
 0x52e9 DD=1: 85 64               L A, off 0x0864
-0x52eb DD=1: 9e 82 82            CMP A, #0x8282
+0x52eb DD=1: 9e 82 82            CMP A, #tbl_8282
 0x52ee DD=1: f1 03               JEQ label_52f3
 label_52f0:
 0x52f0 DD=1: 03 97 55            J label_5597
@@ -9547,7 +9547,7 @@ label_543d:
 0x5440 DD=0: fb                  CLRB A
 0x5441 DD=1: d9                  SDD
 0x5442 DD=1: 9f                  SRL A
-0x5443 DD=1: ce 00 c0            OR A, #0xc000
+0x5443 DD=1: ce 00 c0            OR A, #tbl_c000
 0x5446 DD=1: 14 09               MOVB R4, #0x09
 0x5448 DD=1: b6 1b 0f            SB p11.7
 loop_544b:
@@ -9650,8 +9650,8 @@ label_54ec:
 0x54f6 DD=0: b5 b0 0e            SB off 0x08b0.6
 label_54f9:
 0x54f9 DD=0: 55 f3               ACAL label_15f3
-0x54fb DD=0: 25 1f 88            MOV ER1, #0x881f
-0x54fe DD=1: f8 e0 ff            L A, #0xffe0
+0x54fb DD=0: 25 1f 88            MOV ER1, #tbl_881f
+0x54fe DD=1: f8 e0 ff            L A, #tbl_ffe0
 0x5501 DD=1: 14 1b               MOVB R4, #0x1b
 0x5503 DD=1: b6 15 0b            SB P5.3
 loop_5506:
@@ -9686,7 +9686,7 @@ label_5531:
 0x5537 DD=0: b5 b0 0e            SB off 0x08b0.6
 label_553a:
 0x553a DD=0: 55 f3               ACAL label_15f3
-0x553c DD=0: 25 00 88            MOV ER1, #0x8800
+0x553c DD=0: 25 00 88            MOV ER1, #tbl_8800
 0x553f DD=1: f8 00 00            L A, #0x0000
 0x5542 DD=1: 14 1b               MOVB R4, #0x1b
 0x5544 DD=1: b6 15 0b            SB P5.3
@@ -9760,19 +9760,51 @@ label_55c6:
 0x55c6 DD=1: 03 d7 51            J label_51d7
 
 org 0x8001
-0x8001:                          db    f0 55 dd f0 55 cc 78 32 b7 06 21 92 6c 18 70
+0x8001:                          db    f0 55 dd f0 55 cc 78 32 b7 06 21 92
+tbl_800d:
+0x800d:                          db                                        6c 18 70
 0x8010:                          db 88 13 2d d0 07 01 d0 07 00 ff 00 ff dd 00 ff cc
-0x8020:                          db 00 ff b7 00 ff 00 00 ff cd 2c dd cd 2c cc 85 2b
-0x8030:                          db 9f 2f 25 7a 00 20 34 00 20 01 00 20 00 ff ff 5c
-0x8040:                          db 00 c7 71 5c 00 55 55 48 00 e4 38 3c 00 ab 2a 3c
-0x8050:                          db 00 72 1c 3c 00 55 15 3c 00 01 00 3c 00 00 00 05
+0x8020:                          db 00 ff b7 00 ff 00 00
+tbl_8027:
+0x8027:                          db                      ff cd 2c dd cd 2c cc 85 2b
+0x8030:                          db 9f 2f 25 7a 00 20 34 00 20 01 00 20 00
+tbl_803d:
+0x803d:                          db                                        ff ff 5c
+0x8040:                          db 00 c7 71 5c 00 55 55 48 00 e4 38 3c 00 ab
+tbl_804e:
+0x804e:                          db                                           2a 3c
+0x8050:                          db 00 72 1c 3c 00 55 15 3c 00 01 00 3c 00 00 00
+tbl_805f:
+0x805f:                          db                                              05
 0x8060:                          db 05 05 05 dc 60 00 8d 00 00 73 00 00 24 40 00 00
-0x8070:                          db 00 00 40 48 60 68 80 88 a0 a8 c0 c8 ff ff 02 00
-0x8080:                          db 02 00 05 00 05 00 05 00 39 0e 1c 47 1c 07 00 80
-0x8090:                          db 00 00 00 00 00 80 00 80 00 00 04 00 10 00 8e 23
-0x80a0:                          db ab 2a c7 31 e4 38 00 40 1c 47 55 55 00 00 0f 0f
+0x8070:                          db 00 00 40 48 60 68 80 88 a0 a8 c0 c8 ff ff
+tbl_807e:
+0x807e:                          db                                           02 00
+0x8080:                          db 02 00
+tbl_8082:
+0x8082:                          db       05 00 05 00
+tbl_8086:
+0x8086:                          db                   05 00
+tbl_8088:
+0x8088:                          db                         39 0e 1c 47 1c 07 00 80
+0x8090:                          db 00 00 00 00
+tbl_8094:
+0x8094:                          db             00 80
+tbl_8096:
+0x8096:                          db                   00 80 00 00
+tbl_809a:
+0x809a:                          db                               04 00
+tbl_809c:
+0x809c:                          db                                     10 00 8e 23
+0x80a0:                          db ab 2a c7 31 e4 38 00 40 1c 47
+tbl_80aa:
+0x80aa:                          db                               55 55 00 00
+tbl_80ae:
+0x80ae:                          db                                           0f 0f
 0x80b0:                          db 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f 0f
-0x80c0:                          db 0f 0f 0f 0f 0f 0f 1a 02 29 02 47 02 65 02 83 02
+0x80c0:                          db 0f 0f 0f 0f 0f 0f
+tbl_80c6:
+0x80c6:                          db                   1a 02 29 02 47 02 65 02 83 02
 0x80d0:                          db 92 02 a1 02 fa 02 fa 02 ff 00 92 00 30 00 82 00
 0x80e0:                          db 20 00 72 00 03 00 1d 00 00 00 10 87 01 e8 01 e8
 0x80f0:                          db 01 fa 02 ff 00 92 00 30 00 82 00 20 00 72 00 03
@@ -9786,7 +9818,9 @@ org 0x8001
 0x8170:                          db 00 10 87 01 e8 01 e8 01 fa 02 ff 00 92 00 30 00
 0x8180:                          db 82 00 20 00 72 00 03 00 1d 00 00 00 10 87 01 e8
 0x8190:                          db 01 e8 01 fa 02 ff 00 92 00 30 00 82 00 20 00 72
-0x81a0:                          db 00 03 00 1d 00 00 00 10 87 01 e8 01 e8 01 c4 09
+0x81a0:                          db 00 03 00 1d 00 00 00 10 87 01 e8 01 e8 01
+tbl_81ae:
+0x81ae:                          db                                           c4 09
 0x81b0:                          db 58 1b 00 00 00 00 00 00 00 00 00 f4 01 f4 01 32
 0x81c0:                          db 00 90 c0 00 82 14 60 00 ac 0d 30 00 d0 07 02 00
 0x81d0:                          db 58 02 00 00 00 f4 01 f4 01 32 00 a0 bc 02 58 1b
@@ -9800,7 +9834,9 @@ org 0x8001
 0x8250:                          db 60 00 e8 03 30 00 58 02 02 00 2c 01 00 00 08 58
 0x8260:                          db 02 28 00 04 00 a0 bc 02 58 1b 00 00 00 00 00 00
 0x8270:                          db 00 00 00 f4 01 f4 01 32 00 90 c0 00 d0 07 60 00
-0x8280:                          db e8 03 30 00 f4 01 02 00 c8 00 00 00 08 58 02 28
+0x8280:                          db e8 03
+tbl_8282:
+0x8282:                          db       30 00 f4 01 02 00 c8 00 00 00 08 58 02 28
 0x8290:                          db 00 04 00 a0 bc 02 58 1b 00 00 00 00 00 00 00 00
 0x82a0:                          db 00 f4 01 f4 01 32 00 90 c0 00 d0 07 60 00 e8 03
 0x82b0:                          db 30 00 f4 01 02 00 c8 00 00 00 08 58 02 28 00 04
@@ -9809,7 +9845,9 @@ org 0x8001
 0x82e0:                          db 90 01 06 00 c8 00 00 00 04 f4 01 64 00 04 00 a0
 0x82f0:                          db f4 01 88 13 00 00 00 00 00 00 00 00 00 f4 01 f4
 0x8300:                          db 01 32 00 90 c0 00 b0 04 60 00 58 02 20 00 c8 00
-0x8310:                          db 06 00 c8 00 00 00 04 f4 01 64 00 04 00 a0 c7 08
+0x8310:                          db 06 00 c8 00 00 00 04 f4 01 64 00 04 00 a0
+tbl_831e:
+0x831e:                          db                                           c7 08
 0x8320:                          db b6 1c c0 00 d8 0e 60 00 ac 0d 30 00 d0 07 02 00
 0x8330:                          db 58 02 00 00 00 f4 01 f4 01 32 00 90 df 02 58 1b
 0x8340:                          db c0 00 34 08 60 00 1a 04 30 00 76 02 02 00 2c 01
@@ -9824,10 +9862,20 @@ org 0x8001
 0x83d0:                          db 00 90 df 02 88 13 c0 00 ec 04 60 00 70 03 20 00
 0x83e0:                          db b8 01 06 00 c8 00 00 00 04 f4 01 69 00 04 00 90
 0x83f0:                          db 0d 02 88 13 c0 00 ec 04 60 00 76 02 20 00 d2 00
-0x8400:                          db 06 00 c8 00 00 00 04 f4 01 69 00 04 00 90 ef 03
-0x8410:                          db 10 00 00 20 ff ff 00 30 ff ff 00 40 00 60 00 80
+0x8400:                          db 06 00 c8 00 00 00 04 f4 01 69 00 04 00 90
+tbl_840e:
+0x840e:                          db                                           ef 03
+0x8410:                          db 10 00
+tbl_8412:
+0x8412:                          db       00 20 ff ff 00 30 ff ff 00 40 00 60
+tbl_841e:
+0x841e:                          db                                           00 80
+tbl_8420:
 0x8420:                          db 00 70 00 80 ab 2a e4 38 55 55 c7 71 00 80 00 85
-0x8430:                          db 00 90 00 00 05 05 01 01 03 03 03 03 02 02 0a 0a
+tbl_8430:
+0x8430:                          db 00 90 00 00
+tbl_8434:
+0x8434:                          db             05 05 01 01 03 03 03 03 02 02 0a 0a
 0x8440:                          db 0a 0a 08 08 0c 0c 0c 0c 04 04 05 05 fa 02 ff 00
 0x8450:                          db 92 00 30 00 82 00 20 00 72 00 03 00 1d 00 00 00
 0x8460:                          db 10 87 01 e8 01 e8 01 fa 02 ff 00 92 00 30 00 82
@@ -9842,7 +9890,9 @@ org 0x8001
 0x84f0:                          db ff 00 92 00 30 00 82 00 20 00 72 00 03 00 1d 00
 0x8500:                          db 00 00 10 87 01 e8 01 e8 01 fa 02 ff 00 92 00 30
 0x8510:                          db 00 82 00 20 00 72 00 03 00 1d 00 00 00 10 87 01
-0x8520:                          db e8 01 e8 01 fa 02 bf 02 bf 02 bf 02 bf 02 10 a0
+0x8520:                          db e8 01 e8 01
+tbl_8524:
+0x8524:                          db             fa 02 bf 02 bf 02 bf 02 bf 02 10 a0
 0x8530:                          db 00 0a 00 02 00 90 ff 00 d3 02 40 00 d3 02 30 00
 0x8540:                          db d3 02 02 00 1f 00 00 00 10 87 01 02 00 02 00 a0
 0x8550:                          db fa 02 bf 02 bf 02 bf 02 bf 02 10 a0 00 0a 00 02
@@ -9864,7 +9914,9 @@ org 0x8001
 0x8650:                          db 10 87 01 02 00 02 00 a0 fa 02 bf 02 bf 02 bf 02
 0x8660:                          db bf 02 10 a0 00 0a 00 02 00 90 ff 00 d3 02 40 00
 0x8670:                          db d3 02 30 00 d3 02 02 00 1f 00 00 00 10 87 01 02
-0x8680:                          db 00 02 00 a0 ea 00 60 00 d3 02 30 00 ea 00 20 00
+0x8680:                          db 00 02 00 a0
+tbl_8684:
+0x8684:                          db             ea 00 60 00 d3 02 30 00 ea 00 20 00
 0x8690:                          db d0 00 02 00 1f 00 00 00 10 87 01 02 00 02 00 90
 0x86a0:                          db ea 00 60 00 d3 02 30 00 ea 00 20 00 d0 00 02 00
 0x86b0:                          db 1f 00 00 00 10 87 01 02 00 02 00 90 ea 00 60 00
@@ -9878,152 +9930,475 @@ org 0x8001
 0x8730:                          db d3 02 30 00 ea 00 20 00 d0 00 02 00 1f 00 00 00
 0x8740:                          db 10 87 01 02 00 02 00 90 ea 00 60 00 d3 02 30 00
 0x8750:                          db ea 00 20 00 d0 00 02 00 1f 00 00 00 10 87 01 02
-0x8760:                          db 00 02 00 90 72 9c 72 9c de 5d de 5d 72 9c 72 9c
-0x8770:                          db de 5d de 5d 72 9c 72 9c ab 6a ab 6a 72 9c fa 64
-0x8780:                          db 39 8e de 5d 72 9c fa 64 39 8e de 5d 72 9c c7 71
-0x8790:                          db 39 8e ab 6a 39 8e ff ff 04 03 01 02 00 9d 00 a4
-0x87a0:                          db 00 90 de b7 04 03 01 02 72 9c f4 02 8e 63 f4 02
+0x8760:                          db 00 02 00 90
+tbl_8764:
+0x8764:                          db             72 9c 72 9c de 5d de 5d
+tbl_876c:
+0x876c:                          db                                     72 9c 72 9c
+0x8770:                          db de 5d de 5d
+tbl_8774:
+0x8774:                          db             72 9c 72 9c ab 6a ab 6a
+tbl_877c:
+0x877c:                          db                                     72 9c fa 64
+0x8780:                          db 39 8e de 5d
+tbl_8784:
+0x8784:                          db             72 9c fa 64 39 8e de 5d
+tbl_878c:
+0x878c:                          db                                     72 9c c7 71
+0x8790:                          db 39 8e ab 6a
+tbl_8794:
+0x8794:                          db             39 8e
+tbl_8796:
+0x8796:                          db                   ff ff
+tbl_8798:
+0x8798:                          db                         04 03 01 02 00 9d 00 a4
+0x87a0:                          db 00 90 de b7
+tbl_87a4:
+0x87a4:                          db             04 03 01 02
+tbl_87a8:
+0x87a8:                          db                         72 9c f4 02 8e 63 f4 02
 0x87b0:                          db 72 5c f7 02 e4 58 f7 02 55 55 fa 02 39 4e 06 03
 0x87c0:                          db 1c 47 09 03 00 40 fa 02 e4 38 fa 02 c7 31 fa 02
-0x87d0:                          db 00 00 de 5d de 5d 1c 47 1c 47 e4 38 e4 38 ab 2a
-0x87e0:                          db ab 2a 28 3d 28 3d bc 3b 94 94 04 03 01 02 ff 80
-0x87f0:                          db f9 80 bd a7 98 ca 73 ef 01 ef 00 ff 80 f9 80 bd
-0x8800:                          db 80 98 80 73 80 2e 80 00 ff 80 fa 80 72 80 2e 80
-0x8810:                          db 00 ff 60 e2 60 d5 53 cc 50 b7 4a 86 42 6e 40 2d
+0x87d0:                          db 00 00
+tbl_87d2:
+0x87d2:                          db       de 5d de 5d
+tbl_87d6:
+0x87d6:                          db                   1c 47 1c 47
+tbl_87da:
+0x87da:                          db                               e4 38 e4 38
+tbl_87de:
+0x87de:                          db                                           ab 2a
+0x87e0:                          db ab 2a
+tbl_87e2:
+0x87e2:                          db       28 3d 28 3d bc 3b 94 94
+tbl_87ea:
+0x87ea:                          db                               04 03 01 02
+tbl_87ee:
+0x87ee:                          db                                           ff 80
+0x87f0:                          db f9 80 bd a7 98 ca 73 ef 01 ef 00
+tbl_87fb:
+0x87fb:                          db                                  ff 80 f9 80 bd
+tbl_8800:
+0x8800:                          db 80 98 80 73 80 2e 80 00
+tbl_8808:
+0x8808:                          db                         ff 80 fa 80 72 80 2e 80
+0x8810:                          db 00
+tbl_8811:
+0x8811:                          db    ff 60 e2 60 d5 53 cc 50 b7 4a 86 42 6e 40
+tbl_881f:
+0x881f:                          db                                              2d
 0x8820:                          db 40 21 40 01 40 00 ff 60 e2 60 d9 5d cc 5a b7 53
 0x8830:                          db 86 42 6e 40 2d 40 21 40 01 40 00 ff 60 e2 60 d9
 0x8840:                          db 5d cc 5a b7 53 86 42 6e 40 2d 40 21 40 01 40 00
+tbl_8850:
 0x8850:                          db 00 1c 00 2c 00 55 00 65 30 00 ff ff 35 00 c7 71
 0x8860:                          db 35 00 55 55 35 00 e4 38 35 00 ab 2a 35 00 72 1c
 0x8870:                          db 35 00 55 15 35 00 01 00 35 00 00 00 00 1c 00 2c
 0x8880:                          db 00 55 00 65 30 00 ff ff 10 02 c7 71 10 02 55 55
 0x8890:                          db a0 01 e4 38 f0 00 ab 2a c0 00 72 1c 90 00 55 15
-0x88a0:                          db 80 00 01 00 80 00 00 00 ff 35 e2 35 d5 34 cc 2f
+0x88a0:                          db 80 00 01 00 80 00 00 00
+tbl_88a8:
+0x88a8:                          db                         ff 35 e2 35 d5 34 cc 2f
 0x88b0:                          db b7 23 86 1b 48 16 2d 10 21 10 01 10 00 ff 45 e2
 0x88c0:                          db 45 d5 40 cc 35 b7 30 86 30 48 25 2d 25 21 25 01
 0x88d0:                          db 20 00 ff 65 e2 65 d5 60 cc 60 b7 55 86 55 48 50
-0x88e0:                          db 2d 50 21 35 01 35 00 00 1c 00 2c 00 55 00 65 30
+0x88e0:                          db 2d 50 21 35 01 35 00
+tbl_88e7:
+0x88e7:                          db                      00 1c 00 2c 00 55 00 65 30
 0x88f0:                          db 00 ff ff 10 02 c7 71 10 02 55 55 a0 01 e4 38 f0
 0x8900:                          db 00 ab 2a c0 00 72 1c 90 00 55 15 80 00 01 00 80
 0x8910:                          db 00 00 00 00 1c 00 2c 00 55 00 65 30 00 ff ff 10
 0x8920:                          db 02 c7 71 10 02 55 55 a0 01 e4 38 f0 00 ab 2a c0
-0x8930:                          db 00 72 1c 90 00 55 15 80 00 01 00 80 00 00 00 ff
+0x8930:                          db 00 72 1c 90 00 55 15 80 00 01 00 80 00 00 00
+tbl_893f:
+0x893f:                          db                                              ff
 0x8940:                          db a0 e4 a0 c5 8f a1 86 7b 80 57 7d 3c 7a 23 75 13
 0x8950:                          db 75 01 75 00 ff 96 e1 96 d0 90 a1 87 7b 80 57 7a
-0x8960:                          db 3c 75 23 6e 18 6a 01 6a 00 00 0a 80 01 10 80 ff
+0x8960:                          db 3c 75 23 6e 18 6a 01 6a 00
+tbl_8969:
+0x8969:                          db                            00 0a 80
+tbl_896c:
+0x896c:                          db                                     01 10 80 ff
 0x8970:                          db aa e2 aa d5 a0 cc 96 b7 86 86 6a 47 40 2d 20 1b
-0x8980:                          db 03 01 03 00 ff 2a e2 2a d5 2a cc 26 b7 24 86 22
+0x8980:                          db 03 01 03 00
+tbl_8984:
+0x8984:                          db             ff 2a e2 2a d5 2a cc 26 b7 24 86 22
 0x8990:                          db 59 20 2d 20 1b 20 01 20 00 ff aa e2 aa d5 a0 cc
-0x89a0:                          db 96 b7 86 86 6a 47 40 2d 20 1b 03 01 03 00 ff 50
+0x89a0:                          db 96 b7 86 86 6a 47 40 2d 20 1b 03 01 03 00
+tbl_89ae:
+0x89ae:                          db                                           ff 50
 0x89b0:                          db e2 50 d5 48 cc 40 b7 30 85 28 47 22 2d 20 1b 20
-0x89c0:                          db 01 20 00 cf 40 a1 40 7a 40 56 40 3c 40 23 40 17
-0x89d0:                          db 40 00 ff 01 80 80 01 80 40 01 80 00 01 80 80 00
-0x89e0:                          db 80 40 00 80 10 00 80 00 00 a7 07 03 92 bb 03 7d
-0x89f0:                          db bc 04 68 68 06 54 b9 09 3f 82 11 00 01 03 04 02
-0x8a00:                          db 00 00 00 00 9a 19 72 1c 39 2e c7 31 72 3c 00 40
+0x89c0:                          db 01 20 00
+tbl_89c3:
+0x89c3:                          db          cf 40 a1 40 7a 40 56 40 3c 40 23 40 17
+0x89d0:                          db 40 00
+tbl_89d2:
+0x89d2:                          db       ff 01 80 80 01 80 40 01 80 00 01 80 80 00
+0x89e0:                          db 80 40 00 80 10 00 80 00 00
+tbl_89e9:
+0x89e9:                          db                            a7 07 03 92 bb 03 7d
+0x89f0:                          db bc 04 68 68 06 54 b9 09 3f 82 11 00
+tbl_89fc:
+0x89fc:                          db                                     01 03 04 02
+tbl_8a00:
+0x8a00:                          db 00 00 00 00 9a 19
+tbl_8a06:
+0x8a06:                          db                   72 1c 39 2e c7 31 72 3c 00 40
 0x8a10:                          db ab 4a 39 4e e4 58 72 5c 1c 67 ab 6a 39 6e c7 71
-0x8a20:                          db 72 7c 00 80 ab 8a 39 8e ff ff ff ff 00 00 00 00
-0x8a30:                          db ff 03 ff 03 ff 03 ff 03 ff 03 ff 03 ff 03 ff 03
-0x8a40:                          db ff ff ff ff 02 0d 0d 0d 0d 0d 0a 0a 0a 0a 0a 05
+0x8a20:                          db 72 7c 00 80 ab 8a 39 8e ff ff ff ff
+tbl_8a2c:
+0x8a2c:                          db                                     00 00 00 00
+0x8a30:                          db ff 03
+tbl_8a32:
+0x8a32:                          db       ff 03 ff 03 ff 03 ff 03 ff 03 ff 03 ff 03
+0x8a40:                          db ff ff ff ff
+tbl_8a44:
+0x8a44:                          db             02
+tbl_8a45:
+0x8a45:                          db                0d 0d 0d 0d 0d 0a 0a 0a 0a 0a 05
 0x8a50:                          db 05 05 05 05 02 02 02 02 02 00 00 00 00 00 17 17
 0x8a60:                          db 17 17 17 04 04 04 04 04 04 04 04 04 04 04 04 04
-0x8a70:                          db 04 04 04 04 04 04 04 40 0a 80 50 08 80 70 06 80
+0x8a70:                          db 04 04 04 04 04 04 04
+tbl_8a77:
+0x8a77:                          db                      40 0a 80 50 08 80 70 06 80
 0x8a80:                          db 90 03 80 a0 02 80 c0 01 80 e0 00 80 00 00 e0 15
-0x8a90:                          db 64 80 0c 60 40 06 54 c0 03 4a e0 01 40 00 00 77
+0x8a90:                          db 64 80 0c 60 40 06 54 c0 03 4a e0 01 40 00 00
+tbl_8a9f:
+0x8a9f:                          db                                              77
 0x8aa0:                          db 77 47 47 47 4d 55 5b 61 6b 79 84 91 8e 8b 86 7f
-0x8ab0:                          db 78 72 72 72 6c 6c 67 65 65 70 80 60 80 53 80 52
-0x8ac0:                          db 80 50 80 4f 80 4e 80 29 80 00 94 fe d0 fe e0 ff
+0x8ab0:                          db 78 72 72 72 6c 6c 67 65 65
+tbl_8ab9:
+0x8ab9:                          db                            70 80 60 80 53 80 52
+0x8ac0:                          db 80 50 80 4f 80 4e 80 29 80 00
+tbl_8aca:
+0x8aca:                          db                               94 fe d0 fe e0 ff
 0x8ad0:                          db ff ff 30 00 ff ff 10 02 ab 2a c0 00 72 1c 90 00
 0x8ae0:                          db 55 15 80 00 01 00 80 00 00 00 40 00 40 40 00 05
-0x8af0:                          db 40 01 70 80 60 80 53 80 52 80 50 80 4f 80 4e 80
-0x8b00:                          db 29 80 00 94 fe d0 fe e0 ff ff ff 30 00 ff ff 10
+0x8af0:                          db 40 01
+tbl_8af2:
+0x8af2:                          db       70 80 60 80 53 80 52 80 50 80 4f 80 4e 80
+0x8b00:                          db 29 80 00
+tbl_8b03:
+0x8b03:                          db          94 fe d0 fe e0 ff ff ff 30 00 ff ff 10
 0x8b10:                          db 02 ab 2a c0 00 72 1c 90 00 55 15 80 00 01 00 80
-0x8b20:                          db 00 00 00 40 00 40 40 00 05 40 01 e6 80 cc 80 85
+0x8b20:                          db 00 00 00 40 00 40 40 00 05 40 01
+tbl_8b2b:
+0x8b2b:                          db                                  e6 80 cc 80 85
 0x8b30:                          db 80 45 80 00 e6 80 85 80 59 80 44 80 00 30 80 1f
-0x8b40:                          db 80 1b 80 12 80 00 01 00 2f d0 30 00 5f 00 60 30
+0x8b40:                          db 80 1b 80 12 80 00
+tbl_8b46:
+0x8b46:                          db                   01 00 2f d0 30 00 5f 00 60 30
 0x8b50:                          db 00 ff ff 10 02 ab 2a c0 00 72 1c 90 00 55 15 80
 0x8b60:                          db 00 01 00 80 00 00 00 94 fe d0 fe e0 ff ff ff 30
 0x8b70:                          db 00 ff ff 10 02 ab 2a c0 00 72 1c 90 00 55 15 80
-0x8b80:                          db 00 01 00 80 00 00 00 e6 80 85 80 59 80 45 80 00
+0x8b80:                          db 00 01 00 80 00 00 00
+tbl_8b87:
+0x8b87:                          db                      e6 80 85 80 59 80 45 80 00
 0x8b90:                          db e6 80 85 80 59 80 44 80 00 30 80 1f 80 1b 80 12
-0x8ba0:                          db 80 00 47 00 2f d0 30 00 5f 00 60 30 00 ff ff 10
+0x8ba0:                          db 80 00
+tbl_8ba2:
+0x8ba2:                          db       47 00 2f d0 30 00 5f 00 60 30 00 ff ff 10
 0x8bb0:                          db 02 ab 2a c0 00 72 1c 90 00 55 15 80 00 01 00 80
 0x8bc0:                          db 00 00 00 94 fe d0 fe e0 ff ff ff 30 00 ff ff 10
 0x8bd0:                          db 02 ab 2a c0 00 72 1c 90 00 55 15 80 00 01 00 80
-0x8be0:                          db 00 00 00 77 77 47 47 47 4d 55 5b 61 6b 79 84 91
-0x8bf0:                          db 8e 8b 86 7f 78 72 72 72 6c 6c 67 65 65 ff 03 ff
+0x8be0:                          db 00 00 00
+tbl_8be3:
+0x8be3:                          db          77 77 47 47 47 4d 55 5b 61 6b 79 84 91
+0x8bf0:                          db 8e 8b 86 7f 78 72 72 72 6c 6c 67 65 65
+tbl_8bfd:
+0x8bfd:                          db                                        ff 03
+tbl_8bff:
+0x8bff:                          db                                              ff
 0x8c00:                          db 03 00 00 00 00 ff ff ff ff 00 00 00 00 01 01 06
 0x8c10:                          db 0a 77 77 47 47 47 4d 55 5b 61 6b 79 84 91 8e 8b
 0x8c20:                          db 86 7f 78 72 72 72 6c 6c 67 65 65 50 00 70 00 00
 0x8c30:                          db 02 50 02 1c 07 89 08 d2 27 ab 2a 92 e1 06 0a 2b
 0x8c40:                          db 2b 2b 39 41 4a 55 5d 61 65 69 6c 79 85 90 90 90
-0x8c50:                          db 86 86 86 86 86 86 86 86 86 01 22 17 17 17 01 17
+0x8c50:                          db 86 86 86 86 86 86 86 86 86
+tbl_8c59:
+0x8c59:                          db                            01 22 17 17 17 01 17
 0x8c60:                          db 17 17 17 01 17 17 17 17 01 0e 0e 0e 0e 01 00 00
 0x8c70:                          db 00 00 01 00 00 00 00 01 00 00 00 00 01 00 00 00
-0x8c80:                          db 00 e0 80 a1 80 70 80 3c 80 00 01 02 ff 01 80 80
+0x8c80:                          db 00
+tbl_8c81:
+0x8c81:                          db    e0 80 a1 80 70 80 3c 80 00
+tbl_8c8a:
+0x8c8a:                          db                               01
+tbl_8c8b:
+0x8c8b:                          db                                  02
+tbl_8c8c:
+0x8c8c:                          db                                     ff 01 80 80
 0x8c90:                          db 01 80 40 01 80 00 01 80 80 00 80 40 00 80 10 00
-0x8ca0:                          db 80 00 00 00 80 00 55 55 00 1c 47 07 e4 38 06 ab
-0x8cb0:                          db 2a 04 72 1c 03 39 0e 03 00 00 2b 2b 2b 2b 2b 2b
+0x8ca0:                          db 80 00 00
+tbl_8ca3:
+0x8ca3:                          db          00 80 00 55 55 00 1c 47 07 e4 38 06 ab
+0x8cb0:                          db 2a 04 72 1c 03 39 0e 03 00 00
+tbl_8cba:
+0x8cba:                          db                               2b 2b 2b 2b 2b 2b
 0x8cc0:                          db 2b 2b 2b 2b 2b 3c 3c 3c 3c 3f 47 59 67 68 6a 6c
-0x8cd0:                          db 6c 6c 6c 6c ab aa 1c 00 80 17 8e 63 11 1c 47 0c
-0x8ce0:                          db ab 2a 06 72 1c 01 39 0e 01 1d 07 01 00 00 ab aa
+0x8cd0:                          db 6c 6c 6c 6c
+tbl_8cd4:
+0x8cd4:                          db             ab aa 1c 00 80 17 8e 63 11 1c 47 0c
+0x8ce0:                          db ab 2a 06 72 1c 01 39 0e 01 1d 07 01 00 00
+tbl_8cee:
+0x8cee:                          db                                           ab aa
 0x8cf0:                          db c4 09 e4 78 b8 0b 55 55 b8 0b 1c 47 b8 0b c7 31
-0x8d00:                          db b8 0b 72 1c b8 0b 1d 07 a0 0f 00 00 a7 40 7d 40
-0x8d10:                          db 68 40 3f 40 00 00 12 06 0c 38 8e e3 00 f0 67 1c
+0x8d00:                          db b8 0b 72 1c b8 0b 1d 07 a0 0f 00 00
+tbl_8d0c:
+0x8d0c:                          db                                     a7 40 7d 40
+0x8d10:                          db 68 40 3f 40
+tbl_8d14:
+0x8d14:                          db             00 00 12 06 0c
+tbl_8d19:
+0x8d19:                          db                            38 8e e3
+tbl_8d1c:
+0x8d1c:                          db                                     00 f0 67 1c
 0x8d20:                          db 67 67 8e 63 67 72 5c 67 e4 58 67 c1 56 6d 55 55
 0x8d30:                          db 67 39 4e 67 1c 47 67 e4 38 50 c7 31 33 ab 2a 33
-0x8d40:                          db 8e 23 33 72 1c 33 8c 05 33 00 00 00 f0 41 1c 67
+0x8d40:                          db 8e 23 33 72 1c 33 8c 05 33 00 00
+tbl_8d4b:
+0x8d4b:                          db                                  00 f0 41 1c 67
 0x8d50:                          db 41 8e 63 41 72 5c 41 e4 58 41 c1 56 4a 55 55 4a
 0x8d60:                          db 39 4e 48 1c 47 46 e4 38 24 c7 31 24 ab 2a 24 8e
-0x8d70:                          db 23 24 72 1c 24 8c 05 24 00 00 ae 00 a1 1d 88 4f
-0x8d80:                          db 70 7d 58 7d 45 7d 35 7d 00 ae 00 a1 1d 88 4f 70
-0x8d90:                          db 4f 58 4f 45 4f 35 4f 00 55 55 66 02 1c 47 66 02
-0x8da0:                          db e4 38 66 02 ab 2a 66 02 00 00 20 40 01 2c 80 01
+0x8d70:                          db 23 24 72 1c 24 8c 05 24 00 00
+tbl_8d7a:
+0x8d7a:                          db                               ae 00 a1 1d 88 4f
+0x8d80:                          db 70 7d 58 7d 45 7d 35 7d 00
+tbl_8d89:
+0x8d89:                          db                            ae 00 a1 1d 88 4f 70
+0x8d90:                          db 4f 58 4f 45 4f 35 4f 00
+tbl_8d98:
+0x8d98:                          db                         55 55 66 02 1c 47 66 02
+0x8da0:                          db e4 38 66 02 ab 2a 66 02 00 00
+tbl_8daa:
+0x8daa:                          db                               20 40 01
+tbl_8dad:
+0x8dad:                          db                                        2c 80 01
+tbl_8db0:
 0x8db0:                          db 00 a0 80 8e 63 80 55 55 80 1c 47 80 00 40 80 e4
-0x8dc0:                          db 38 80 ab 2a 80 00 00 ff 70 94 f3 a0 8c da d0 84
+0x8dc0:                          db 38 80 ab 2a 80 00 00
+tbl_8dc7:
+0x8dc7:                          db                      ff 70 94 f3 a0 8c da d0 84
 0x8dd0:                          db b6 60 6d 9c c0 5d 82 20 4e 68 80 3e 4e e0 2e 34
-0x8de0:                          db 40 1f 01 b8 0b 00 a7 b0 04 92 00 00 00 92 00 00
-0x8df0:                          db 88 20 03 7d e8 03 68 2e 11 00 e0 8e 23 39 0e 08
-0x8e00:                          db 41 10 04 20 08 82 20 08 84 d2 27 ab 2a 06 5b de
-0x8e10:                          db 5d cf 07 02 04 41 10 20 00 90 00 68 00 cc 00 ab
-0x8e20:                          db 2a e4 38 1c 47 55 55 01 01 01 01 01 01 01 01 01
-0x8e30:                          db 01 01 01 01 01 01 00 00 00 00 00 00 00 00 00 00
+0x8de0:                          db 40 1f 01 b8 0b 00
+tbl_8de6:
+0x8de6:                          db                   a7 b0 04 92 00 00 00
+tbl_8ded:
+0x8ded:                          db                                        92 00 00
+0x8df0:                          db 88 20 03 7d e8 03 68 2e 11 00
+tbl_8dfa:
+0x8dfa:                          db                               e0 8e 23 39 0e 08
+tbl_8e00:
+0x8e00:                          db 41 10 04
+tbl_8e03:
+0x8e03:                          db          20 08 82
+tbl_8e06:
+0x8e06:                          db                   20 08 84
+tbl_8e09:
+0x8e09:                          db                            d2 27 ab 2a 06 5b de
+0x8e10:                          db 5d cf
+tbl_8e12:
+0x8e12:                          db       07
+tbl_8e13:
+0x8e13:                          db          02
+tbl_8e14:
+0x8e14:                          db             04 41 10
+tbl_8e17:
+0x8e17:                          db                      20 00
+tbl_8e19:
+0x8e19:                          db                            90 00 68 00
+tbl_8e1d:
+0x8e1d:                          db                                        cc 00 ab
+0x8e20:                          db 2a e4 38 1c 47
+tbl_8e25:
+0x8e25:                          db                55 55 01 01 01 01 01 01 01 01 01
+0x8e30:                          db 01 01 01 01 01 01
+tbl_8e36:
+0x8e36:                          db                   00 00 00 00 00 00 00 00 00 00
 0x8e40:                          db 00 11 11 11 11 14 1c 1f 0b 0a 08 00 00 00 00 00
-0x8e50:                          db d0 be b0 be 90 be 70 be 50 be 30 be 10 be 00 e0
-0x8e60:                          db 87 cf 87 c5 82 b9 73 a1 69 88 50 7c 00 00 e0 af
-0x8e70:                          db cf aa c5 a0 b9 91 a1 82 88 69 7c 69 00 f5 00 bd
-0x8e80:                          db 00 30 20 00 10 30 20 01 02 44 07 08 09 10 00 12
+tbl_8e50:
+0x8e50:                          db d0 be b0 be 90 be 70 be 50 be 30 be 10 be 00
+tbl_8e5f:
+0x8e5f:                          db                                              e0
+0x8e60:                          db 87 cf 87 c5 82 b9 73 a1 69 88 50 7c 00 00
+tbl_8e6e:
+0x8e6e:                          db                                           e0 af
+0x8e70:                          db cf aa c5 a0 b9 91 a1 82 88 69 7c 69 00
+tbl_8e7d:
+0x8e7d:                          db                                        f5 00 bd
+0x8e80:                          db 00
+tbl_8e81:
+0x8e81:                          db    30 20
+tbl_8e83:
+0x8e83:                          db          00 10 30 20
+tbl_8e87:
+0x8e87:                          db                      01 02 44 07 08 09 10 00 12
 0x8e90:                          db 13 14 15 18 19 00 00 33 00 00 00 00 42 43 45 46
-0x8ea0:                          db 47 00 00 25 00 00 29 01 02 44 07 08 09 10 00 12
+0x8ea0:                          db 47 00 00 25 00 00 29
+tbl_8ea7:
+0x8ea7:                          db                      01 02 44 07 08 09 10 00 12
 0x8eb0:                          db 13 14 15 18 19 00 00 33 00 00 00 00 42 43 45 46
-0x8ec0:                          db 47 00 00 25 00 00 29 04 fc 05 58 05 14 e1 cf a0
-0x8ed0:                          db 6d 28 04 fc 05 ff 05 14 df ba 6e 32 1a 04 fc 05
-0x8ee0:                          db 58 05 14 e1 cf a0 6d 28 00 02 00 0a c7 71 28 1c
-0x8ef0:                          db 47 28 ab 2a 1e 38 0e 1e 00 00 fe 03 fe 09 fe 04
+0x8ec0:                          db 47 00 00 25 00 00 29
+tbl_8ec7:
+0x8ec7:                          db                      04
+tbl_8ec8:
+0x8ec8:                          db                         fc 05 58 05 14 e1 cf a0
+0x8ed0:                          db 6d 28
+tbl_8ed2:
+0x8ed2:                          db       04
+tbl_8ed3:
+0x8ed3:                          db          fc
+tbl_8ed4:
+0x8ed4:                          db             05
+tbl_8ed5:
+0x8ed5:                          db                ff
+tbl_8ed6:
+0x8ed6:                          db                   05
+tbl_8ed7:
+0x8ed7:                          db                      14
+tbl_8ed8:
+0x8ed8:                          db                         df ba 6e 32 1a 04 fc 05
+0x8ee0:                          db 58 05 14 e1 cf a0 6d 28
+tbl_8ee8:
+0x8ee8:                          db                         00 02
+tbl_8eea:
+0x8eea:                          db                               00 0a
+tbl_8eec:
+0x8eec:                          db                                     c7 71 28 1c
+0x8ef0:                          db 47 28 ab 2a 1e 38 0e 1e 00 00
+tbl_8efa:
+0x8efa:                          db                               fe 03
+tbl_8efc:
+0x8efc:                          db                                     fe 09 fe 04
 0x8f00:                          db fe 0a ff 05 fe 0b 00 06 fe fe 01 07 fe fe 02 08
 0x8f10:                          db fe fe 03 09 fe fe 04 0a ff fe 05 0b ff fe 06 fe
 0x8f20:                          db 00 fe 07 fe 01 fe 08 fe 02 fe 09 fe 03 fe 0a fe
 0x8f30:                          db 04 fe 0b fe 05 ff fe fe 06 00 fe fe 07 01 fe fe
 0x8f40:                          db 08 02 fe fe 09 03 fe fe 0a 04 fe ff 0b 05 fe 00
-0x8f50:                          db fe 06 fe 01 fe 07 fe 02 fe 08 0e 14 08 02 0f 15
+0x8f50:                          db fe 06 fe 01 fe 07 fe 02 fe 08
+tbl_8f5a:
+0x8f5a:                          db                               0e 14
+tbl_8f5c:
+0x8f5c:                          db                                     08 02 0f 15
 0x8f60:                          db 09 03 10 16 0a 04 11 17 0b 05 12 00 0c 06 13 01
 0x8f70:                          db 0d 07 14 02 0e 08 15 03 0f 09 16 04 10 0a 17 05
 0x8f80:                          db 11 0b 00 06 12 0c 01 07 13 0d 02 08 14 0e 03 09
 0x8f90:                          db 15 0f 04 0a 16 10 05 0b 17 11 06 0c 00 12 07 0d
 0x8fa0:                          db 01 13 08 0e 02 14 09 0f 03 15 0a 10 04 16 0b 11
-0x8fb0:                          db 05 17 0c 12 06 00 0d 13 07 01 0f 2d ff 0f 0f 0f
-0x8fc0:                          db 0f 0f 0f 2d 0a 0f 32 0f 14 14 10 10 ff ff 19 19
-0x8fd0:                          db ff ff 19 19 19 19 ff ff ff ff 01 02 00 04 05 06
+0x8fb0:                          db 05 17 0c 12 06 00 0d 13 07
+tbl_8fb9:
+0x8fb9:                          db                            01 0f 2d ff 0f 0f 0f
+0x8fc0:                          db 0f 0f 0f 2d 0a 0f 32 0f 14 14
+tbl_8fca:
+0x8fca:                          db                               10
+tbl_8fcb:
+0x8fcb:                          db                                  10 ff ff 19 19
+0x8fd0:                          db ff ff
+tbl_8fd2:
+0x8fd2:                          db       19 19 19 19 ff ff ff
+tbl_8fd9:
+0x8fd9:                          db                            ff 01 02 00 04 05 06
 0x8fe0:                          db 07 03 16 17 18 19 1d 1a 20 20 0d 0e 00 00 00 00
-0x8ff0:                          db 00 00 09 0a 0b 0c 00 00 00 00 11 20 21 22 23 24
-0x9000:                          db 25 26 27 28 30 33 29 2a 2b 2c 2d 2e 2f 37 3a 3d
-0x9010:                          db 40 43 01 00 08 04 03 02 13 50 46 00 32 fc 00 f6
+0x8ff0:                          db 00 00
+tbl_8ff2:
+0x8ff2:                          db       09
+tbl_8ff3:
+0x8ff3:                          db          0a
+tbl_8ff4:
+0x8ff4:                          db             0b
+tbl_8ff5:
+0x8ff5:                          db                0c 00 00 00 00
+tbl_8ffa:
+0x8ffa:                          db                               11
+tbl_8ffb:
+0x8ffb:                          db                                  20
+tbl_8ffc:
+0x8ffc:                          db                                     21
+tbl_8ffd:
+0x8ffd:                          db                                        22
+tbl_8ffe:
+0x8ffe:                          db                                           23
+tbl_8fff:
+0x8fff:                          db                                              24
+tbl_9000:
+0x9000:                          db 25 26 27 28
+tbl_9004:
+0x9004:                          db             30
+tbl_9005:
+0x9005:                          db                33
+tbl_9006:
+0x9006:                          db                   29
+tbl_9007:
+0x9007:                          db                      2a
+tbl_9008:
+0x9008:                          db                         2b
+tbl_9009:
+0x9009:                          db                            2c 2d 2e 2f
+tbl_900d:
+0x900d:                          db                                        37
+tbl_900e:
+0x900e:                          db                                           3a
+tbl_900f:
+0x900f:                          db                                              3d
+tbl_9010:
+0x9010:                          db 40
+tbl_9011:
+0x9011:                          db    43
+tbl_9012:
+0x9012:                          db       01 00 08 04 03
+tbl_9017:
+0x9017:                          db                      02
+tbl_9018:
+0x9018:                          db                         13
+tbl_9019:
+0x9019:                          db                            50 46
+tbl_901b:
+0x901b:                          db                                  00 32
+tbl_901d:
+0x901d:                          db                                        fc 00 f6
 0x9020:                          db 05 e6 18 cd 29 4d 60 33 72 24 80 19 90 0f a8 01
-0x9030:                          db ff 00 fc 00 f6 08 e6 1a cd 29 4d 5f 33 6f 24 7c
-0x9040:                          db 19 8a 0f 9f 01 ff 00 a5 00 b5 55 00 00 ff ff 40
-0x9050:                          db 3d 9e 00 b4 62 fc 00 f6 06 e6 19 cd 29 4d 5f 33
-0x9060:                          db 6f 24 7c 19 8a 0f 9f 01 ff 00 a5 00 b5 55 37 04
-0x9070:                          db 11 09 11 63 00 00 00 01 01 01 02 02 01 07 01 07
+0x9030:                          db ff 00
+tbl_9032:
+0x9032:                          db       fc 00 f6 08 e6 1a cd 29 4d 5f 33 6f 24 7c
+0x9040:                          db 19 8a 0f 9f 01 ff 00
+tbl_9047:
+0x9047:                          db                      a5 00
+tbl_9049:
+0x9049:                          db                            b5 55
+tbl_904b:
+0x904b:                          db                                  00 00
+tbl_904d:
+0x904d:                          db                                        ff ff
+tbl_904f:
+0x904f:                          db                                              40
+0x9050:                          db 3d
+tbl_9051:
+0x9051:                          db    9e
+tbl_9052:
+0x9052:                          db       00 b4
+tbl_9054:
+0x9054:                          db             62
+tbl_9055:
+0x9055:                          db                fc 00 f6 06 e6 19 cd 29 4d 5f 33
+0x9060:                          db 6f 24 7c 19 8a 0f 9f 01 ff 00
+tbl_906a:
+0x906a:                          db                               a5 00
+tbl_906c:
+0x906c:                          db                                     b5 55
+tbl_906e:
+0x906e:                          db                                           37
+tbl_906f:
+0x906f:                          db                                              04
+tbl_9070:
+0x9070:                          db 11
+tbl_9071:
+0x9071:                          db    09
+tbl_9072:
+0x9072:                          db       11
+tbl_9073:
+0x9073:                          db          63 00
+tbl_9075:
+0x9075:                          db                00 00 01 01 01 02 02 01 07 01 07
 0x9080:                          db 02 08 01 08 02 09 01 09 02 00 00 00 00 00 00 0c
 0x9090:                          db 01 0d 01 0e 01 0f 01 00 00 00 00 12 01 13 01 00
 0x90a0:                          db 00 00 00 00 00 00 00 19 01 00 00 00 00 00 00 1d
@@ -10034,44 +10409,94 @@ org 0x8001
 0x90f0:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0x9100:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0x9110:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0x9120:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0a
+0x9120:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+tbl_912f:
+0x912f:                          db                                              0a
 0x9130:                          db 00 0c 01 0c 02 0c 03 0c 04 0c 00 06 74 90 74 90
-0x9140:                          db 74 90 74 90 11 07 0c 06 0c 08 0c 09 0c 0a 0c 0b
+0x9140:                          db 74 90 74 90
+tbl_9144:
+0x9144:                          db             11 07 0c 06 0c 08 0c 09 0c 0a 0c 0b
 0x9150:                          db 0c 0c 0c 0d 0c 0e 0c 0f 0c 10 0c 11 0c 12 0c 74
-0x9160:                          db 90 15 0c 14 0c 16 0c 14 07 0c 06 0c 08 0c 09 0c
+0x9160:                          db 90 15 0c 14 0c 16 0c
+tbl_9167:
+0x9167:                          db                      14 07 0c 06 0c 08 0c 09 0c
 0x9170:                          db 0a 0c 0b 0c 0c 0c 0d 0c 0e 0c 0f 0c 10 0c 11 0c
 0x9180:                          db 12 0c 74 90 15 0c 14 0c 16 0c 17 0c 74 90 74 90
+tbl_9190:
 0x9190:                          db 16 07 0c 06 0c 08 0c 09 0c 0a 0c 0b 0c 0c 0c 0d
 0x91a0:                          db 0c 0e 0c 0f 0c 10 0c 11 0c 12 0c 74 90 15 0c 14
-0x91b0:                          db 0c 16 0c 17 0c 18 0c 19 0c 1a 0c 1b 0c 11 81 0c
+0x91b0:                          db 0c 16 0c 17 0c 18 0c 19 0c 1a 0c 1b 0c
+tbl_91bd:
+0x91bd:                          db                                        11 81 0c
 0x91c0:                          db 80 0c 82 0c 83 0c 84 0c 85 0c 86 0c 87 0c 88 0c
 0x91d0:                          db 89 0c 8a 0c 8b 0c 8c 0c 74 90 8f 0c 8e 0c 90 0c
+tbl_91e0:
 0x91e0:                          db 14 81 0c 80 0c 82 0c 83 0c 84 0c 85 0c 86 0c 87
 0x91f0:                          db 0c 88 0c 89 0c 8a 0c 8b 0c 8c 0c 74 90 8f 0c 8e
-0x9200:                          db 0c 90 0c 91 0c 74 90 74 90 16 81 0c 80 0c 82 0c
+0x9200:                          db 0c 90 0c 91 0c 74 90 74 90
+tbl_9209:
+0x9209:                          db                            16 81 0c 80 0c 82 0c
 0x9210:                          db 83 0c 84 0c 85 0c 86 0c 87 0c 88 0c 89 0c 8a 0c
 0x9220:                          db 8b 0c 8c 0c 74 90 8f 0c 8e 0c 90 0c 91 0c 92 0c
-0x9230:                          db 93 0c 94 0c 95 0c 05 22 0c 23 0c 74 90 24 0c 74
-0x9240:                          db 90 06 27 0c 28 0c 29 0c 2a 0c 2b 0c 2c 0c 59 33
-0x9250:                          db 30 30 33 30 61 14 6d 14 21 15 72 14 7e 14 8a 14
+0x9230:                          db 93 0c 94 0c 95 0c
+tbl_9236:
+0x9236:                          db                   05 22 0c 23 0c 74 90 24 0c 74
+0x9240:                          db 90
+tbl_9241:
+0x9241:                          db    06 27 0c 28 0c 29 0c 2a 0c 2b 0c 2c 0c
+tbl_924e:
+0x924e:                          db                                           59
+tbl_924f:
+0x924f:                          db                                              33
+tbl_9250:
+0x9250:                          db 30
+tbl_9251:
+0x9251:                          db    30
+tbl_9252:
+0x9252:                          db       33
+tbl_9253:
+0x9253:                          db          30
+tbl_9254:
+0x9254:                          db             61 14 6d 14 21 15 72 14 7e 14 8a 14
 0x9260:                          db 4d 15 4d 15 a7 14 ac 14 b1 14 b6 14 c5 14 ca 14
 0x9270:                          db 4d 15 4d 15 fc 14 4d 15 4d 15 4d 15 4d 15 10 15
 0x9280:                          db 1c 15 2d 15 32 15 37 15 4d 15 4d 15 e3 14 4d 15
-0x9290:                          db 4d 15 f7 14 01 01 02 04 04 05 05 06 06 00 00 00
+0x9290:                          db 4d 15 f7 14
+tbl_9294:
+0x9294:                          db             01 01 02 04 04 05 05 06 06 00 00 00
 0x92a0:                          db 09 0a 0b 0c 00 00 0d 0e 00 00 00 00 1d 00 00 00
 0x92b0:                          db 20 11 00 00 00 00 16 16 17 03 03 18 19 1a 00 00
 
 org 0xa000
-0xa000:                          db 48 31 31 41 32 30 41 20 53 0c 45 00 00 00 00 00
-0xa010:                          db 3b 07 2b 00 04 b0 00 00 00 00 00 00 00 00 00 00
+tbl_a000:
+0xa000:                          db 48 31 31 41 32 30 41 20
+tbl_a008:
+0xa008:                          db                         53 0c 45 00 00 00 00 00
+tbl_a010:
+0xa010:                          db 3b 07 2b
+tbl_a013:
+0xa013:                          db          00
+tbl_a014:
+0xa014:                          db             04
+tbl_a015:
+0xa015:                          db                b0
+tbl_a016:
+0xa016:                          db                   00 00 00 00 00 00 00 00 00 00
+tbl_a020:
 0xa020:                          db 00 00 0c 00 24 00 38 00 54 00 6c 00 88 00 a4 00
 0xa030:                          db c0 00 d8 00 10 01 48 01 98 01 04 02 64 02 d0 02
-0xa040:                          db 30 03 fc 03 00 00 05 01 1c 01 34 01 4c 01 64 01
+0xa040:                          db 30 03 fc 03
+tbl_a044:
+0xa044:                          db             00 00 05 01 1c 01 34 01 4c 01 64 01
 0xa050:                          db 7c 01 94 01 ac 01 c4 01 f3 01 23 02 53 02 83 02
-0xa060:                          db b3 02 e2 02 3a 03 ff 03 00 00 60 0b a5 0f 11 11
+0xa060:                          db b3 02 e2 02 3a 03 ff 03
+tbl_a068:
+0xa068:                          db                         00 00 60 0b a5 0f 11 11
 0xa070:                          db 7d 12 55 15 9a 19 72 1c 4a 1f 22 22 fa 24 d2 27
 0xa080:                          db ab 2a c7 31 e4 38 00 40 1c 47 39 4e 55 55 c1 56
-0xa090:                          db e4 58 72 5c de 5d fa 64 1c 67 ff ff 7d 7d 7d 7d
+0xa090:                          db e4 58 72 5c de 5d fa 64 1c 67 ff ff
+tbl_a09c:
+0xa09c:                          db                                     7d 7d 7d 7d
 0xa0a0:                          db 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d
 0xa0b0:                          db 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d 7d
 0xa0c0:                          db 45 45 6f 6f 6f 6f 6f 6f 6f 6f 6f 6f 6f 6f 6f 4d
@@ -10222,7 +10647,9 @@ org 0xa000
 0xa9d0:                          db 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64 64
 0xa9e0:                          db 64 64 64 64 55 55 55 55 55 55 55 55 55 55 55 55
 0xa9f0:                          db 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55
-0xaa00:                          db 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55
+0xaa00:                          db 55 55 55 55 55 55 55 55 55 55
+tbl_aa0a:
+0xaa0a:                          db                               55 55 55 55 55 55
 0xaa10:                          db 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55
 0xaa20:                          db 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55
 0xaa30:                          db 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55 55
@@ -10335,6 +10762,7 @@ org 0xa000
 0xb0e0:                          db 86 86 86 86 86 86 86 7d 7d 7b 7b 7b 86 86 86 86
 0xb0f0:                          db 86 86 86 86 86 86 86 86 86 83 83 83 83 83 86 86
 0xb100:                          db 86 86 86 86 86 86 86 86 86 86 86 86 86 86 86 86
+tbl_b110:
 0xb110:                          db fd 02 fd 02 4a 03 c2 03 3a 04 c4 04 e8 05 ef 06
 0xb120:                          db 11 08 90 09 cc 0c ec 10 52 18 5c 1f 9a 23 ce 27
 0xb130:                          db bc 2a 9a 33 fd 02 fd 02 4a 03 c2 03 3a 04 c4 04
@@ -10574,6 +11002,7 @@ org 0xa000
 0xbfd0:                          db 28 02 5c 03 17 00 27 00 42 00 61 00 7d 00 9e 00
 0xbfe0:                          db c1 00 db 00 fc 00 26 01 40 01 60 01 89 01 a2 01
 0xbff0:                          db c4 01 ed 01 28 02 5c 03 16 00 26 00 43 00 5f 00
+tbl_c000:
 0xc000:                          db 80 00 a2 00 c4 00 de 00 fb 00 2b 01 40 01 61 01
 0xc010:                          db 8d 01 a6 01 c5 01 ee 01 28 02 5d 03 16 00 29 00
 0xc020:                          db 41 00 5e 00 84 00 a2 00 c4 00 df 00 02 01 26 01
@@ -10627,6 +11056,7 @@ org 0xa000
 0xc320:                          db fe 00 25 01 4a 01 65 01 88 01 ad 01 cc 01 0d 02
 0xc330:                          db 5e 02 5f 04 30 00 30 00 4e 00 64 00 87 00 85 00
 0xc340:                          db 97 00 b6 00 dc 00 0f 01 37 01 51 01 7f 01 ad 01
+tbl_c350:
 0xc350:                          db cc 01 0d 02 5e 02 5f 04 00 06 1c 00 3c 00 5b 00
 0xc360:                          db 83 00 a3 00 d7 00 fb 00 25 01 42 01 64 01 a8 01
 0xc370:                          db c4 01 d5 01 01 02 4d 02 ff 02 03 04 17 00 1c 00
@@ -10803,6 +11233,7 @@ org 0xa000
 0xce20:                          db 80 01 8f 01 c5 01 f2 01 3f 02 f4 03 32 00 31 00
 0xce30:                          db 46 00 61 00 79 00 92 00 a1 00 bb 00 d7 00 f8 00
 0xce40:                          db 23 01 46 01 70 01 8f 01 c5 01 f2 01 38 02 f4 03
+tbl_ce50:
 0xce50:                          db 36 06 ec 06 96 08 79 09 b7 09 f5 09 44 0a 85 0a
 0xce60:                          db cd 0a 16 0b 7f 0b fc 0b 3d 0d 08 0e 5e 0e e8 0e
 0xce70:                          db e8 0e e8 0e 36 06 ec 06 96 08 79 09 b7 09 f5 09
@@ -11051,7 +11482,9 @@ org 0xa000
 0xdda0:                          db 65 04 65 04 57 01 57 01 dc 01 17 02 95 02 e7 02
 0xddb0:                          db 31 03 71 03 91 03 96 03 9a 03 8b 03 7e 03 9b 03
 0xddc0:                          db f9 03 72 04 7a 04 8a 04 48 01 48 01 e4 01 03 02
-0xddd0:                          db 5f 02 ca 02 11 03 4d 03 8f 03 96 03 97 03 82 03
+0xddd0:                          db 5f 02 ca 02 11 03 4d 03 8f 03 96 03
+tbl_dddc:
+0xdddc:                          db                                     97 03 82 03
 0xdde0:                          db 8a 03 b8 03 52 04 a8 04 b0 04 b0 04 33 01 33 01
 0xddf0:                          db dc 01 04 02 67 02 ca 02 1f 03 64 03 8a 03 a9 03
 0xde00:                          db c8 03 c8 03 ee 03 0d 04 65 04 a5 04 c9 04 ea 04
@@ -11271,9 +11704,14 @@ org 0xa000
 0xeb60:                          db 0f 03 7b 03 e0 03 20 04 47 04 47 04 31 00 31 00
 0xeb70:                          db 5c 00 ad 00 df 00 71 01 a7 01 d5 01 03 02 29 02
 0xeb80:                          db 7d 02 b3 02 0f 03 7b 03 e0 03 20 04 47 04 47 04
+tbl_eb90:
 0xeb90:                          db 11 11 72 1c ab 2a e4 38 1c 47 39 4e 55 55 72 5c
-0xeba0:                          db 8e 63 39 8e 24 00 54 00 a4 00 10 01 48 01 98 01
-0xebb0:                          db 64 02 30 03 d4 01 d4 01 d4 01 d4 01 d4 01 d4 01
+0xeba0:                          db 8e 63 39 8e
+tbl_eba4:
+0xeba4:                          db             24 00 54 00 a4 00 10 01 48 01 98 01
+0xebb0:                          db 64 02 30 03
+tbl_ebb4:
+0xebb4:                          db             d4 01 d4 01 d4 01 d4 01 d4 01 d4 01
 0xebc0:                          db d4 01 d4 01 d4 01 d4 01 da 01 ea 01 e9 01 ec 01
 0xebd0:                          db f0 01 f2 01 d4 01 d4 01 e8 01 48 02 51 02 56 02
 0xebe0:                          db 5d 02 48 02 d4 01 d4 01 f6 01 47 02 56 02 61 02
@@ -11283,10 +11721,16 @@ org 0xa000
 0xec20:                          db 85 02 d7 02 d4 01 d4 01 20 02 57 02 66 02 6f 02
 0xec30:                          db 87 02 cb 02 d4 01 d4 01 22 02 56 02 66 02 6f 02
 0xec40:                          db 83 02 cb 02 d4 01 d4 01 22 02 56 02 66 02 6f 02
-0xec50:                          db 83 02 cb 02 00 00 55 15 72 1c 8e 23 ab 2a c7 31
+0xec50:                          db 83 02 cb 02
+tbl_ec54:
+0xec54:                          db             00 00 55 15 72 1c 8e 23 ab 2a c7 31
 0xec60:                          db e4 38 00 40 1c 47 39 4e 55 55 72 5c 8e 63 1c 67
-0xec70:                          db ff ff 00 00 50 00 d8 00 34 01 98 01 00 02 68 02
-0xec80:                          db cc 02 34 03 fc 03 00 00 00 00 00 00 00 00 00 00
+0xec70:                          db ff ff
+tbl_ec72:
+0xec72:                          db       00 00 50 00 d8 00 34 01 98 01 00 02 68 02
+0xec80:                          db cc 02 34 03 fc 03
+tbl_ec86:
+0xec86:                          db                   00 00 00 00 00 00 00 00 00 00
 0xec90:                          db 00 00 00 00 00 ff ff ff ff ff 00 00 00 00 00 ff
 0xeca0:                          db ff ff ff ff 00 00 00 00 00 ff ff ff ff ff 00 00
 0xecb0:                          db 00 00 00 ff ff ff ff ff 00 00 00 00 00 40 4d ff
@@ -11295,10 +11739,15 @@ org 0xa000
 0xece0:                          db 00 00 00 00 00 29 80 ff ff ff 00 00 00 00 00 14
 0xecf0:                          db 80 80 80 80 00 00 00 00 00 00 80 80 80 80 00 00
 0xed00:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0xed10:                          db 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 15
+0xed10:                          db 00 00 00 00 00 00 00 00 00 00 00 00
+tbl_ed1c:
+0xed1c:                          db                                     00 00 55 15
 0xed20:                          db 72 1c 8e 23 ab 2a c7 31 e4 38 00 40 1c 47 39 4e
-0xed30:                          db 55 55 72 5c 8e 63 1c 67 ff ff 01 07 18 1f 28 34
-0xed40:                          db 44 87 ba e1 ff ff ff ff ff ff ff ff ff ff ff ff
+0xed30:                          db 55 55 72 5c 8e 63 1c 67 ff ff
+tbl_ed3a:
+0xed3a:                          db                               01 07 18 1f 28 34
+0xed40:                          db 44 87 ba e1
+tbl_ed44:
 
 org 0xef24
 0xef24:                          db             c8 c8 c8 c8 c8 c8 c8 c8 c8 c8 c8 c8
@@ -11315,6 +11764,7 @@ org 0xef24
 0xefd0:                          db 2e 2e 2e 2e 34 3c 3e 3e 2e 2e 2e 2e 2e 2e 2e 2e
 0xefe0:                          db 2e 2e 2e 2e 2e 2e 30 32 38 38 2c 2c 2c 2c 2c 2c
 0xeff0:                          db 2c 2c 2c 2c 2c 2c 2c 2c 2c 30 30 30 2c 2c 2c 2c
+tbl_f000:
 0xf000:                          db 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c
 0xf010:                          db 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c
 0xf020:                          db 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c 2c
