@@ -1,3 +1,6 @@
+ecu.s: ecu.bin dasm
+	./dasm ecu.bin >ecu.s
+
 dasm: dasm.cpp opcode.i
 	$(CXX) -g -O2 -o $@ dasm.cpp
 

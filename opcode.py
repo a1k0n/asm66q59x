@@ -335,5 +335,6 @@ def gen():
     f8.close()
     f16.close()
 
-gen()
 
+if __name__ == '__main__':
+    gen()

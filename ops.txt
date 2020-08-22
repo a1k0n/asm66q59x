@@ -59,7 +59,7 @@ DD0 AD off8 = ADDB A, off8
 # ADDB obj1, obj2
 * A0 fix8 = ADDB *, fix8
 * A1 off8 = ADDB *, off8
-* A2 sfr8 = ADDB *, sfr16
+* A2 sfr8 = ADDB *, sfr8
 * A3 n8 = ADDB *, #n8
 * A4 = ADDB *, A
 
