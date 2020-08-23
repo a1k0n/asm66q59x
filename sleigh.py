@@ -14,8 +14,8 @@ op=0xA8; X1immw| X1immw
 op=0xA9; X2immw| X2immw
 op=0xAA & X1plusAw | X1plusAw
 op=0xAB & X1plusR0w | X1plusR0w
+op=0x8B; n7w | n7w
 '''
-# op=0x8B; n7w | n7w | n7w
 
 byteprefix = '''
 regop0=0xd & reg8 | reg8
@@ -33,8 +33,8 @@ op=0xBA & X1plusAb | X1plusAb
 op=0xBB & X1plusR0b | X1plusR0b
 op=0x8A & PSWL | PSWL
 op=0x9A & PSWH | PSWH
+op=0x9B; n7b | n7b
 '''
-# op=0x9B; n7b | n7b
 
 
 def is_hex(s):
@@ -60,11 +60,25 @@ def export(prefix, b, disassembly, is8=None):
             raise Exception("unrecognized cond/effect", b[0])
         b = b[1:]
 
+
     d = disassembly.split(' ', 1)
     fn = d[0]
     ops = []
     if len(d) > 1:
         ops = d[1].split(', ')
+
+    # 8 or 16 bit instruction?
+    if is8 is None:
+        # if we don't know, just guess based on the opcode
+        if fn[-1] == 'B' and fn != "SUB":
+            is8 = True
+        elif fn in ['BAND', 'BANDN', 'BOR', 'BORN', 'BXOR', 'MB', 'MBR',
+                    'RB', 'RBR', 'BC', 'SBR', 'TBR']:
+            # bit ops must be 8-bit
+            is8 = True
+        else:
+            is8 = False
+
     for i in range(len(b)):
         if '+' in b[i]:
             op, field = b[i].split('+')
@@ -111,8 +125,7 @@ def export(prefix, b, disassembly, is8=None):
         elif b[i] == 'CadrH':
             continue
         elif b[i] == 'n7':
-            # TODO: n7
-            return
+            pat.append(is8 and 'n7pb' or 'n7pw')
         elif b[i] == 'rdiff8':
             pat.append('rel8')
         elif b[i] == 'sfr8':
@@ -152,18 +165,6 @@ def export(prefix, b, disassembly, is8=None):
             pat.append(b[i])
         pat.append('; ')
 
-    # 8 or 16 bit instruction?
-    if is8 is None:
-        # if we don't know, just guess based on the opcode
-        if fn[-1] == 'B' and fn != "SUB":
-            is8 = True
-        elif fn in ['BAND', 'BANDN', 'BOR', 'BORN', 'BXOR', 'MB', 'MBR',
-                    'RB', 'RBR', 'BC', 'SBR', 'TBR']:
-            # bit ops must be 8-bit
-            is8 = True
-        else:
-            is8 = False
-
     if '.' in disassembly and len(prefix) == 0:
         disassembly = disassembly.replace('.', '^"."^')
 
@@ -181,6 +182,8 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = 'A8.bit'
             pat = pat[:-1]
             pat.extend([" & A8", ";"])
+        elif ops[i] == 'n7p':
+            ops[i] = is8 and 'n7pb' or 'n7pw'
         elif ops[i] == 'R45':
             ops[i] = 'r45switch'
         elif ops[i] >= 'R0' and ops[i] <= 'R7':  # special case single-register opcodes
