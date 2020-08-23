@@ -2,35 +2,35 @@
 # TODO: expand SFRs
 wordprefix = '''
 regop0=0xc & reg16 | reg16
-op=0xA0 | X1indw
-op=0xA1 | DPinddecw
-op=0xA2 | DPindw
-op=0xA3 | DPindincw
+op=0xA0 & X1indw | X1indw
+op=0xA1 & DPinddecw| DPinddecw
+op=0xA2 & DPindw | DPindw
+op=0xA3 & DPindincw| DPindincw
 op=0xA4; op1fix16 | op1fix16
 op=0xA5; op1off16 | op1off16
 op=0xA6; op1sfr16 | op1sfr16
 op=0xA7; op1n16 | op1n16
 op=0xA8; X1immw| X1immw
 op=0xA9; X2immw| X2immw
-op=0xAA | X1plusAw
-op=0xAB | X1plusR0w
+op=0xAA & X1plusAw | X1plusAw
+op=0xAB & X1plusR0w | X1plusR0w
 '''
 # op=0x8B; n7w | n7w | n7w
 
 byteprefix = '''
 regop0=0xd & reg8 | reg8
-op=0xB0 | X1indb
-op=0xB1 | DPinddecb
-op=0xB2 | DPindb
-op=0xB3 | DPindincb
+op=0xB0 & X1indb | X1indb
+op=0xB1 & DPinddecb | DPinddecb
+op=0xB2 & DPindb | DPindb
+op=0xB3 & DPindincb | DPindincb
 op=0xB4; op1fix8 | op1fix8
 op=0xB5; op1off8 | op1off8
 op=0xB6; op1sfr8 | op1sfr8
 op=0xB7; op1n16 | op1n16
 op=0xB8; X1immb | X1immb
 op=0xB9; X2immb | X2immb
-op=0xBA | X1plusAb
-op=0xBB | X1plusR0b
+op=0xBA & X1plusAb | X1plusAb
+op=0xBB & X1plusR0b | X1plusR0b
 op=0x8A & PSWL | PSWL
 op=0x9A & PSWH | PSWH
 '''
@@ -154,6 +154,9 @@ def export(prefix, b, disassembly, is8=None):
     for i in range(len(ops)):
         if ops[i] == 'A':
             ops[i] = is8 and 'A8' or 'A16'
+            pat = pat[:-1]
+            pat.append(" & " + ops[i])
+            pat.append(";")
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
@@ -161,9 +164,13 @@ def export(prefix, b, disassembly, is8=None):
             # need some fixups for bit ops
             printops[i] = printops[i].replace('.', '^"."^')
             ops[i] = ','.join(ops[i].split('.'))
+        if ops[i][0] == '#':
+            # remove # from #n16
+            ops[i] = ops[i][1:]
     # discard last element of pat, as it's a ; terminator
+    fncall = fn.lower() + "(" + ', '.join(ops) + ")"
     print(':'+fn+' ' + ', '.join(printops), 'is', ''.join(pat[:-1]),
-          context, '{} # %s' % (', '.join(ops)))
+          context, '{} # %s' % (fncall))
 
 
 def gen():
