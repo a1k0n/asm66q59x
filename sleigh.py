@@ -60,11 +60,6 @@ def export(prefix, b, disassembly, is8=None):
             raise Exception("unrecognized cond/effect", b[0])
         b = b[1:]
 
-    # TODO: handle sbafix/sbaoff
-    if len(b) > 1 and b[1].startswith('sba'):
-        arg, off = b[1].split('+')
-        return
-
     d = disassembly.split(' ', 1)
     fn = d[0]
     ops = []
@@ -84,6 +79,12 @@ def export(prefix, b, disassembly, is8=None):
                     pat.append('regop0=%d & Rn' % (int(op, 16) >> 3))
                 else:
                     assert('unknown +field ' + b[i])
+            elif op == 'sbafix6':  # I guess I put these in backwards
+                pat.append('sbaop=%d & sbafix' % (int(field, 16) >> 6))
+            elif op == 'sbaoff6':
+                pat.append('sbaop=%d & sbaoff' % (int(field, 16) >> 6))
+            elif field == 'width':
+                pat.append('hregop0=%d & width' % (int(op, 16) >> 2))
             else:
                 # TODO: Vadr, width, Cadr11
                 return
@@ -172,6 +173,10 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = is8 and 'A8' or 'A16'
             pat = pat[:-1]
             pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[A]':
+            ops[i] = is8 and 'A16indb' or 'A16indw'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
         elif ops[i] == 'A.bit':
             ops[i] = 'A8.bit'
             pat = pat[:-1]
@@ -203,6 +208,22 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = is8 and 'DPindb2' or 'DPindw2'
             pat = pat[:-1]
             pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[DP+]':
+            ops[i] = is8 and 'DPindincb2' or 'DPindincw2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[DP-]':
+            ops[i] = is8 and 'DPinddecb2' or 'DPinddecw2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[X1+A]':
+            ops[i] = is8 and 'X1plusAb2' or 'X1plusAw2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[X1+R0]':
+            ops[i] = is8 and 'X1plusR0b2' or 'X1plusR0w2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
@@ -214,8 +235,7 @@ def export(prefix, b, disassembly, is8=None):
             # remove # from #n16
             ops[i] = ops[i][1:]
         elif ops[i][0] == '[':
-            # TODO: indirect references
-            return
+            ops[i] = (is8 and 'indb_' or 'indw_') + ops[i][1:-1]
     # discard last element of pat, as it's a ; terminator
     fncall = fn.lower() + "(" + ', '.join(ops) + ")"
     print(':'+fn+' ' + ', '.join(printops), 'is', ''.join(pat[:-1]),
