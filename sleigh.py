@@ -195,6 +195,14 @@ def export(prefix, b, disassembly, is8=None):
         elif '(AL)' in ops[i]:
             pat = pat[:-1]
             pat.extend([" & AL", ";"])
+        elif ops[i] == '[X1]':
+            ops[i] = is8 and 'X1indb2' or 'X1indw2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == '[DP]':
+            ops[i] = is8 and 'DPindb2' or 'DPindw2'
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
