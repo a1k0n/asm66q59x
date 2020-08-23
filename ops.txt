@@ -178,7 +178,9 @@ DA = DI
 
 # DJNZ
 05 rdiff7 = DJNZ R45, rdiff7
-** EA rdiff8 = DJNZ **L, radr
+# ** EA rdiff8 = DJNZ **L, radr
+# let's pretend it works on the entire 16 bits for now, even though technically it doesn't
+** EA rdiff8 = DJNZ **, radr
 BC EA rdiff8 = DJNZ A, radr
 * EA rdiff8 = DJNZ *, radr
 
@@ -383,7 +385,7 @@ DD0 CE n8 = ORB A, #n8
 * C4 = OR *, A
 
 # PUSHS / POPS (FIXME)
-06 n8 = PUSH/POP S/U #n8
+# 06 n8 = PUSH/POP S/U #n8
 07 = PUSHS A
 
 # RB

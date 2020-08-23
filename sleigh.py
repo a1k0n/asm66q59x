@@ -9,7 +9,7 @@ op=0xA3 & DPindincw| DPindincw
 op=0xA4; op1fix16 | op1fix16
 op=0xA5; op1off16 | op1off16
 op=0xA6; op1sfr16 | op1sfr16
-op=0xA7; op1n16 | op1n16
+op=0xA7; op1n16w | op1n16w
 op=0xA8; X1immw| X1immw
 op=0xA9; X2immw| X2immw
 op=0xAA & X1plusAw | X1plusAw
@@ -26,7 +26,7 @@ op=0xB3 & DPindincb | DPindincb
 op=0xB4; op1fix8 | op1fix8
 op=0xB5; op1off8 | op1off8
 op=0xB6; op1sfr8 | op1sfr8
-op=0xB7; op1n16 | op1n16
+op=0xB7; op1n16b | op1n16b
 op=0xB8; X1immb | X1immb
 op=0xB9; X2immb | X2immb
 op=0xBA & X1plusAb | X1plusAb
@@ -72,11 +72,22 @@ def export(prefix, b, disassembly, is8=None):
         ops = d[1].split(', ')
     for i in range(len(b)):
         if '+' in b[i]:
-            # TODO: Rn, PRn, ERn, bit, Vadr, width, Cadr11
-            # expandbase = int(b[i].split('+')[0], 16)
-            # expandidx = i
-            return
-        if b[i] == 'l16':
+            op, field = b[i].split('+')
+            if field == 'bit':
+                pat.append('bitop0=%d & bit' % (int(op, 16) >> 3))
+            elif field == 'n':
+                if 'ERn' in disassembly:
+                    pat.append('hregop0=%d & ERn' % (int(op, 16) >> 2))
+                elif 'PRn' in disassembly:
+                    pat.append('hregop0=%d & PRn' % (int(op, 16) >> 2))
+                elif 'Rn' in disassembly:
+                    pat.append('regop0=%d & Rn' % (int(op, 16) >> 3))
+                else:
+                    assert('unknown +field ' + b[i])
+            else:
+                # TODO: Vadr, width, Cadr11
+                return
+        elif b[i] == 'l16':
             pat.append('n16')
         elif b[i] == 'h16':
             continue
@@ -103,12 +114,13 @@ def export(prefix, b, disassembly, is8=None):
             return
         elif b[i] == 'rdiff8':
             pat.append('rel8')
-            disassembly = disassembly.replace('radr', 'rel8')
         elif b[i] == 'sfr8':
             if 'sfr16' in disassembly:
                 pat.append('sfr16')
             else:
                 pat.append('sfr8')
+        elif b[i] == 'rdiff7':
+            pat.append('rdiff7 & r45switch')
         elif b[i] == '*':
             if '*' not in disassembly:
                 # TODO: dummy prefixes
@@ -144,6 +156,10 @@ def export(prefix, b, disassembly, is8=None):
         # if we don't know, just guess based on the opcode
         if fn[-1] == 'B' and fn != "SUB":
             is8 = True
+        elif fn in ['BAND', 'BANDN', 'BOR', 'BORN', 'BXOR', 'MB', 'MBR',
+                    'RB', 'RBR', 'BC', 'SBR', 'TBR']:
+            # bit ops must be 8-bit
+            is8 = True
         else:
             is8 = False
 
@@ -155,8 +171,30 @@ def export(prefix, b, disassembly, is8=None):
         if ops[i] == 'A':
             ops[i] = is8 and 'A8' or 'A16'
             pat = pat[:-1]
-            pat.append(" & " + ops[i])
-            pat.append(";")
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == 'A.bit':
+            ops[i] = 'A8.bit'
+            pat = pat[:-1]
+            pat.extend([" & A8", ";"])
+        elif ops[i] == 'R45':
+            ops[i] = 'r45switch'
+        elif ops[i] >= 'R0' and ops[i] <= 'R7':  # special case single-register opcodes
+            pat = pat[:-1]
+            pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == 'radr':
+            ops[i] = 'rel8'
+        elif ops[i] == 'n16[X1]':
+            pat = pat[:-1]
+            pat.extend([" & X1", ";"])
+        elif ops[i] == 'n16[X2]':
+            pat = pat[:-1]
+            pat.extend([" & X2", ";"])
+        elif ops[i] == 'C':
+            pat = pat[:-1]
+            pat.extend([" & C", ";"])
+        elif '(AL)' in ops[i]:
+            pat = pat[:-1]
+            pat.extend([" & AL", ";"])
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
@@ -164,9 +202,12 @@ def export(prefix, b, disassembly, is8=None):
             # need some fixups for bit ops
             printops[i] = printops[i].replace('.', '^"."^')
             ops[i] = ','.join(ops[i].split('.'))
-        if ops[i][0] == '#':
+        elif ops[i][0] == '#':
             # remove # from #n16
             ops[i] = ops[i][1:]
+        elif ops[i][0] == '[':
+            # TODO: indirect references
+            return
     # discard last element of pat, as it's a ; terminator
     fncall = fn.lower() + "(" + ', '.join(ops) + ")"
     print(':'+fn+' ' + ', '.join(printops), 'is', ''.join(pat[:-1]),
