@@ -36,6 +36,10 @@ op=0x9A & PSWH | PSWH
 op=0x9B; n7b | n7b
 '''
 
+impl_ops = set([
+    'J', 'NOP', 'BRK', 'RET', 'MOV', 'MOVB', 'L', 'LB', 'ST', 'STB',
+])
+
 
 def is_hex(s):
     if len(s) >= 3 and len(s) <= 4 and s[:2] == '0x':
@@ -120,10 +124,12 @@ def export(prefix, b, disassembly, is8=None):
             return
         elif b[i] == 'CadrL':
             pat.append('Cadr')
-            # TODO: Cadr
-            return
         elif b[i] == 'CadrH':
             continue
+        elif b[i] == 'fix8' and not is8:
+            pat.append('fix16')
+        elif b[i] == 'off8' and not is8:
+            pat.append('off16')
         elif b[i] == 'n7':
             pat.append(is8 and 'n7pb' or 'n7pw')
         elif b[i] == 'rdiff8':
@@ -169,6 +175,7 @@ def export(prefix, b, disassembly, is8=None):
         disassembly = disassembly.replace('.', '^"."^')
 
     printops = []
+    precode = []
     for i in range(len(ops)):
         if ops[i] == 'A':
             ops[i] = is8 and 'A8' or 'A16'
@@ -192,11 +199,13 @@ def export(prefix, b, disassembly, is8=None):
         elif ops[i] == 'radr':
             ops[i] = 'rel8'
         elif ops[i] == 'n16[X1]':
-            pat = pat[:-1]
-            pat.extend([" & X1", ";"])
+            ops[i] = is8 and 'X1immb2' or 'X1immw2'
+            idx = pat.index('n16')
+            pat[idx] = ops[i]
         elif ops[i] == 'n16[X2]':
-            pat = pat[:-1]
-            pat.extend([" & X2", ";"])
+            ops[i] = is8 and 'X2immb2' or 'X2immw2'
+            idx = pat.index('n16')
+            pat[idx] = ops[i]
         elif ops[i] == 'C':
             pat = pat[:-1]
             pat.extend([" & C", ";"])
@@ -227,6 +236,10 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = is8 and 'X1plusR0b2' or 'X1plusR0w2'
             pat = pat[:-1]
             pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == 'off8' and not is8:
+            ops[i] = 'off16'
+        elif ops[i] == 'fix8' and not is8:
+            ops[i] = 'fix16'
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
@@ -238,11 +251,19 @@ def export(prefix, b, disassembly, is8=None):
             # remove # from #n16
             ops[i] = ops[i][1:]
         elif ops[i][0] == '[':
-            ops[i] = (is8 and 'indb_' or 'indw_') + ops[i][1:-1]
+            # leave the pattern alone, but define a new variable for indirection
+            subop = ops[i][1:-1]
+            memarea = 'ram'  # is this ever reading from ROM?
+            precode.append("local tmp_%s = *[%s]:%d %s;" % (
+                subop, memarea, is8 and 1 or 2, subop))
+            ops[i] = "tmp_" + subop
     # discard last element of pat, as it's a ; terminator
     fncall = fn.lower() + "(" + ', '.join(ops) + ")"
+    code = '{} # %s %s' % (' '.join(precode), fncall)
+    if fn in impl_ops:
+        code = '{ %s op_%s; }' % (' '.join(precode), fncall)
     print(':'+fn+' ' + ', '.join(printops), 'is', ''.join(pat[:-1]),
-          context, '{} # %s' % (fncall))
+          context, code)
 
 
 def gen():
