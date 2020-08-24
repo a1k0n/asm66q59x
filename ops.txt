@@ -455,10 +455,10 @@ DD+ D9 = SDD
 04 rdiff8 = SJ radr
 
 # SLL
-DD1 8F = SLL A
+DD1 8F = SLL A, 1
 DD1 BC 8C+width = SLL A, width
 ** 8C+width = SLL **, width
-DD0 8F = SLLB A
+DD0 8F = SLLB A, 1
 DD0 BC 8C+width = SLLB A, width
 * 8C+width = SLLB *, width
 

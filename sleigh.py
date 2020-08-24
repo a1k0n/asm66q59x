@@ -37,7 +37,13 @@ op=0x9B; n7b | n7b
 '''
 
 impl_ops = set([
-    'J', 'NOP', 'BRK', 'RET', 'MOV', 'MOVB', 'L', 'LB', 'ST', 'STB',
+    'J', 'SJ', 'NOP', 'BRK', 'RT', 'MOV', 'MOVB',
+    'L', 'LB', 'LC', 'LCB', 'ST', 'STB',
+    'JGT', 'JGE', 'JLT', 'JLE', 'JEQ', 'JNE', 'JPS', 'JNS',
+    'JBR', 'JBRS', 'JBS', 'JBSR', 'CLR', 'CLRB',
+    'INC', 'INCB', 'DEC', 'DECB',
+    'ADD', 'ADDB', 'SUB', 'SUBB', 'CMP', 'CMPB',
+    'SLL', 'SLLB',
 ])
 
 
@@ -82,6 +88,9 @@ def export(prefix, b, disassembly, is8=None):
             is8 = True
         else:
             is8 = False
+    # specific overrides
+    if fn == 'LCB':
+        is8 = True
 
     for i in range(len(b)):
         if '+' in b[i]:
@@ -236,6 +245,11 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = is8 and 'X1plusR0b2' or 'X1plusR0w2'
             pat = pat[:-1]
             pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == 'n16':
+            # this is a memory reference
+            ops[i] = is8 and 'op2n16b' or 'op2n16w'
+            idx = pat.index('n16')
+            pat[idx] = ops[i]
         elif ops[i] == 'off8' and not is8:
             ops[i] = 'off16'
         elif ops[i] == 'fix8' and not is8:
@@ -253,8 +267,10 @@ def export(prefix, b, disassembly, is8=None):
         elif ops[i][0] == '[':
             # leave the pattern alone, but define a new variable for indirection
             subop = ops[i][1:-1]
-            memarea = 'ram'  # is this ever reading from ROM?
-            precode.append("local tmp_%s = *[%s]:%d %s;" % (
+            memarea = 'ram'
+            if fn in ['LC', 'LCB', 'J']:  # FIXME: there are more
+                memarea = 'rom'
+            precode.append("local tmp_%s = *[%s]:%d %s:2;" % (
                 subop, memarea, is8 and 1 or 2, subop))
             ops[i] = "tmp_" + subop
     # discard last element of pat, as it's a ; terminator
