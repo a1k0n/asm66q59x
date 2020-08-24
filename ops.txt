@@ -297,11 +297,12 @@ BC F7 T16L T16H = LCB A, T16[A]
 ** F7 T16L T16H = LCB A, T16[**]
 * B7 TadrL TadrH = LCB A, Tadr
 
-# MB (move bbit)
-BC 10+bit = MB C, A.bit
-* 10+bit = MB C, *.bit
-BC 18+bit = MB A.bit, C
-* 18+bit = MB *.bit, C
+# MB (move bit)
+# made-up terminology to disambiguate: LMB = load move bit, SB = store move bit
+BC 10+bit = LMB C, A.bit
+* 10+bit = LMB C, *.bit
+BC 18+bit = SMB A.bit, C
+* 18+bit = SMB *.bit, C
 
 # MBR (bit addressing via AL?)
 * BA = MBR C, *.(AL)
@@ -404,16 +405,16 @@ CA = RC
 DD- D8 = RDD
 
 # ROL/ROR (rotate)
-DD1 AF = ROL A
+DD1 AF = ROL A, 1
 DD1 BC AC+width = ROL A, width
 ** AC+width = ROL **, width
-DD0 AF = ROLB A
+DD0 AF = ROLB A, 1
 DD0 BC AC+width = ROLB A, width
 * AC+width = ROLB *, width
-DD1 BF = ROR A
+DD1 BF = ROR A, 1
 DD1 BC BC+width = ROR A, width
 ** BC+width = ROR **, width
-DD0 BF = RORB A
+DD0 BF = RORB A, 1
 DD0 BC BC+width = RORB A, width
 * BC+width = RORB *, width
 

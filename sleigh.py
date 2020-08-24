@@ -39,11 +39,13 @@ op=0x9B; n7b | n7b
 impl_ops = set([
     'J', 'SJ', 'NOP', 'BRK', 'RT', 'MOV', 'MOVB',
     'L', 'LB', 'LC', 'LCB', 'ST', 'STB',
+    'RB', 'SB', 'LMB', 'SMB',
     'JGT', 'JGE', 'JLT', 'JLE', 'JEQ', 'JNE', 'JPS', 'JNS',
     'JBR', 'JBRS', 'JBS', 'JBSR', 'CLR', 'CLRB',
     'INC', 'INCB', 'DEC', 'DECB',
     'ADD', 'ADDB', 'SUB', 'SUBB', 'CMP', 'CMPB',
-    'SLL', 'SLLB',
+    'SLL', 'SLLB', 'ROL', 'ROLB',
+    'DJNZ',
 ])
 
 
@@ -149,7 +151,7 @@ def export(prefix, b, disassembly, is8=None):
             else:
                 pat.append('sfr8')
         elif b[i] == 'rdiff7':
-            pat.append('rdiff7 & r45switch')
+            pat.append('rel7 & r45switch')
         elif b[i] == '*':
             if '*' not in disassembly:
                 # TODO: dummy prefixes
@@ -205,6 +207,8 @@ def export(prefix, b, disassembly, is8=None):
         elif ops[i] >= 'R0' and ops[i] <= 'R7':  # special case single-register opcodes
             pat = pat[:-1]
             pat.extend([" & " + ops[i], ";"])
+        elif ops[i] == 'rdiff7':
+            ops[i] = 'rel7'
         elif ops[i] == 'radr':
             ops[i] = 'rel8'
         elif ops[i] == 'n16[X1]':
