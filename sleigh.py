@@ -45,6 +45,7 @@ impl_ops = set([
     'INC', 'INCB', 'DEC', 'DECB',
     'ADD', 'ADDB', 'SUB', 'SUBB', 'CMP', 'CMPB', 'CMPC', 'CMPCB',
     'SLL', 'SLLB', 'ROL', 'ROLB',
+    'AND', 'ANDB', 'OR', 'ORB', 'XOR', 'XORB',
     'DJNZ',
     'CAL', 'VCAL',
 ])
@@ -108,7 +109,7 @@ def export(prefix, b, disassembly, is8=None):
                 elif 'Rn' in disassembly:
                     pat.append('regop0=%d & Rn' % (int(op, 16) >> 3))
                 else:
-                    assert('unknown +field ' + b[i])
+                    raise Exception('unknown +field ' + b[i])
             elif op == 'sbafix6':  # I guess I put these in backwards
                 pat.append('sbaop=%d & sbafix' % (int(field, 16) >> 6))
             elif op == 'sbaoff6':
@@ -270,9 +271,14 @@ def export(prefix, b, disassembly, is8=None):
             # need some fixups for bit ops
             printops[i] = printops[i].replace('.', '^"."^')
             ops[i] = ','.join(ops[i].split('.'))
-        elif ops[i][0] == '#':
+        elif ops[i] == '#n16':
             # remove # from #n16
-            ops[i] = ops[i][1:]
+            ops[i] = 'n16:2'
+        elif ops[i] == '#n8':
+            # remove # from #n16
+            ops[i] = 'n8:1'
+        elif ops[i][0] == '#':
+            raise Exception(ops[i])
         elif ops[i][0] == '[':
             # leave the pattern alone, but define a new variable for indirection
             subop = ops[i][1:-1]
