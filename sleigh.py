@@ -37,15 +37,16 @@ op=0x9B; n7b | n7b
 '''
 
 impl_ops = set([
-    'J', 'SJ', 'NOP', 'BRK', 'RT', 'MOV', 'MOVB',
-    'L', 'LB', 'LC', 'LCB', 'ST', 'STB',
+    'J', 'SJ', 'NOP', 'BRK', 'RT', 'RTI',
+    'MOV', 'MOVB', 'L', 'LB', 'LC', 'LCB', 'ST', 'STB',
     'RB', 'SB', 'LMB', 'SMB',
     'JGT', 'JGE', 'JLT', 'JLE', 'JEQ', 'JNE', 'JPS', 'JNS',
     'JBR', 'JBRS', 'JBS', 'JBSR', 'CLR', 'CLRB',
     'INC', 'INCB', 'DEC', 'DECB',
-    'ADD', 'ADDB', 'SUB', 'SUBB', 'CMP', 'CMPB',
+    'ADD', 'ADDB', 'SUB', 'SUBB', 'CMP', 'CMPB', 'CMPC', 'CMPCB',
     'SLL', 'SLLB', 'ROL', 'ROLB',
     'DJNZ',
+    'CAL', 'VCAL',
 ])
 
 
@@ -91,7 +92,7 @@ def export(prefix, b, disassembly, is8=None):
         else:
             is8 = False
     # specific overrides
-    if fn == 'LCB':
+    if fn in ['LCB', 'CMPCB']:
         is8 = True
 
     for i in range(len(b)):
@@ -114,24 +115,24 @@ def export(prefix, b, disassembly, is8=None):
                 pat.append('sbaop=%d & sbaoff' % (int(field, 16) >> 6))
             elif field == 'width':
                 pat.append('hregop0=%d & width' % (int(op, 16) >> 2))
+            elif field == 'Vno':
+                pat.append('op4=%d & Vadr' % (int(op, 16) >> 4))
             else:
-                # TODO: Vadr, width, Cadr11
-                return
+                assert('unimplemented ' + b[i])
         elif b[i] == 'l16':
             pat.append('n16')
         elif b[i] == 'h16':
             continue
         elif b[i] == 'TadrL':
-            pat.append('Tadr')
-            # TODO: Tadr
-            return
+            pat.append(is8 and 'Tadrb' or 'Tadrw')
         elif b[i] == 'TadrH':
             continue
         elif b[i] == 'T16L':
-            # TODO: T16 addressing
-            return
+            pat.append('n16')
+        elif b[i] == 'T16H':
+            continue
         elif b[i] == 'Cadr11L':
-            # TODO: Cadr11
+            # ACAL Cadr11 is handled externally
             return
         elif b[i] == 'CadrL':
             pat.append('Cadr')
@@ -154,7 +155,7 @@ def export(prefix, b, disassembly, is8=None):
             pat.append('rel7 & r45switch')
         elif b[i] == '*':
             if '*' not in disassembly:
-                # TODO: dummy prefixes
+                export(["op=0x8A", '; '], b[1:], disassembly, True)
                 return
             for line in byteprefix.split('\n'):
                 line = line.strip().split('|')
@@ -167,6 +168,8 @@ def export(prefix, b, disassembly, is8=None):
         elif b[i] == '**':
             if '**' not in disassembly:
                 # TODO: dummy prefixes
+                # not used?
+                # export(["op=0x8A", '; '], b[1:], disassembly, True)
                 return
             for line in wordprefix.split('\n'):
                 line = line.strip().split('|')
@@ -258,6 +261,8 @@ def export(prefix, b, disassembly, is8=None):
             ops[i] = 'off16'
         elif ops[i] == 'fix8' and not is8:
             ops[i] = 'fix16'
+        elif ops[i] == 'Tadr':
+            ops[i] = is8 and 'Tadrb' or 'Tadrw'
         # ^^^ printops[i] == ops[i]
         printops.append(ops[i])
         # vvv printops needs modification
@@ -277,6 +282,20 @@ def export(prefix, b, disassembly, is8=None):
             precode.append("local tmp_%s = *[%s]:%d %s:2;" % (
                 subop, memarea, is8 and 1 or 2, subop))
             ops[i] = "tmp_" + subop
+        elif ops[i][:4] == 'T16[':
+            # similar, but + T16
+            subop = ops[i][4:-1]
+            printops[i] = 'n'+printops[i][1:]  # replace T16 with n16 in disassembly
+            if subop == "A":
+                printops[i] = 'n16[ACC]'
+                subop = "ACC"
+                pat = pat[:-1]
+                pat.extend(["& ACC", ";"])
+            memarea = 'rom'  # T16 is always w.r.t. ROM
+            precode.append("local tmp_%s = *[%s]:%d (%s:2 + n16:2);" % (
+                subop, memarea, is8 and 1 or 2, subop))
+            ops[i] = "tmp_" + subop
+
     # discard last element of pat, as it's a ; terminator
     fncall = fn.lower() + "(" + ', '.join(ops) + ")"
     code = '{} # %s %s' % (' '.join(precode), fncall)
